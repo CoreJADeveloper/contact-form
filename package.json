@@ -1,0 +1,12 @@
+{
+  "name": "contact-form",
+  "version": "1.0.0",
+  "description": "A contact for developed with AngularJS",
+  "main": "index.js",
+  "repository": "git@github.com:CoreJADeveloper/contact-form.git",
+  "author": "Tauhidul Alam <like2dev37@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^3.2.0"
+  }
+}
