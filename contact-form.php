@@ -1,7 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tauhid
- * Date: 7/13/17
- * Time: 5:00 PM
- */
+/*
+Plugin Name: Contact Form
+Plugin URI: https://wordpress.org/
+Description: Just another contact form plugin. Simple but flexible.
+Author: Tauhidul Alam
+Author URI: https://ideasilo.wordpress.com/
+Text Domain: contact-form
+Version: 1.0.0
+*/
