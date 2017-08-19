@@ -19,7 +19,9 @@ import { NgModule }      from '@angular/core';
 // import { CanDeactivateHomeGuard, CanDeactivatePostGuard } from './views/guards';
 
 @NgModule({
-  bootstrap:    [ AppComponent ],
+  bootstrap:    [
+      // AppComponent
+  ],
   imports:      [ 
   	// BrowserModule,
     // HttpModule,
