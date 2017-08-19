@@ -35,5 +35,3 @@ function contact_form(){
 }
 
 $GLOBALS['contact_form'] = contact_form();
-
-
