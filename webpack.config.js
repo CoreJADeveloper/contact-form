@@ -1,6 +1,6 @@
 // var ExtractTextPlugin = require("extract-text-webpack-plugin");
-let ngTools = require('@ngtools/webpack');
-let path = require('path');
+var ngTools = require('@ngtools/webpack');
+var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
