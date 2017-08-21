@@ -22,6 +22,12 @@ class ContactForm{
     public function __construct()
     {
         $this->_actions();
+        $this->_define();
+    }
+
+    private function _define(){
+        define('ANGCF_PLUGIN_PATH', plugin_dir_path( __FILE__ ));
+        define('ANGCF_PLUGIN_URL', plugins_url( '/', __FILE__ ));
     }
 
     private function _actions(){
@@ -31,7 +37,7 @@ class ContactForm{
     }
 
     public function admin_enqueue_scripts(){
-        wp_enqueue_script('script', plugins_url('dist/app.bundle.js', __DIR__));
+        wp_enqueue_script('script', ANGCF_PLUGIN_URL.'dist/app.bundle.js');
     }
 
     public function register_contact_form_post_type(){
