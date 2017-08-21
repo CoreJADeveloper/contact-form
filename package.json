@@ -9,20 +9,24 @@
   "devDependencies": {
     "@ngtools/webpack": "^1.5.1",
     "@types/core-js": "^0.9.42",
-    "@types/node": "^8.0.12",
+    "@types/node": "^8.0.13",
+    "angular2-template-loader": "^0.6.2",
+    "awesome-typescript-loader": "^3.2.1",
     "typescript": "^2.4.1",
     "webpack": "^3.2.0"
   },
   "dependencies": {
-    "@angular/common": "^4.2.6",
+    "@angular/common": "^4.3.0",
     "@angular/compiler": "^4.2.6",
     "@angular/compiler-cli": "^4.2.6",
     "@angular/core": "^4.2.6",
+    "@angular/platform-browser": "^4.3.0",
     "@angular/platform-browser-dynamic": "^4.2.6",
     "core-js": "^2.4.1",
     "rxjs": "^5.4.2",
     "web-animations-js": "^2.2.5",
-    "wpapi": "^1.1.2"
+    "wpapi": "^1.1.2",
+    "zone.js": "^0.8.13"
   },
   "scripts": {
     "build": "webpack"
