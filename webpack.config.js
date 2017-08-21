@@ -1,6 +1,7 @@
 // var ExtractTextPlugin = require("extract-text-webpack-plugin");
 let ngTools = require('@ngtools/webpack');
 let path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
     entry: {
@@ -35,13 +36,18 @@ module.exports = {
             // }
         ]
     }
-    // ,
-    // plugins: [
-    //     new ExtractTextPlugin("styles.css")
-    //     // new ngTools.AotPlugin({
-    //     //       tsConfigPath: path.join(process.cwd(), 'tsconfig.aot.json'),
-    //     //       baseDir: process.cwd(),
-    //     //       entryModule: path.join(process.cwd(), 'src', 'app', 'app.module') + '#AppModule'
-    //     //     }),
-    // ]
+    ,
+    plugins: [
+        //     new ExtractTextPlugin("styles.css")
+        //     // new ngTools.AotPlugin({
+        //     //       tsConfigPath: path.join(process.cwd(), 'tsconfig.aot.json'),
+        //     //       baseDir: process.cwd(),
+        //     //       entryModule: path.join(process.cwd(), 'src', 'app', 'app.module') + '#AppModule'
+        //     //     }),
+
+        new webpack.ContextReplacementPlugin(
+            /angular(\\|\/)core(\\|\/)@angular/,
+            path.resolve(__dirname, '../src')
+        )
+    ]
 };
