@@ -27,6 +27,7 @@ class ContactForm{
     private function _actions(){
         add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
         add_action( 'init', array($this, 'register_contact_form_post_type'));
+        add_action('admin_menu', array($this, 'admin_contact_form_menu'));
     }
 
     public function admin_enqueue_scripts(){
@@ -68,6 +69,14 @@ class ContactForm{
         );
 
         register_post_type( 'ang-contact', $args );
+    }
+
+    public function admin_contact_form_menu(){
+        add_menu_page('Ang Contact Form', 'Ang Contact Form', 'manage_options', 'ang-contact-form', array($this, 'angular_contact_form'));
+    }
+
+    public function angular_contact_form(){
+        
     }
 
 }
