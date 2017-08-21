@@ -9,32 +9,32 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'app.bundle.js'
-    }
+    },
     // ,
     // devtool: "source-map",
-    // resolve: {
-    //     extensions: ['.ts', '.js', '.scss', '.html']
-    // },
-    // module: {
-    //     loaders: [
-    //         {
-    //             test: /\.scss$/,
-    //             loader: ExtractTextPlugin.extract('css-loader?sourceMap!postcss-loader!sass-loader?sourceMap')
-    //         },
-    //         {
-    //             test: /\.ts$/,
-    //             loaders: ['awesome-typescript-loader', 'angular2-template-loader']
-    //         },
-    //         {
-    //             test: /\.html$/,
-    //             loader: 'raw-loader'
-    //         },
-    //         {
-    //             test: /\.json$/,
-    //             use: 'json-loader'
-    //         }
-    //     ]
-    // }
+    resolve: {
+        extensions: ['.ts', '.js', '.scss', '.html']
+    },
+    module: {
+        loaders: [
+            // {
+            //     test: /\.scss$/,
+            //     loader: ExtractTextPlugin.extract('css-loader?sourceMap!postcss-loader!sass-loader?sourceMap')
+            // },
+            {
+                test: /\.ts$/,
+                loaders: ['awesome-typescript-loader', 'angular2-template-loader']
+            },
+            // {
+            //     test: /\.html$/,
+            //     loader: 'raw-loader'
+            // },
+            // {
+            //     test: /\.json$/,
+            //     use: 'json-loader'
+            // }
+        ]
+    }
     // ,
     // plugins: [
     //     new ExtractTextPlugin("styles.css")

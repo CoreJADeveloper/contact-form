@@ -11,5 +11,5 @@ import 'web-animations-js';
 
 
 //IE polyfill for css object-fit
-var objectFitImages = require('object-fit-images');
-objectFitImages.default();
+// var objectFitImages = require('object-fit-images');
+// objectFitImages.default();
