@@ -6,6 +6,7 @@ import 'core-js/es7/reflect';
 // export var WPAPI = require( 'wpapi' );
 
 require('zone.js/dist/zone');
+require('../styles/app.scss');
 import 'web-animations-js';
 
 
