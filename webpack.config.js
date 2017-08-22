@@ -1,4 +1,4 @@
-// var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var ngTools = require('@ngtools/webpack');
 var path = require('path');
 var webpack = require('webpack');
@@ -11,17 +11,16 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: 'app.bundle.js'
     },
-    // ,
-    // devtool: "source-map",
+    devtool: "source-map",
     resolve: {
         extensions: ['.ts', '.js', '.scss', '.html']
     },
     module: {
         loaders: [
-            // {
-            //     test: /\.scss$/,
-            //     loader: ExtractTextPlugin.extract('css-loader?sourceMap!postcss-loader!sass-loader?sourceMap')
-            // },
+            {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract('css-loader?sourceMap!postcss-loader!sass-loader?sourceMap')
+            },
             {
                 test: /\.ts$/,
                 loaders: ['awesome-typescript-loader', 'angular2-template-loader']
@@ -38,7 +37,7 @@ module.exports = {
     }
     ,
     plugins: [
-        //     new ExtractTextPlugin("styles.css")
+            new ExtractTextPlugin("styles.css"),
         //     // new ngTools.AotPlugin({
         //     //       tsConfigPath: path.join(process.cwd(), 'tsconfig.aot.json'),
         //     //       baseDir: process.cwd(),

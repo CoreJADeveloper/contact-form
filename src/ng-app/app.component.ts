@@ -12,7 +12,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/
 @Component({
     selector: 'contact-form',
     template: `
-        <h1>Hello world</h1>
+        <md-checkbox></md-checkbox>
     `
 })
 

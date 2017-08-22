@@ -20,6 +20,8 @@ import {AppComponent}   from './app.component';
 // import { PostEffects } from './post-data/posts.effects';
 // import { CanDeactivateHomeGuard, CanDeactivatePostGuard } from './views/guards';
 
+import {MdButtonModule, MdCheckboxModule} from '@angular/material';
+
 const routes: Routes = [
     { path: 'page=ang-contact-form', component: AppComponent }
 ];
@@ -31,6 +33,8 @@ const routes: Routes = [
     imports: [
         BrowserModule,
         HttpModule,
+        MdButtonModule,
+        MdCheckboxModule
         // RouterModule.forRoot(routes),
         // StoreModule.provideStore(reducer()),
         // EffectsModule.run(PostEffects),
