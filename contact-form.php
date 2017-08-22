@@ -37,7 +37,9 @@ class ContactForm{
     }
 
     public function admin_enqueue_scripts(){
-        wp_enqueue_script('script', ANGCF_PLUGIN_URL.'dist/app.bundle.js');
+        if(isset($_GET['page']) && $_GET['page'] == 'ang-contact-form'){
+            wp_enqueue_script('script', ANGCF_PLUGIN_URL.'dist/app.bundle.js', array(), '1.1.1', true);
+        }
     }
 
     public function register_contact_form_post_type(){
@@ -82,7 +84,10 @@ class ContactForm{
     }
 
     public function angular_contact_form(){
-        
+        ?>
+        <contact-form>
+        </contact-form>
+        <?php
     }
 
 }

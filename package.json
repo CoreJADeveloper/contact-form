@@ -7,28 +7,28 @@
   "author": "Tauhidul Alam <like2dev37@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@ngtools/webpack": "^1.5.1",
-    "@types/core-js": "^0.9.42",
-    "@types/node": "^8.0.13",
+    "@ngtools/webpack": "^1.6.1",
+    "@types/core-js": "^0.9.43",
+    "@types/node": "^8.0.24",
     "angular2-template-loader": "^0.6.2",
-    "awesome-typescript-loader": "^3.2.1",
-    "typescript": "^2.4.1",
-    "webpack": "^3.2.0"
+    "awesome-typescript-loader": "^3.2.3",
+    "typescript": "^2.5.1",
+    "webpack": "^3.5.5"
   },
   "dependencies": {
-    "@angular/common": "^4.3.0",
-    "@angular/compiler": "^4.2.6",
-    "@angular/compiler-cli": "^4.2.6",
-    "@angular/core": "^4.2.6",
+    "@angular/common": "^4.3.5",
+    "@angular/compiler": "^4.3.5",
+    "@angular/compiler-cli": "^4.3.5",
+    "@angular/core": "^4.3.5",
     "@angular/http": "^4.3.5",
-    "@angular/platform-browser": "^4.3.0",
-    "@angular/platform-browser-dynamic": "^4.2.6",
+    "@angular/platform-browser": "^4.3.5",
+    "@angular/platform-browser-dynamic": "^4.3.5",
     "@angular/router": "^4.3.5",
-    "core-js": "^2.4.1",
-    "rxjs": "^5.4.2",
-    "web-animations-js": "^2.2.5",
+    "core-js": "^2.5.0",
+    "rxjs": "^5.4.3",
+    "web-animations-js": "^2.3.1",
     "wpapi": "^1.1.2",
-    "zone.js": "^0.8.13"
+    "zone.js": "^0.8.16"
   },
   "scripts": {
     "build": "webpack"
