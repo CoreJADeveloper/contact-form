@@ -20,7 +20,8 @@
       "dom"
     ],
     "types": [
-      "core-js"
+      "core-js",
+      "node"
     ]
   }
 }
