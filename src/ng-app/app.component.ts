@@ -11,9 +11,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/
 
 @Component({
     selector: 'contact-form',
-    template: `
-        <md-checkbox></md-checkbox>
-    `
+    templateUrl: '../templates/app.component.html'
 })
 
 export class AppComponent {
