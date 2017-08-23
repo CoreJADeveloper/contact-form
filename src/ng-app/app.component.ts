@@ -11,7 +11,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/
 
 @Component({
     selector: 'contact-form',
-    templateUrl: '../templates/app.component.html'
+    templateUrl: './app.component.html'
 })
 
 export class AppComponent {
