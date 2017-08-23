@@ -1,5 +1,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-body{
-  //background-color: #000000;
+$container-margin: 40px;
+
+.ang-contact-form{
+  margin: $container-margin;
 }

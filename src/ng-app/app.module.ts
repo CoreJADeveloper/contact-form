@@ -4,23 +4,12 @@ import {HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {Routes} from '@angular/router';
-// import { AppService } from './app.service';
-// import { StoreModule } from '@ngrx/store';
-// import { EffectsModule } from '@ngrx/effects';
-// import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 //
 import {AppComponent}   from './app.component';
-// import { HomeViewComponent, PostViewComponent } from './views';
-// import { PostItemComponent, PostListComponent } from './components';
-// import { AppService } from './app.service';
-// import { SiteDataService } from './site-data/site-data.service';
-// import { PostService } from './post-data/posts.service';
-// import { reducer } from './app.reducer';
-// import { initialRoutes } from './app.routes';
-// import { PostEffects } from './post-data/posts.effects';
-// import { CanDeactivateHomeGuard, CanDeactivatePostGuard } from './views/guards';
+import { FormsViewComponent } from './forms/forms.component';
 
-import {MdButtonModule, MdCheckboxModule, MdTabsModule} from '@angular/material';
+import {MdTabsModule, MdInputModule} from '@angular/material';
 
 const routes: Routes = [
     { path: 'page=ang-contact-form', component: AppComponent }
@@ -33,27 +22,15 @@ const routes: Routes = [
     imports: [
         BrowserModule,
         HttpModule,
-        MdButtonModule,
-        MdCheckboxModule,
-        MdTabsModule
-        // RouterModule.forRoot(routes),
-        // StoreModule.provideStore(reducer()),
-        // EffectsModule.run(PostEffects),
-        // StoreDevtoolsModule.instrumentOnlyWithExtension(),
+        MdTabsModule,
+        MdInputModule,
+        BrowserAnimationsModule
     ],
     declarations: [
         AppComponent,
-        // HomeViewComponent,
-        // PostViewComponent,
-        // PostListComponent,
-        // PostItemComponent
+        FormsViewComponent
     ],
     providers: [
-        // AppService,
-        // SiteDataService,
-        // PostService,
-        // CanDeactivateHomeGuard,
-        // CanDeactivatePostGuard
     ]
 })
 
