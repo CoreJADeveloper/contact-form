@@ -1,7 +1,12 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 $container-margin: 40px;
+$margin-top: 15px;
 
 .ang-contact-form{
   margin: $container-margin;
+}
+
+.forms-component{
+  margin-top: $margin-top;
 }

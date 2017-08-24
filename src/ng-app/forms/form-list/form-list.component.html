@@ -1,0 +1,30 @@
+<button md-raised-button>Add New</button>
+
+<div class="example-container mat-elevation-z8">
+    <md-table #table>
+
+        <ng-container cdkColumnDef="formID">
+            <md-header-cell *cdkHeaderCellDef> ID </md-header-cell>
+            <md-cell> </md-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="formTitle">
+            <md-header-cell *cdkHeaderCellDef> Form Title </md-header-cell>
+            <md-cell> </md-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="formShortcode">
+            <md-header-cell *cdkHeaderCellDef> Short-code </md-header-cell>
+            <md-cell> </md-cell>
+        </ng-container>
+
+        <!-- Color Column -->
+        <ng-container cdkColumnDef="formAuthor">
+            <md-header-cell *cdkHeaderCellDef> Author </md-header-cell>
+            <md-cell> </md-cell>
+        </ng-container>
+
+        <!--<md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>-->
+        <!--<md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>-->
+    </md-table>
+</div>
