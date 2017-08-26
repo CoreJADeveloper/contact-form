@@ -1,5 +1,15 @@
-<button md-raised-button>Add New</button>
+<div class="form-list-container" *ngIf="view_form_list_container === true">
+    <button md-raised-button (click)="toggle_to_add_new();">Add New</button>
 
-<div class="ang-form-list">
-    <h1>Forms List</h1>
+    <div class="ang-form-list">
+        <h1>Forms List</h1>
+    </div>
+</div>
+
+<div class="add-form-container" *ngIf="view_form_list_container === false">
+    <button md-raised-button (click)="toggle_to_form_list();">All Forms</button>
+
+    <div class="ang-form-list">
+        <h1>Add new form</h1>
+    </div>
 </div>
