@@ -13,6 +13,8 @@ import { MessageViewComponent } from './message/message.component';
 import { SettingsViewComponent } from './settings/settings.component';
 import { AdditionalSettingsViewComponent } from './additional-settings/additional-settings.component';
 import { FormListViewComponent } from './forms/form-list/form-list.component';
+import { AddFormViewComponent } from './forms/form-list/add-form/add-form.component';
+import { AllFormsViewComponent } from './forms/form-list/all-forms/all-forms.component';
 
 import {MdTabsModule, MdInputModule, MdButtonModule, MdTableModule} from '@angular/material';
 
@@ -39,7 +41,9 @@ const routes: Routes = [
         MessageViewComponent,
         SettingsViewComponent,
         AdditionalSettingsViewComponent,
-        FormListViewComponent
+        FormListViewComponent,
+        AddFormViewComponent,
+        AllFormsViewComponent
     ],
     providers: [
     ]

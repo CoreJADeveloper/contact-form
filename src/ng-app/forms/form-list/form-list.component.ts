@@ -20,7 +20,7 @@ export class FormListViewComponent implements OnInit {
         this.view_form_list_container = false;
     }
 
-    toggle_to_form_list(): void{
+    toggle_to_form_list(): void {
         this.view_form_list_container = true;
     }
 }

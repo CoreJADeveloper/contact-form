@@ -14,3 +14,39 @@ $margin-top: 30px;
 .ang-form-list{
   margin-top: $margin-top;
 }
+
+/////Grid
+
+.wrapper {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: 700px 200px;
+}
+
+.form-grid {
+  background-color: #444;
+  color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 150%;
+}
+
+.form-title {
+  grid-column: 1 / 2;
+  grid-row: 1;
+}
+
+.form-submissions {
+  grid-column: 2 ;
+  grid-row: 1 / 2;
+}
+
+.form-fields {
+  grid-column: 1 / 2;
+  grid-row: 2;
+}
+
+.form-operation {
+  grid-column: 1 / 2 ;
+  grid-row: 3;
+}
