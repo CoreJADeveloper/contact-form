@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
     selector: 'add-form',
@@ -7,12 +7,18 @@ import { Component, OnInit } from '@angular/core';
 
 export class AddFormViewComponent implements OnInit {
 
-    constructor(){
+    constructor() {
 
     }
 
     ngOnInit(): void {
     }
+
+    // dragstart_handler(event: any): void {
+    //     console.log("dragStart");
+    //     // Add the target element's id to the data transfer object
+    //     event.dataTransfer.setData("text/plain", event.target.id);
+    // }
 
 
 }

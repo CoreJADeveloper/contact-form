@@ -15,6 +15,7 @@ import { AdditionalSettingsViewComponent } from './additional-settings/additiona
 import { FormListViewComponent } from './forms/form-list/form-list.component';
 import { AddFormViewComponent } from './forms/form-list/add-form/add-form.component';
 import { AllFormsViewComponent } from './forms/form-list/all-forms/all-forms.component';
+import { DragTextFieldDirective, DropFieldsDirective } from './forms/form-list/add-form/add-form.directives';
 
 import {MdTabsModule, MdInputModule, MdButtonModule, MdTableModule} from '@angular/material';
 
@@ -43,7 +44,9 @@ const routes: Routes = [
         AdditionalSettingsViewComponent,
         FormListViewComponent,
         AddFormViewComponent,
-        AllFormsViewComponent
+        AllFormsViewComponent,
+        DragTextFieldDirective,
+        DropFieldsDirective
     ],
     providers: [
     ]
