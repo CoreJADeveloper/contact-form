@@ -10,9 +10,11 @@ export class DragTextFieldDirective {
     }
 
     private dragstart_handler(event) {
-        event.dataTransfer.setData("text/plain", "<p>Example paragraph</p>");
-        event.dataTransfer.setData("text/html", "<p>Example paragraph</p>");
-        event.dataTransfer.setData("text/uri-list", "http://developer.mozilla.org");
+        let textfield_dom = "";
+        event.dataTransfer.setData("text", "<ang-textfield></ang-textfield>");
+        event.dataTransfer.setData("text/plain", "<ang-textfield></ang-textfield>");
+        event.dataTransfer.setData("text/html", "<ang-textfield></ang-textfield>");
+        event.dataTransfer.setData("text/uri-list", "<ang-textfield></ang-textfield>");
         event.dropEffect = "copy";
     }
 }
@@ -33,10 +35,12 @@ export class DropFieldsDirective {
     }
 
     private drop_handler(event) {
-        var data = event.dataTransfer.getData("text");
+        var data = event.dataTransfer.getData("text/html");
         var div = document.createElement('div');
         div.innerHTML = data;
+        console.log(div);
         event.target.appendChild(div);
+        return false;
     }
 
     private drag_over_handler(event) {
