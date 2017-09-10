@@ -1,0 +1,18 @@
+$main_container_left_portion: 400px;
+$main_container_right_portion: 150px;
+
+.form-textfield-wrapper{
+  display: grid;
+  grid-gap: $grid-gap;
+  grid-template-columns: $main_container_left_portion $main_container_right_portion;
+}
+
+.textfield-view{
+  grid-column: 1 / 2;
+  grid-row: 1;
+}
+
+.textfield-options{
+  grid-column: 2;
+  grid-row: 1 / 2;
+}

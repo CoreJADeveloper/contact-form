@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+// import {DragTextFieldDirective, DropFieldsDirective} from './add-form.directives';
 
 @Component({
-    selector: 'add-form',
+    selector: 'add-form, ang-textfield',
     templateUrl: './add-form.component.html'
 })
 

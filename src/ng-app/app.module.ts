@@ -18,7 +18,7 @@ import { AllFormsViewComponent } from './forms/form-list/all-forms/all-forms.com
 import { TextFieldViewComponent } from './forms/form-list/form-fields/textfield/textfield.component';
 import { DragTextFieldDirective, DropFieldsDirective } from './forms/form-list/add-form/add-form.directives';
 
-import {MdTabsModule, MdInputModule, MdButtonModule, MdTableModule} from '@angular/material';
+import {MdTabsModule, MdInputModule, MdButtonModule, MdTableModule, MdListModule, MdCardModule} from '@angular/material';
 
 const routes: Routes = [
     { path: 'page=ang-contact-form', component: AppComponent }
@@ -34,6 +34,8 @@ const routes: Routes = [
         MdTabsModule,
         MdInputModule,
         MdButtonModule,
+        MdCardModule,
+        MdListModule,
         BrowserAnimationsModule
     ],
     declarations: [
