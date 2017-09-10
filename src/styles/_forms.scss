@@ -1,0 +1,26 @@
+/////Inner contact form grid layout
+
+.wrapper {
+  display: grid;
+  grid-gap: $grid-gap;
+  grid-template-columns: $left-container-width;
+}
+
+.form-grid {
+  border: 1px solid grey;
+}
+
+.form-title {
+  grid-column: 1 / 2;
+  grid-row: 1;
+}
+
+.form-fields {
+  grid-column: 1 / 2;
+  grid-row: 2;
+}
+
+.form-operation {
+  grid-column: 1 / 2 ;
+  grid-row: 3;
+}

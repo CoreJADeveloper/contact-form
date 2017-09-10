@@ -3,6 +3,8 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 @Directive({ selector: '[dragTextField]' })
 export class DragTextFieldDirective {
 
+    public textFieldFlag: true;
+
     constructor(private el: ElementRef) { }
 
     @HostListener('dragstart', ['$event']) ondragstart(event) {
@@ -10,11 +12,11 @@ export class DragTextFieldDirective {
     }
 
     private dragstart_handler(event) {
-        let textfield_dom = "";
-        event.dataTransfer.setData("text", "<ang-textfield></ang-textfield>");
-        event.dataTransfer.setData("text/plain", "<ang-textfield></ang-textfield>");
-        event.dataTransfer.setData("text/html", "<ang-textfield></ang-textfield>");
-        event.dataTransfer.setData("text/uri-list", "<ang-textfield></ang-textfield>");
+        let textfield_dom = document.getElementById("form-textfield").innerHTML;
+        event.dataTransfer.setData("text", textfield_dom);
+        event.dataTransfer.setData("text/plain", textfield_dom);
+        event.dataTransfer.setData("text/html", textfield_dom);
+        event.dataTransfer.setData("text/uri-list", textfield_dom);
         event.dropEffect = "copy";
     }
 }
@@ -36,9 +38,8 @@ export class DropFieldsDirective {
 
     private drop_handler(event) {
         var data = event.dataTransfer.getData("text/html");
-        var div = document.createElement('div');
+        var div = document.createElement('md-list-item');
         div.innerHTML = data;
-        console.log(div);
         event.target.appendChild(div);
         return false;
     }

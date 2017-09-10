@@ -1,50 +1,6 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-$container-margin: 40px;
-$margin-top: 30px;
-
-.ang-contact-form{
-  margin: $container-margin;
-}
-
-.forms-component{
-  margin-top: $margin-top;
-}
-
-.ang-form-list{
-  margin-top: $margin-top;
-}
-
-/////Grid
-
-.wrapper {
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: 700px 300px;
-}
-
-.form-grid {
-  border: 1px solid grey;
-}
-
-.form-title {
-  grid-column: 1 / 2;
-  grid-row: 1;
-}
-
-.form-submissions {
-  grid-column: 2 ;
-  grid-row: 1 / 2;
-}
-
-.form-fields {
-  grid-column: 1 / 2;
-  grid-row: 2;
-}
-
-.form-operation {
-  grid-column: 1 / 2 ;
-  grid-row: 3;
-}
-
-
+@import "declarations";
+@import "global";
+@import "forms";
+@import "forms_drop_field";

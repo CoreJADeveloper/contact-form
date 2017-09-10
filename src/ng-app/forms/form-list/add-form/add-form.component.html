@@ -15,23 +15,35 @@
                     <button md-raised-button type="button">Textarea</button>
                     <button md-raised-button type="button">Checkbox</button>
                     <button md-raised-button type="button">Radiobutton</button>
-                    <button md-raised-button type="button">Submit Button</button>
                 </div>
             </div>
             <div class="form-grid form-operation">
-                <div id="selected-form-fields" dropFields>
-                Drop fields
-                </div>
-                <!--<md-input-container>-->
-                    <!--<input mdInput placeholder="Operation" value="">-->
-                <!--</md-input-container>-->
-            </div>
-            <div class="form-grid form-submission">
-                <md-input-container>
-                    <input mdInput placeholder="Submission" value="">
-                </md-input-container>
-            </div>
+                <md-list id="selected-form-fields" dropFields>
+                </md-list>
 
+                <button md-raised-button type="button">Submit</button>
+            </div>
         </div>
     </form>
+</div>
+
+<div class="hidden-form-fields" [hidden]=true>
+    <div id="form-textfield">
+        <div class="form-textfield-wrapper">
+            <div class="textfield-view">
+                <label></label>
+                <md-input-container>
+                    <input mdInput disabled placeholder="Textfield" value="">
+                </md-input-container>
+            </div>
+            <div class="textfield-options">
+                <span><i class="material-icons">settings</i></span>
+                <span><i class="material-icons">remove</i></span>
+            </div>
+        </div>
+        <input type="hidden" name="textfield-label[]" value="" />
+        <input type="hidden" name="textfield-placeholder[]" value="" />
+        <input type="hidden" name="textfield-required[]" value="" />
+        <input type="hidden" name="textfield-required-msg[]" value="" />
+    </div>
 </div>
