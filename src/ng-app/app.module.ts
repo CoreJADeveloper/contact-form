@@ -20,6 +20,8 @@ import { DragTextFieldDirective, DropFieldsDirective } from './forms/form-list/a
 
 import {MdTabsModule, MdInputModule, MdButtonModule, MdTableModule, MdListModule, MdCardModule} from '@angular/material';
 
+import {DragulaModule} from 'ng2-dragula/ng2-dragula';
+
 const routes: Routes = [
     { path: 'page=ang-contact-form', component: AppComponent }
 ];
@@ -31,6 +33,7 @@ const routes: Routes = [
     imports: [
         BrowserModule,
         HttpModule,
+        DragulaModule,
         MdTabsModule,
         MdInputModule,
         MdButtonModule,

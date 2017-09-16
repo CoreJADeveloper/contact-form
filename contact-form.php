@@ -39,6 +39,7 @@ class ContactForm{
     public function admin_enqueue_scripts(){
         if(isset($_GET['page']) && $_GET['page'] == 'ang-contact-form'){
             wp_enqueue_script('ang-script', ANGCF_PLUGIN_URL.'dist/app.bundle.js', array(), '1.1.1', true);
+            wp_enqueue_style('dragula-style', ANGCF_PLUGIN_URL.'dist/dragula.min.css');
             wp_enqueue_style('material-icons', 'https://fonts.googleapis.com/icon?family=Material+Icons');
             wp_enqueue_style('ang-style', ANGCF_PLUGIN_URL.'dist/styles.css');
         }
