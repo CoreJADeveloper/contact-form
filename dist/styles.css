@@ -40,16 +40,16 @@
   grid-column: 1 / 2;
   grid-row: 3; }
 
-.form-textfield-wrapper {
+.formfield-wrapper {
   display: grid;
   grid-gap: 10px;
   grid-template-columns: 400px 150px; }
 
-.textfield-view {
+.formfield-view {
   grid-column: 1 / 2;
   grid-row: 1; }
 
-.textfield-options {
+.formfield-options {
   grid-column: 2;
   grid-row: 1 / 2; }
 

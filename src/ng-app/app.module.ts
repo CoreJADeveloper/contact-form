@@ -16,9 +16,14 @@ import { FormListViewComponent } from './forms/form-list/form-list.component';
 import { AddFormViewComponent } from './forms/form-list/add-form/add-form.component';
 import { AllFormsViewComponent } from './forms/form-list/all-forms/all-forms.component';
 import { TextFieldViewComponent } from './forms/form-list/form-fields/textfield/textfield.component';
+import { TextAreaViewComponent } from './forms/form-list/form-fields/textarea/textarea.component';
+import { EmailFieldViewComponent } from './forms/form-list/form-fields/emailfield/emailfield.component';
+import { NumberFieldViewComponent } from './forms/form-list/form-fields/numberfield/numberfield.component';
+import { RadioButtonViewComponent } from './forms/form-list/form-fields/radiobutton/radiobutton.component';
+import { CheckboxViewComponent } from './forms/form-list/form-fields/checkbox/checkbox.component';
 import { DragTextFieldDirective, DropFieldsDirective } from './forms/form-list/add-form/add-form.directives';
 
-import {MdTabsModule, MdInputModule, MdButtonModule, MdTableModule, MdListModule, MdCardModule} from '@angular/material';
+import {MdTabsModule, MdInputModule, MdButtonModule, MdRadioModule, MdListModule, MdCardModule, MdCheckboxModule} from '@angular/material';
 
 import {DragulaModule} from 'ng2-dragula/ng2-dragula';
 
@@ -39,6 +44,8 @@ const routes: Routes = [
         MdButtonModule,
         MdCardModule,
         MdListModule,
+        MdRadioModule,
+        MdCheckboxModule,
         BrowserAnimationsModule
     ],
     declarations: [
@@ -50,6 +57,11 @@ const routes: Routes = [
         AdditionalSettingsViewComponent,
         FormListViewComponent,
         TextFieldViewComponent,
+        TextAreaViewComponent,
+        RadioButtonViewComponent,
+        EmailFieldViewComponent,
+        NumberFieldViewComponent,
+        CheckboxViewComponent,
         AddFormViewComponent,
         AllFormsViewComponent,
         DragTextFieldDirective,
