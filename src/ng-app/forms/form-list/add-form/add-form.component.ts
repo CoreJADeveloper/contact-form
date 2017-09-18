@@ -18,22 +18,26 @@ export class AddFormViewComponent implements OnInit {
                 return true;
             },
             accepts: function(el, target, source, sibling) {
+                let defaultAccept = true;
+
                 if(target.classList.contains('no-drop')){
                     return false;
-                }else{
-                    return true;
                 }
+
+                return defaultAccept;
             },
-            copy: true,
+            copy: function(el,source) {
+                return source.classList.contains('no-drop');
+            },
             copySortSource: true,
         });
 
         dragulaService.drag.subscribe((value) => {
-            console.log(value);
-            // this.onDrag(value.slice(1));
+            this.onDrag(value.slice(1));
         });
         dragulaService.drop.subscribe((value) => {
-            // this.onDrop(value.slice(1));
+            // console.log(value);
+            this.onDrop(value.slice(1));
         });
         dragulaService.over.subscribe((value) => {
             // this.onOver(value.slice(1));
@@ -60,13 +64,48 @@ export class AddFormViewComponent implements OnInit {
     }
 
     private onDrag(args) {
-        let [e, el] = args;
-        this.removeClass(e, 'ex-moved');
+        // this.removeClass(draggedElement, 'ex-moved');
     }
 
     private onDrop(args) {
-        let [e, el] = args;
-        this.addClass(e, 'ex-moved');
+        let [draggedElement, draggedElementContainer] = args;
+
+        if (this.hasClass(draggedElement, "textfield-dragged")) {
+            let idName = "form-textfield";
+            this.replaceDraggedElement(draggedElement, idName);
+        }
+
+        else if (this.hasClass(draggedElement, "textarea-dragged")) {
+            let idName = "form-textarea";
+            this.replaceDraggedElement(draggedElement, idName);
+        }
+
+        else if (this.hasClass(draggedElement, "radiobutton-dragged")) {
+            let idName = "form-radiobutton";
+            this.replaceDraggedElement(draggedElement, idName);
+        }
+
+        else if (this.hasClass(draggedElement, "emailfield-dragged")) {
+            let idName = "form-emailfield";
+            this.replaceDraggedElement(draggedElement, idName);
+        }
+
+        else if (this.hasClass(draggedElement, "numberfield-dragged")) {
+            let idName = "form-numberfield";
+            this.replaceDraggedElement(draggedElement, idName);
+        }
+
+        else if (this.hasClass(draggedElement, "checkbox-dragged")) {
+            let idName = "form-checkbox";
+            this.replaceDraggedElement(draggedElement, idName);
+        }
+    }
+
+    private replaceDraggedElement(draggedElement: any, idName: string){
+        let field_dom = document.getElementById(idName).innerHTML;
+        let list_item = document.createElement('md-list-item');
+        list_item.innerHTML = field_dom;
+        draggedElement.replaceWith(list_item);
     }
 
     private onOver(args) {
