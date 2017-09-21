@@ -10,4 +10,8 @@ export class TextFieldViewComponent {
     constructor(){
 
     }
+
+    remove(){
+
+    }
 }

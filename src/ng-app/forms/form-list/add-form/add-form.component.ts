@@ -1,5 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ComponentFactoryResolver, ViewChild} from '@angular/core';
 // import {DragTextFieldDirective, DropFieldsDirective} from './add-form.directives';
+
+import { AddFormDirective } from './add-form.directives';
+
+import { AddFormService } from './add-form.service';
 
 import {DragulaService} from 'ng2-dragula/ng2-dragula';
 
@@ -10,10 +14,15 @@ import {DragulaService} from 'ng2-dragula/ng2-dragula';
 
 export class AddFormViewComponent implements OnInit {
 
-    constructor(private dragulaService: DragulaService) {
+    @ViewChild(AddFormDirective) addFormDirective: AddFormDirective;
+
+    constructor(private dragulaService: DragulaService, private componentFactoryResolver: ComponentFactoryResolver, private addFormService: AddFormService) {
+        const bag: any = this.dragulaService.find('dragged-dropped');
+        if (bag !== undefined )
+            this.dragulaService.destroy('dragged-dropped');
         dragulaService.setOptions("dragged-dropped", {
             direction: "vertical",
-            removeOnSpill: true,
+            revertOnSpill: true,
             moves: function(el, container, handle){
                 return true;
             },
@@ -41,9 +50,11 @@ export class AddFormViewComponent implements OnInit {
         });
         dragulaService.over.subscribe((value) => {
             // this.onOver(value.slice(1));
+            console.log("over");
         });
         dragulaService.out.subscribe((value) => {
             // this.onOut(value.slice(1));
+            console.log("out");
         });
     }
 
@@ -70,42 +81,41 @@ export class AddFormViewComponent implements OnInit {
     private onDrop(args) {
         let [draggedElement, draggedElementContainer] = args;
 
-        if (this.hasClass(draggedElement, "textfield-dragged")) {
-            let idName = "form-textfield";
-            this.replaceDraggedElement(draggedElement, idName);
+        let viewContainerRef = this.addFormDirective.viewContainerRef;
+
+        if (this.hasClass(draggedElement, "is-draggable")) {
+            this.addFormService.addDynamicComponent(viewContainerRef, draggedElement);
         }
 
-        else if (this.hasClass(draggedElement, "textarea-dragged")) {
-            let idName = "form-textarea";
-            this.replaceDraggedElement(draggedElement, idName);
-        }
-
-        else if (this.hasClass(draggedElement, "radiobutton-dragged")) {
-            let idName = "form-radiobutton";
-            this.replaceDraggedElement(draggedElement, idName);
-        }
-
-        else if (this.hasClass(draggedElement, "emailfield-dragged")) {
-            let idName = "form-emailfield";
-            this.replaceDraggedElement(draggedElement, idName);
-        }
-
-        else if (this.hasClass(draggedElement, "numberfield-dragged")) {
-            let idName = "form-numberfield";
-            this.replaceDraggedElement(draggedElement, idName);
-        }
-
-        else if (this.hasClass(draggedElement, "checkbox-dragged")) {
-            let idName = "form-checkbox";
-            this.replaceDraggedElement(draggedElement, idName);
-        }
-    }
-
-    private replaceDraggedElement(draggedElement: any, idName: string){
-        let field_dom = document.getElementById(idName).innerHTML;
-        let list_item = document.createElement('md-list-item');
-        list_item.innerHTML = field_dom;
-        draggedElement.replaceWith(list_item);
+        // if (this.hasClass(draggedElement, "textfield-dragged")) {
+        //     let idName = "form-textfield";
+        //     this.replaceDraggedElement(draggedElement, idName);
+        // }
+        //
+        // else if (this.hasClass(draggedElement, "textarea-dragged")) {
+        //     let idName = "form-textarea";
+        //     this.replaceDraggedElement(draggedElement, idName);
+        // }
+        //
+        // else if (this.hasClass(draggedElement, "radiobutton-dragged")) {
+        //     let idName = "form-radiobutton";
+        //     this.replaceDraggedElement(draggedElement, idName);
+        // }
+        //
+        // else if (this.hasClass(draggedElement, "emailfield-dragged")) {
+        //     let idName = "form-emailfield";
+        //     this.replaceDraggedElement(draggedElement, idName);
+        // }
+        //
+        // else if (this.hasClass(draggedElement, "numberfield-dragged")) {
+        //     let idName = "form-numberfield";
+        //     this.replaceDraggedElement(draggedElement, idName);
+        // }
+        //
+        // else if (this.hasClass(draggedElement, "checkbox-dragged")) {
+        //     let idName = "form-checkbox";
+        //     this.replaceDraggedElement(draggedElement, idName);
+        // }
     }
 
     private onOver(args) {

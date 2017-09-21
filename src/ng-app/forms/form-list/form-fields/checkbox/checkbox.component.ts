@@ -8,6 +8,10 @@ import { Component } from '@angular/core';
 export class CheckboxViewComponent {
 
     constructor(){
+    }
 
+    remove_element(event){
+        event.stopPropagation();
+        console.log(event);
     }
 }
