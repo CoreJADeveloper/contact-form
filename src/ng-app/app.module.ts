@@ -21,11 +21,13 @@ import { EmailFieldViewComponent } from './forms/form-list/form-fields/emailfiel
 import { NumberFieldViewComponent } from './forms/form-list/form-fields/numberfield/numberfield.component';
 import { RadioButtonViewComponent } from './forms/form-list/form-fields/radiobutton/radiobutton.component';
 import { CheckboxViewComponent } from './forms/form-list/form-fields/checkbox/checkbox.component';
-import { DragTextFieldDirective, DropFieldsDirective } from './forms/form-list/add-form/add-form.directives';
+// import { DragTextFieldDirective, DropFieldsDirective } from './forms/form-list/add-form/add-form.directives';
 
-import {MdTabsModule, MdInputModule, MdButtonModule, MdRadioModule, MdListModule, MdCardModule, MdCheckboxModule} from '@angular/material';
+import {MdTabsModule, MdInputModule, MdButtonModule, MdRadioModule, MdListModule, MdCardModule, MdCheckboxModule, MdIconModule} from '@angular/material';
 
 import {DragulaModule} from 'ng2-dragula/ng2-dragula';
+import {AddFormService} from "./forms/form-list/add-form/add-form.service";
+import {AddFormDirective} from "./forms/form-list/add-form/add-form.directives";
 
 const routes: Routes = [
     { path: 'page=ang-contact-form', component: AppComponent }
@@ -39,6 +41,7 @@ const routes: Routes = [
         BrowserModule,
         HttpModule,
         DragulaModule,
+        MdIconModule,
         MdTabsModule,
         MdInputModule,
         MdButtonModule,
@@ -56,18 +59,26 @@ const routes: Routes = [
         SettingsViewComponent,
         AdditionalSettingsViewComponent,
         FormListViewComponent,
+        AddFormViewComponent,
+        AllFormsViewComponent,
         TextFieldViewComponent,
         TextAreaViewComponent,
         RadioButtonViewComponent,
         EmailFieldViewComponent,
         NumberFieldViewComponent,
         CheckboxViewComponent,
-        AddFormViewComponent,
-        AllFormsViewComponent,
-        DragTextFieldDirective,
-        DropFieldsDirective
+        AddFormDirective
+    ],
+    entryComponents: [
+        TextFieldViewComponent,
+        TextAreaViewComponent,
+        RadioButtonViewComponent,
+        EmailFieldViewComponent,
+        NumberFieldViewComponent,
+        CheckboxViewComponent
     ],
     providers: [
+        AddFormService
     ]
 })
 

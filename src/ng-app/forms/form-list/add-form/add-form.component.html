@@ -10,12 +10,12 @@
                 <label>Available Fields</label>
                 <div class="button-row no-drop" [dragula] = "'dragged-dropped'">
                     <!--<button md-raised-button type="button" draggable="true" dragTextField>Text Field</button>-->
-                    <button class="textfield-dragged" md-raised-button type="button">Text Field</button>
-                    <button class="emailfield-dragged" md-raised-button type="button">Email Field</button>
-                    <button class="numberfield-dragged" md-raised-button type="button">Number Field</button>
-                    <button class="textarea-dragged" md-raised-button type="button">Textarea</button>
-                    <button class="checkbox-dragged" md-raised-button type="button">Checkbox</button>
-                    <button class="radiobutton-dragged" md-raised-button type="button">Radiobutton</button>
+                    <button class="is-draggable" id="textfield-dragged" md-raised-button type="button">Text Field</button>
+                    <button class="is-draggable" id="emailfield-dragged" md-raised-button type="button">Email Field</button>
+                    <button class="is-draggable" id="numberfield-dragged" md-raised-button type="button">Number Field</button>
+                    <button class="is-draggable" id="textarea-dragged" md-raised-button type="button">Textarea</button>
+                    <button class="is-draggable" id="checkbox-dragged" md-raised-button type="button">Checkbox</button>
+                    <button class="is-draggable" id="radiobutton-dragged" md-raised-button type="button">Radiobutton</button>
                 </div>
             </div>
             <div class="form-grid form-operation">
@@ -23,6 +23,8 @@
                 <!--</md-list>-->
 
                 <md-list class="container" id="selected-form-fields" [dragula] = "'dragged-dropped'">
+                    <ng-template add-form-element>
+                    </ng-template>
                 </md-list>
 
                 <button md-raised-button type="button">Submit</button>
@@ -31,23 +33,23 @@
     </form>
 </div>
 
-<div class="hidden-form-fields" [hidden]=true>
-    <div id="form-textfield">
-        <ang-textfield></ang-textfield>
-    </div>
-    <div id="form-textarea">
-        <ang-textarea></ang-textarea>
-    </div>
-    <div id="form-radiobutton">
-        <ang-radiobutton></ang-radiobutton>
-    </div>
-    <div id="form-emailfield">
-        <ang-emailfield></ang-emailfield>
-    </div>
-    <div id="form-numberfield">
-        <ang-numberfield></ang-numberfield>
-    </div>
-    <div id="form-checkbox">
-        <ang-checkbox></ang-checkbox>
-    </div>
-</div>
+<!--<div class="hidden-form-fields" [hidden]=true>-->
+    <!--<div id="form-textfield">-->
+        <!--<ang-textfield></ang-textfield>-->
+    <!--</div>-->
+    <!--<div id="form-textarea">-->
+        <!--<ang-textarea></ang-textarea>-->
+    <!--</div>-->
+    <!--<div id="form-radiobutton">-->
+        <!--<ang-radiobutton></ang-radiobutton>-->
+    <!--</div>-->
+    <!--<div id="form-emailfield">-->
+        <!--<ang-emailfield></ang-emailfield>-->
+    <!--</div>-->
+    <!--<div id="form-numberfield">-->
+        <!--<ang-numberfield></ang-numberfield>-->
+    <!--</div>-->
+    <!--<div id="form-checkbox">-->
+        <!--<ang-checkbox></ang-checkbox>-->
+    <!--</div>-->
+<!--</div>-->
