@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, ViewRef, Input } from '@angular/core';
+import { AddFormDirective } from '../../add-form/add-form.directives';
 
 @Component({
     selector: 'ang-checkbox',
@@ -7,11 +8,25 @@ import { Component } from '@angular/core';
 
 export class CheckboxViewComponent {
 
+    // @ViewChild(AddFormDirective) addFormDirective: AddFormDirective;
+
+    @Input() componentViewRef: any;
+    @Input() viewContainerRef: any;
+
+    // @Output()
+    // remove : EventEmitter<any> = new EventEmitter();
+
     constructor(){
     }
 
-    remove_element(event){
-        event.stopPropagation();
-        console.log(event);
+    remove_element(){
+        // this.remove.emit();
+        // let viewContainerRef = this.addFormDirective.viewContainerRef;
+        // console.log(viewContainerRef);
+        // console.log(this.viewContainerRef);
+        // console.log(this.componentViewRef);
+        let currentComponentIndex = this.viewContainerRef.indexOf(this.componentViewRef);
+        // console.log(currentComponentIndex);
+        this.viewContainerRef.remove(currentComponentIndex);
     }
 }

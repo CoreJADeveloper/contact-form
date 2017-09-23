@@ -16,6 +16,8 @@ export class AddFormViewComponent implements OnInit {
 
     @ViewChild(AddFormDirective) addFormDirective: AddFormDirective;
 
+    shadow: any = null;
+
     constructor(private dragulaService: DragulaService, private componentFactoryResolver: ComponentFactoryResolver, private addFormService: AddFormService) {
         const bag: any = this.dragulaService.find('dragged-dropped');
         if (bag !== undefined )
@@ -50,11 +52,21 @@ export class AddFormViewComponent implements OnInit {
         });
         dragulaService.over.subscribe((value) => {
             // this.onOver(value.slice(1));
-            console.log("over");
+            // console.log("over");
         });
         dragulaService.out.subscribe((value) => {
             // this.onOut(value.slice(1));
-            console.log("out");
+            // console.log("out");
+        });
+        dragulaService.shadow.subscribe((value) => {
+            // this.onShadow(value.slice(1));
+
+        });
+        dragulaService.dragend.subscribe((value) => {
+            // this.onDragend(value.slice(1));
+            // console.log("out");
+            // this._shadow.remove();
+            // this._shadow = null;
         });
     }
 
@@ -86,56 +98,67 @@ export class AddFormViewComponent implements OnInit {
         if (this.hasClass(draggedElement, "is-draggable")) {
             this.addFormService.addDynamicComponent(viewContainerRef, draggedElement);
         }
-
-        // if (this.hasClass(draggedElement, "textfield-dragged")) {
-        //     let idName = "form-textfield";
-        //     this.replaceDraggedElement(draggedElement, idName);
-        // }
-        //
-        // else if (this.hasClass(draggedElement, "textarea-dragged")) {
-        //     let idName = "form-textarea";
-        //     this.replaceDraggedElement(draggedElement, idName);
-        // }
-        //
-        // else if (this.hasClass(draggedElement, "radiobutton-dragged")) {
-        //     let idName = "form-radiobutton";
-        //     this.replaceDraggedElement(draggedElement, idName);
-        // }
-        //
-        // else if (this.hasClass(draggedElement, "emailfield-dragged")) {
-        //     let idName = "form-emailfield";
-        //     this.replaceDraggedElement(draggedElement, idName);
-        // }
-        //
-        // else if (this.hasClass(draggedElement, "numberfield-dragged")) {
-        //     let idName = "form-numberfield";
-        //     this.replaceDraggedElement(draggedElement, idName);
-        // }
-        //
-        // else if (this.hasClass(draggedElement, "checkbox-dragged")) {
-        //     let idName = "form-checkbox";
-        //     this.replaceDraggedElement(draggedElement, idName);
-        // }
     }
 
     private onOver(args) {
-        let [e, el, container] = args;
-        this.addClass(el, 'ex-over');
+        // let [e, el, container] = args;
+        // let drop_elements = document.getElementById("drop-area").innerHTML;
+        // let drop_zone = document.createElement("div");
+        // drop_zone.innerHTML = drop_elements;
+        // e.replaceWith(drop_zone);
+        // console.log(e);
+        // this.addClass(el, 'ex-over');
     }
 
     private onOut(args) {
-        let [e, el, container] = args;
-        this.removeClass(el, 'ex-over');
+        // let [e, el, container] = args;
+        // let drop_elements = document.getElementById("drop-area").innerHTML;
+        // let drop_zone = document.createElement("div");
+        // drop_zone.innerHTML = drop_elements;
+        // e.replaceWith(drop_zone);
+        // this.removeClass(el, 'ex-over');
+    }
+
+    private onShadow(args){
+        let [el, container, source] = args;
+        console.log(args);
+        let drop_zone;
+        if (!this.shadow){
+            let drop_elements = document.getElementById("drop-area").innerHTML;
+            drop_zone = document.createElement("div");
+            drop_zone.innerHTML = drop_elements;
+            this.shadow = drop_zone;
+            this.shadow.classList.add("gu-transit");
+        }
+
+        if (this.hasClass(container, "no-drop")) {
+
+        }else{
+            console.log(this.shadow);
+            // el.style.display = 'none';
+            // el.parentNode.insertBefore(this.shadow, el);
+            el.replaceWith(this.shadow);
+        }
+
+        // e.replaceWith(this.shadow);
+
+
+        // e.replaceWith(drop_zone);
+        // console.log(args);
+    }
+
+    private onDragend(args){
+        let[e] = args;
+        console.log("Dragend: ");
+        console.log(e);
+        // this.shadow = e;
+        e.remove();
+        this.shadow.remove();
+        this.shadow = null;
     }
 
     ngOnInit(): void {
     }
-
-    // dragstart_handler(event: any): void {
-    //     console.log("dragStart");
-    //     // Add the target element's id to the data transfer object
-    //     event.dataTransfer.setData("text/plain", event.target.id);
-    // }
 
 
 }
