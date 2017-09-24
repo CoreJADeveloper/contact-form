@@ -40,8 +40,8 @@ export class CheckboxViewComponent {
         let dialogRef = this.dialog.open(CheckboxSettingsDialog, {
             width: '450px',
             data: [
-                {"radio_options": {type: 'text', option: 'Type an option', delete: 0}},
-                ]
+                {"radio_options": [{placeholder: 'Type an option', delete: 0}]},
+            ]
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -66,7 +66,11 @@ export class CheckboxSettingsDialog {
     }
 
     add_new_option(){
-        this.data[0]['radio_options'].push({type: 'text', option: 'Type an option', delete: 0});
+        this.data[0]['radio_options'].push({placeholder: 'Type an option', delete: 1});
+    }
+
+    delete_current_option(event){
+        event.target.parentNode.remove();
     }
 
 }
