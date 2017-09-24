@@ -1,0 +1,28 @@
+<h1 md-dialog-title>Checkbox Form Field</h1>
+<div md-dialog-content>
+    <div>
+        <label>Field Type</label>
+        <md-checkbox>Required Field</md-checkbox>
+    </div>
+    <div>
+        <div class="checkbox-options" *ngFor="let data_option of data">
+            <div>
+                <input mdInput type="text" name="checkbox_options[]" value="{{data_option['radio_options'].option}}"/>
+                <button type="button" *ngIf="data_option['radio_options'].delete != 0">-</button>
+            </div>
+        </div>
+        <button md-button type="button" (click)="add_new_option()">Add Option</button>
+    </div>
+    <div>
+        <label>Id Attribute</label>
+        <input mdInput placeholder="Id Attribute" value="">
+    </div>
+    <div>
+        <label>Class Attributes</label>
+        <input mdInput placeholder="Class Attributes" value="">
+    </div>
+</div>
+<div md-dialog-actions>
+    <button md-button tabindex="2">Ok</button>
+    <button md-button (click)="onNoClick()" tabindex="-1">No Thanks</button>
+</div>

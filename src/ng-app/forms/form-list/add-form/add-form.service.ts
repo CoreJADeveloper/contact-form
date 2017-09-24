@@ -6,6 +6,7 @@ import { CheckboxViewComponent } from '../form-fields/checkbox/checkbox.componen
 import { RadioButtonViewComponent } from '../form-fields/radiobutton/radiobutton.component';
 import { EmailFieldViewComponent } from '../form-fields/emailfield/emailfield.component';
 import { NumberFieldViewComponent } from '../form-fields/numberfield/numberfield.component';
+import {MdDialog} from "@angular/material";
 
 @Injectable()
 export class AddFormService{
@@ -13,7 +14,7 @@ export class AddFormService{
 
     @Input() innerHTML: string;
 
-    constructor(@Inject(ComponentFactoryResolver) factoryResolver) {
+    constructor(@Inject(ComponentFactoryResolver) factoryResolver, private mdDialog: MdDialog) {
         this.factoryResolver = factoryResolver;
     }
 
@@ -62,6 +63,7 @@ export class AddFormService{
                 // component = factory
                 //     .create(viewContainerRef.parentInjector);
                 componentRef = viewContainerRef.createComponent(factory);
+                (<CheckboxViewComponent>componentRef.instance).dialog = this.mdDialog;
                 (<CheckboxViewComponent>componentRef.instance).componentViewRef = componentRef.hostView;
                 (<CheckboxViewComponent>componentRef.instance).viewContainerRef = viewContainerRef;
                 break;
