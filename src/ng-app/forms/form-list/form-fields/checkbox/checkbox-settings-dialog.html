@@ -5,10 +5,10 @@
         <md-checkbox>Required Field</md-checkbox>
     </div>
     <div>
-        <div class="checkbox-options" *ngFor="let data_option of data">
+        <div class="checkbox-options" *ngFor="let data_option of data[0]['radio_options']">
             <div>
-                <input mdInput type="text" name="checkbox_options[]" value="{{data_option['radio_options'].option}}"/>
-                <button type="button" *ngIf="data_option['radio_options'].delete != 0">-</button>
+                <input mdInput type="text" name="checkbox_options[]" placeholder="{{data_option.placeholder}}" value="" />
+                <button type="button" *ngIf="data_option.delete != 0" (click)="delete_current_option($event)">-</button>
             </div>
         </div>
         <button md-button type="button" (click)="add_new_option()">Add Option</button>
