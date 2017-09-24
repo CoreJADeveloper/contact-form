@@ -20,10 +20,10 @@ import { TextAreaViewComponent } from './forms/form-list/form-fields/textarea/te
 import { EmailFieldViewComponent } from './forms/form-list/form-fields/emailfield/emailfield.component';
 import { NumberFieldViewComponent } from './forms/form-list/form-fields/numberfield/numberfield.component';
 import { RadioButtonViewComponent } from './forms/form-list/form-fields/radiobutton/radiobutton.component';
-import { CheckboxViewComponent } from './forms/form-list/form-fields/checkbox/checkbox.component';
+import { CheckboxViewComponent, CheckboxSettingsDialog } from './forms/form-list/form-fields/checkbox/checkbox.component';
 // import { DragTextFieldDirective, DropFieldsDirective } from './forms/form-list/add-form/add-form.directives';
 
-import {MdTabsModule, MdInputModule, MdButtonModule, MdRadioModule, MdListModule, MdCardModule, MdCheckboxModule, MdIconModule} from '@angular/material';
+import {MdDialogModule, MdTabsModule, MdInputModule, MdButtonModule, MdRadioModule, MdListModule, MdCardModule, MdCheckboxModule, MdIconModule} from '@angular/material';
 
 import {DragulaModule} from 'ng2-dragula/ng2-dragula';
 import {AddFormService} from "./forms/form-list/add-form/add-form.service";
@@ -35,13 +35,15 @@ const routes: Routes = [
 
 @NgModule({
     bootstrap: [
-        AppComponent
+        AppComponent,
+        // CheckboxSettingsDialog
     ],
     imports: [
         BrowserModule,
         HttpModule,
         DragulaModule,
         MdIconModule,
+        MdDialogModule,
         MdTabsModule,
         MdInputModule,
         MdButtonModule,
@@ -67,7 +69,8 @@ const routes: Routes = [
         EmailFieldViewComponent,
         NumberFieldViewComponent,
         CheckboxViewComponent,
-        AddFormDirective
+        AddFormDirective,
+        CheckboxSettingsDialog
     ],
     entryComponents: [
         TextFieldViewComponent,
@@ -75,7 +78,8 @@ const routes: Routes = [
         RadioButtonViewComponent,
         EmailFieldViewComponent,
         NumberFieldViewComponent,
-        CheckboxViewComponent
+        CheckboxViewComponent,
+        CheckboxSettingsDialog
     ],
     providers: [
         AddFormService
