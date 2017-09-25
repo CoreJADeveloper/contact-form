@@ -77,7 +77,9 @@ export class CheckboxSettingsDialog {
         this.data[2]['radio_options'].push({placeholder: 'Type an option', delete: 1});
     }
 
-    delete_current_option(event){
+    delete_current_option(event, data_option){
+        let currentArrayIndex = this.data[2]['radio_options'].indexOf(data_option);
+        this.data[2]['radio_options'].splice(currentArrayIndex, 1);
         event.target.parentNode.remove();
     }
 

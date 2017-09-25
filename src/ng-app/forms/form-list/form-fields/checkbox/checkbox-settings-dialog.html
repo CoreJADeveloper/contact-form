@@ -16,7 +16,7 @@
         <div class="checkbox-options" *ngFor="let data_option of data[2]['radio_options']">
             <div>
                 <input mdInput type="text" [(ngModel)]="data_option.value" name="checkbox_options[]" placeholder="{{data_option.placeholder}}" value="{{data_option.value}}" />
-                <button type="button" *ngIf="data_option.delete != 0" (click)="delete_current_option($event)">-</button>
+                <button type="button" *ngIf="data_option.delete != 0" (click)="delete_current_option($event, data_option)">-</button>
             </div>
         </div>
         <button md-button type="button" (click)="add_new_option()">Add Option</button>
@@ -31,6 +31,6 @@
     </div>
 </div>
 <div md-dialog-actions>
-    <button md-button [md-dialog-close]="data" tabindex="2">Save</button>
-    <button md-button (click)="onNoClick()" tabindex="-1">Close</button>
+    <button md-button [md-dialog-close]="data" tabindex="2">Close</button>
+    <!--<button md-button (click)="onNoClick()" tabindex="-1">Close</button>-->
 </div>
