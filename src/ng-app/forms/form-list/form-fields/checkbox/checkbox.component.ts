@@ -16,13 +16,22 @@ export class CheckboxViewComponent {
     @Input() viewContainerRef: any;
     @Input() public dialog: MdDialog;
 
-    animal: string;
-    name: string;
+    // animal: string;
+    // name: string;
+
+    data_options: any;
 
     // @Output()
     // remove : EventEmitter<any> = new EventEmitter();
 
     constructor(){
+        this.data_options = [
+            {"required_field": {required: 0, placeholder: 'Please enter required field text', value: ''}},
+            {"label": {placeholder: 'Please enter a label',value: ''}},
+            {"radio_options": [{placeholder: 'Type an option', value: '', delete: 0}]},
+            {"id_attribute": {placeholder: 'Please enter an Id', value: ''}},
+            {"class_attributes": {placeholder: 'Please enter classes', value: ''}},
+        ]
     }
 
     remove_element(){
@@ -39,14 +48,13 @@ export class CheckboxViewComponent {
     open_settings_dialog(){
         let dialogRef = this.dialog.open(CheckboxSettingsDialog, {
             width: '450px',
-            data: [
-                {"radio_options": [{placeholder: 'Type an option', delete: 0}]},
-            ]
+            data: this.data_options
         });
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
-            // this.animal = result;
+            if(result !== undefined)
+            this.data_options = result;
         });
     }
 }
@@ -66,7 +74,7 @@ export class CheckboxSettingsDialog {
     }
 
     add_new_option(){
-        this.data[0]['radio_options'].push({placeholder: 'Type an option', delete: 1});
+        this.data[2]['radio_options'].push({placeholder: 'Type an option', delete: 1});
     }
 
     delete_current_option(event){
