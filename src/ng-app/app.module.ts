@@ -5,6 +5,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {Routes} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent }   from './app.component';
 import { FormsViewComponent } from './forms/forms.component';
@@ -29,6 +30,8 @@ import {DragulaModule} from 'ng2-dragula/ng2-dragula';
 import {AddFormService} from "./forms/form-list/add-form/add-form.service";
 import {AddFormDirective} from "./forms/form-list/add-form/add-form.directives";
 
+import {InputTrimDirective} from 'ng2-trim-directive';
+
 const routes: Routes = [
     { path: 'page=ang-contact-form', component: AppComponent }
 ];
@@ -39,6 +42,7 @@ const routes: Routes = [
         // CheckboxSettingsDialog
     ],
     imports: [
+        FormsModule,
         BrowserModule,
         HttpModule,
         DragulaModule,
@@ -70,7 +74,8 @@ const routes: Routes = [
         NumberFieldViewComponent,
         CheckboxViewComponent,
         AddFormDirective,
-        CheckboxSettingsDialog
+        CheckboxSettingsDialog,
+        InputTrimDirective
     ],
     entryComponents: [
         TextFieldViewComponent,

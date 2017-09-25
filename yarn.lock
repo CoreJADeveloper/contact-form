@@ -2233,6 +2233,10 @@ ng2-dragula@^1.5.0:
   dependencies:
     dragula "^3.7.2"
 
+ng2-trim-directive@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/ng2-trim-directive/-/ng2-trim-directive-1.0.5.tgz#0db569f34c6e92db3fefa3d357b55eb41f482dd4"
+
 node-gyp@^3.3.1:
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/node-gyp/-/node-gyp-3.6.2.tgz#9bfbe54562286284838e750eac05295853fa1c60"
