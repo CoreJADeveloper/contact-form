@@ -36,6 +36,7 @@ export class AddFormService{
                 // component = factory
                 //     .create(viewContainerRef.parentInjector);
                 componentRef = viewContainerRef.createComponent(factory);
+                (<TextFieldViewComponent>componentRef.instance).dialog = this.mdDialog;
                 (<TextFieldViewComponent>componentRef.instance).componentViewRef = componentRef.hostView;
                 (<TextFieldViewComponent>componentRef.instance).viewContainerRef = viewContainerRef;
                 break;
@@ -45,6 +46,7 @@ export class AddFormService{
                 // component = factory
                 //     .create(viewContainerRef.parentInjector);
                 componentRef = viewContainerRef.createComponent(factory);
+                (<EmailFieldViewComponent>componentRef.instance).dialog = this.mdDialog;
                 (<EmailFieldViewComponent>componentRef.instance).componentViewRef = componentRef.hostView;
                 (<EmailFieldViewComponent>componentRef.instance).viewContainerRef = viewContainerRef;
                 break;
@@ -54,6 +56,7 @@ export class AddFormService{
                 // component = factory
                 //     .create(viewContainerRef.parentInjector);
                 componentRef = viewContainerRef.createComponent(factory);
+                (<NumberFieldViewComponent>componentRef.instance).dialog = this.mdDialog;
                 (<NumberFieldViewComponent>componentRef.instance).componentViewRef = componentRef.hostView;
                 (<NumberFieldViewComponent>componentRef.instance).viewContainerRef = viewContainerRef;
                 break;
@@ -71,6 +74,7 @@ export class AddFormService{
                 factory = this.factoryResolver
                     .resolveComponentFactory(RadioButtonViewComponent);
                 componentRef = viewContainerRef.createComponent(factory);
+                (<RadioButtonViewComponent>componentRef.instance).dialog = this.mdDialog;
                 (<RadioButtonViewComponent>componentRef.instance).componentViewRef = componentRef.hostView;
                 (<RadioButtonViewComponent>componentRef.instance).viewContainerRef = viewContainerRef;
                 break;
@@ -78,6 +82,7 @@ export class AddFormService{
                 factory = this.factoryResolver
                     .resolveComponentFactory(TextAreaViewComponent);
                 componentRef = viewContainerRef.createComponent(factory);
+                (<TextAreaViewComponent>componentRef.instance).dialog = this.mdDialog;
                 (<TextAreaViewComponent>componentRef.instance).componentViewRef = componentRef.hostView;
                 (<TextAreaViewComponent>componentRef.instance).viewContainerRef = viewContainerRef;
                 break;

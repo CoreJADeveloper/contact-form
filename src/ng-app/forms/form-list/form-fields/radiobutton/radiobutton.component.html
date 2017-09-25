@@ -7,12 +7,14 @@
             </md-radio-group>
         </div>
         <div class="formfield-options">
-            <md-icon>settings</md-icon>
+            <md-icon (click)="open_settings_dialog()">settings</md-icon>
             <md-icon (click)="remove_element()">remove</md-icon>
         </div>
     </div>
-    <input type="hidden" name="radiobutton-label[]" value=""/>
-    <input type="hidden" name="radiobutton-placeholder[]" value=""/>
-    <input type="hidden" name="radiobutton-required[]" value=""/>
-    <input type="hidden" name="radiobutton-required-msg[]" value=""/>
+    <input type="hidden" name="radiobutton-required[]" *ngIf="data_options[0]['required_field'].required !== undefined" [(ngModel)]="data_options[0]['required_field'].required" value="{{ data_options[0]['required_field'].required }}"/>
+    <input type="hidden" name="radiobutton-required-msg[]" *ngIf="data_options[0]['required_field'].value !== undefined" [(ngModel)]="data_options[0]['required_field'].value" value="{{ data_options[0]['required_field'].value }}"/>
+    <input type="hidden" name="radiobutton-label[]" *ngIf="data_options[1]['label'].value !== undefined" [(ngModel)]="data_options[1]['label'].value" value="{{ data_options[1]['label'].value }}"/>
+    <input type="hidden" name="radiobutton-options[]" *ngIf="data_options[2]['radio_options'] !== undefined" [(ngModel)]="data_options[2]['radio_options']" value="{{ data_options[2]['radio_options'] }}"/>
+    <input type="hidden" name="radiobutton-id-attribute[]" *ngIf="data_options[3]['id_attribute'].value !== undefined" [(ngModel)]="data_options[3]['id_attribute'].value" value="{{ data_options[3]['id_attribute'].value }}"/>
+    <input type="hidden" name="radiobutton-class-attributes[]" *ngIf="data_options[4]['class_attributes'].value !== undefined" [(ngModel)]="data_options[4]['class_attributes'].value" value="{{ data_options[4]['class_attributes'].value }}"/>
 </md-list-item>
