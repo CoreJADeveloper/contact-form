@@ -1,24 +1,51 @@
-<div class="ang-contact-form">
-    <div class="contact-form-options">
-        <md-tab-group>
-            <md-tab label="Forms">
-                <ang-forms></ang-forms>
-            </md-tab>
-            <md-tab label="Email">
-                <ang-email></ang-email>
-            </md-tab>
-            <md-tab label="Message">
-                <ang-message></ang-message>
-            </md-tab>
-            <md-tab label="Settings">
-                <ang-settings></ang-settings>
-            </md-tab>
-            <md-tab label="Additional Settings">
-                <ang-additional-settings></ang-additional-settings>
-            </md-tab>
-        </md-tab-group>
+<div class="ng-contact-form">
+    <!--<div class="contact-form-options">-->
+    <!--<md-tab-group>-->
+    <!--<md-tab label="Forms">-->
+    <!--<ang-forms></ang-forms>-->
+    <!--</md-tab>-->
+    <!--<md-tab label="Email">-->
+    <!--<ang-email></ang-email>-->
+    <!--</md-tab>-->
+    <!--<md-tab label="Message">-->
+    <!--<ang-message></ang-message>-->
+    <!--</md-tab>-->
+    <!--<md-tab label="Settings">-->
+    <!--<ang-settings></ang-settings>-->
+    <!--</md-tab>-->
+    <!--<md-tab label="Additional Settings">-->
+    <!--<ang-additional-settings></ang-additional-settings>-->
+    <!--</md-tab>-->
+    <!--</md-tab-group>-->
+    <!--</div>-->
+    <!--<div class="contact-form-submissions">-->
+    <!--<button md-raised-button type="button">Publish</button>-->
+    <!--</div>-->
+    <div *ngIf="component_type == 'add'" class="contact-form-options">
+        <mat-card>
+            <mat-card-content>
+                <mat-tab-group class="demo-tab-group">
+                    <mat-tab label="Setup">
+                        <ng-form-setup></ng-form-setup>
+                    </mat-tab>
+                </mat-tab-group>
+            </mat-card-content>
+        </mat-card>
     </div>
-    <div class="contact-form-submissions">
-        <button md-raised-button type="button">Publish</button>
+    <div *ngIf="component_type == 'edit'">
+        <mat-card>
+            <mat-card-content>
+                <mat-tab-group class="demo-tab-group" [selectedIndex]="selectedTab">
+                    <mat-tab label="Setup">
+                        <ng-form-setup></ng-form-setup>
+                    </mat-tab>
+                    <mat-tab label="Fields">
+                        <ng-edit-form></ng-edit-form>
+                    </mat-tab>
+                    <mat-tab label="Settings">
+                    </mat-tab>
+                </mat-tab-group>
+            </mat-card-content>
+        </mat-card>
     </div>
 </div>

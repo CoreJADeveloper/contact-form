@@ -1,0 +1,74 @@
+<mat-grid-list cols="7">
+    <mat-grid-tile colspan="1" rowspan="3">
+        <mat-list>
+            <h3 mat-subheader>Available Fields</h3>
+            <mat-list-item>
+                <mat-chip-list>
+                    <mat-chip (click)="add_text_field()">Text Field
+                        <mat-icon>add</mat-icon>
+                    </mat-chip>
+                </mat-chip-list>
+            </mat-list-item>
+            <mat-list-item>
+                <mat-chip-list>
+                    <mat-chip (click)="add_text_area_field()">Text Area
+                        <mat-icon>add</mat-icon>
+                    </mat-chip>
+                </mat-chip-list>
+            </mat-list-item>
+            <mat-list-item>
+                <mat-chip-list>
+                    <mat-chip (click)="add_email_field()">Email Field
+                        <mat-icon>add</mat-icon>
+                    </mat-chip>
+                </mat-chip-list>
+            </mat-list-item>
+            <mat-list-item>
+                <mat-chip-list>
+                    <mat-chip (click)="add_number_field()">Number Field
+                        <mat-icon>add</mat-icon>
+                    </mat-chip>
+                </mat-chip-list>
+            </mat-list-item>
+            <mat-list-item>
+                <mat-chip-list>
+                    <mat-chip (click)="add_checkbox()">Checkbox
+                        <mat-icon>add</mat-icon>
+                    </mat-chip>
+                </mat-chip-list>
+            </mat-list-item>
+            <mat-list-item>
+                <mat-chip-list>
+                    <mat-chip (click)="add_radio_button()">Radiobutton
+                        <mat-icon>add</mat-icon>
+                    </mat-chip>
+                </mat-chip-list>
+            </mat-list-item>
+            <mat-list-item>
+                <mat-chip-list>
+                    <mat-chip (click)="add_dropdown()">Dropdown
+                        <mat-icon>add</mat-icon>
+                    </mat-chip>
+                </mat-chip-list>
+            </mat-list-item>
+        </mat-list>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="3" rowspan="3">
+        <mat-list role="list" [dragula]="drag-drop-fields" [dragulaModel]="form_fields">
+            <mat-list-item class="ng-drag-drop-field" role="listitem" (click)="open_field_settings()"
+                           *ngFor="let field of form_fields; let object_index = index;">
+                <mat-icon *ngIf="field.type != 'submit'" class="close-form-field" (click)="remove_field($event, object_index)">close</mat-icon>
+                <div class="form-field-content" [innerHTML]="generate_form_field_html(field)"></div>
+            </mat-list-item>
+        </mat-list>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="3" rowspan="1">
+        <mat-card>
+            <mat-card-content>
+                <p>
+                    Testing..
+                </p>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+</mat-grid-list>

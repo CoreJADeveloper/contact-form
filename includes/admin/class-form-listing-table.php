@@ -138,10 +138,9 @@ class ngForms_Listing_Table extends WP_List_Table
             '<a class="row-title" href="%s" title="%s"><strong>%s</strong></a>',
             add_query_arg(
                 array(
-//                    'view'    => 'fields',
-                    'form_id' => $form->ID,
+                    'id' => $form->ID,
                 ),
-                admin_url('admin.php?page=ng-add-form')
+                admin_url('admin.php?page=ng-edit-form')
             ),
             __('Edit this form', 'ngForms'),
             $name
@@ -155,10 +154,9 @@ class ngForms_Listing_Table extends WP_List_Table
             '<a href="%s" title="%s">%s</a>',
             add_query_arg(
                 array(
-                    'action' => 'edit',
-                    'form_id' => $form->ID,
+                    'id' => $form->ID,
                 ),
-                admin_url('admin.php?page=ng-add-form')
+                admin_url('admin.php?page=ng-edit-form')
             ),
             __('Edit this form', 'ngForms'),
             __('Edit', 'ngForms')

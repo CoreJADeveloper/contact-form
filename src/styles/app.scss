@@ -1,6 +1,26 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-@import "declarations";
-@import "global";
-@import "forms";
-@import "forms_drop_field";
+//@import "declarations";
+//@import "global";
+//@import "forms";
+//@import "forms_drop_field";
+
+.ng-drag-drop-field{
+  margin: 10px 0;
+  position: relative;
+  width: 100%;
+  border-style: dotted;
+  border-width: 1px;
+  border-color: grey;
+}
+
+.close-form-field{
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+.form-field-content{
+  padding: 20px 0;
+}
