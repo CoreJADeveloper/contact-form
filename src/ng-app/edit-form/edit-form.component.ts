@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {DragulaService} from 'ng2-dragula/ng2-dragula';
+import {ENTER, COMMA} from '@angular/cdk/keycodes';
 
 @Component({
     selector: 'ng-edit-form',
@@ -12,6 +13,16 @@ export class EditFormComponent {
     private form_fields:any;
     private default_form_type:any;
     private open_field_settings_flag: boolean = false;
+    private choices_values: any;
+    private active_field_object: any;
+    private style_cursor: string;
+
+    private visible: boolean = true;
+    private selectable: boolean = true;
+    private removable: boolean = true;
+    private addOnBlur: boolean = true;
+
+    private separatorKeysCodes = [ENTER, COMMA];
 
     public constructor(public dragulaService:DragulaService, public sanitizer:DomSanitizer) {
         const bag:any = this.dragulaService.find('drag-drop-fields');
@@ -67,10 +78,68 @@ export class EditFormComponent {
         this.generate_basic_form_fields();
         //}
 
+        this.style_cursor = 'pointer';
+
     }
 
-    private open_field_settings(){
+    private remove_a_choice(event, choice_name){
+        let choices_string = this.active_field_object.choices;
+        let choices_array = choices_string.split('<>');
+        var index = choices_array.indexOf(choice_name);
+        if (index > -1) {
+            choices_array.splice(index, 1);
+        }
+        choices_string = choices_array.join('<>');
+        this.active_field_object.choices = choices_string;
+    }
+
+    private add_new_choice(event, active_object){
+        let choice_name = event.target.value;
+        let choices_string = active_object.choices;
+        let choices_array = choices_string.split('<>');
+        choices_array.push(choice_name);
+        choices_string = choices_array.join('<>');
+        active_object.choices = choices_string;
+
+        this.active_field_object = active_object;
+
+        event.target.value = '';
+    }
+
+    private get_checkbox_selected_choices_array(checkbox_selected_choices){
+        let choice_array = checkbox_selected_choices.split(',');
+        return choice_array;
+    }
+
+    private in_array(needle, haystack) {
+        var length = haystack.length;
+        for (var i = 0; i < length; i++) {
+            if (typeof haystack[i] == 'object') {
+                if (this.arrayCompare(haystack[i], needle)) return true;
+            } else {
+                if (haystack[i] == needle) return true;
+            }
+        }
+        return false;
+    }
+
+    private arrayCompare(a1, a2) {
+        if (a1.length != a2.length) return false;
+        var length = a2.length;
+        for (var i = 0; i < length; i++) {
+            if (a1[i] !== a2[i]) return false;
+        }
+        return true;
+    }
+
+    private get_choices_array(choice_string){
+        let choice_array = choice_string.split('<>');
+        return choice_array;
+    }
+
+    private open_field_settings(field){
         this.open_field_settings_flag = true;
+        this.active_field_object = field;
     }
 
     private remove_field(event, object_index){
@@ -85,10 +154,12 @@ export class EditFormComponent {
         let text_field_object = {
             type: 'text',
             label: '-- Text Field --',
+            hide_label: false,
             classes: 'ng-form-field ng-text',
             required: false,
             description: '',
             placeholder: '',
+            hide_placeholder: false,
             default_value: ''
             //drop_priority: 1,
         };
@@ -106,11 +177,13 @@ export class EditFormComponent {
         let text_field_object = {
             type: 'textarea',
             label: '-- Text area --',
+            hide_label: false,
             classes: 'ng-form-field ng-textarea',
             rows: 5,
             required: false,
             description: '',
             placeholder: '',
+            hide_placeholder: false,
             default_value: ''
             //drop_priority: 1,
         };
@@ -128,10 +201,12 @@ export class EditFormComponent {
         let email_field_object = {
             type: 'email',
             label: '-- Email Field --',
+            hide_label: false,
             classes: 'ng-form-field ng-email',
             required: false,
             description: '',
             placeholder: '',
+            hide_placeholder: false,
             default_value: ''
             //drop_priority: 1,
         };
@@ -149,10 +224,12 @@ export class EditFormComponent {
         let number_field_object = {
             type: 'number',
             label: '-- Number Field --',
+            hide_label: false,
             classes: 'ng-form-field ng-number',
             required: false,
             description: '',
             placeholder: '',
+            hide_placeholder: false,
             default_value: ''
             //drop_priority: 1,
         };
@@ -170,8 +247,12 @@ export class EditFormComponent {
         let radio_button_object = {
             type: 'radio',
             label: '-- Radio Button --',
+            hide_label: false,
+            required: false,
             classes: 'ng-form-field ng-radio',
-            choices: ''
+            choices: 'Choice 1<>Choice 2<>Choice 3',
+            description: '',
+            choice_selected: -1
             //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
@@ -188,8 +269,12 @@ export class EditFormComponent {
         let checkbox_object = {
             type: 'checkbox',
             label: '-- Checkbox --',
+            hide_label: false,
+            required: false,
             classes: 'ng-form-field ng-checkbox',
-            choices: ''
+            choices: 'Choice 1<>Choice 2<>Choice 3',
+            description: '',
+            choice_selected: '-1'
             //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
@@ -206,8 +291,12 @@ export class EditFormComponent {
         let dropdown_object = {
             type: 'select',
             label: '-- Select --',
+            hide_label: false,
+            required: false,
             classes: 'ng-form-field ng-select',
-            choices: ''
+            choices: 'Choice 1<>Choice 2<>Choice 3',
+            description: '',
+            choice_selected: -1
             //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
@@ -239,31 +328,37 @@ export class EditFormComponent {
                 {
                     type: 'text',
                     label: 'Name',
+                    hide_label: false,
                     classes: 'ng-form-field ng-text',
                     required: false,
                     description: '',
                     placeholder: '',
+                    hide_placeholder: false,
                     default_value: ''
                     //drop_priority: 1,
                 },
                 {
                     type: 'text',
                     label: 'Title',
+                    hide_label: false,
                     classes: 'ng-form-field ng-text',
                     required: false,
                     description: '',
                     placeholder: '',
+                    hide_placeholder: false,
                     default_value: ''
                     //drop_priority: 2,
                 },
                 {
                     type: 'textarea',
                     label: 'Description',
+                    hide_label: false,
                     classes: 'ng-form-field ng-textarea',
                     rows: 5,
                     required: false,
                     description: '',
                     placeholder: '',
+                    hide_placeholder: false,
                     default_value: ''
                     //drop_priority: 3,
                 },
