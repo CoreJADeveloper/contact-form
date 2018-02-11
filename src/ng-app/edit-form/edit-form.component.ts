@@ -11,6 +11,7 @@ export class EditFormComponent {
 
     private form_fields:any;
     private default_form_type:any;
+    private open_field_settings_flag: boolean = false;
 
     public constructor(public dragulaService:DragulaService, public sanitizer:DomSanitizer) {
         const bag:any = this.dragulaService.find('drag-drop-fields');
@@ -69,7 +70,7 @@ export class EditFormComponent {
     }
 
     private open_field_settings(){
-
+        this.open_field_settings_flag = true;
     }
 
     private remove_field(event, object_index){
@@ -86,11 +87,14 @@ export class EditFormComponent {
             label: '-- Text Field --',
             classes: 'ng-form-field ng-text',
             required: false,
+            description: '',
+            placeholder: '',
+            default_value: ''
             //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
             //text_field_object.drop_priority = last_form_field;
-            this.form_fields.splice((last_form_field), 0, text_field_object);
+            this.form_fields.splice(last_form_field, 0, text_field_object);
         } else {
             //text_field_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, text_field_object);
@@ -105,11 +109,14 @@ export class EditFormComponent {
             classes: 'ng-form-field ng-textarea',
             rows: 5,
             required: false,
+            description: '',
+            placeholder: '',
+            default_value: ''
             //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
             //text_field_object.drop_priority = last_form_field;
-            this.form_fields.splice((last_form_field), 0, text_field_object);
+            this.form_fields.splice(last_form_field, 0, text_field_object);
         } else {
             //text_field_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, text_field_object);
@@ -123,11 +130,14 @@ export class EditFormComponent {
             label: '-- Email Field --',
             classes: 'ng-form-field ng-email',
             required: false,
+            description: '',
+            placeholder: '',
+            default_value: ''
             //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
             //email_field_object.drop_priority = last_form_field;
-            this.form_fields.splice((last_form_field), 0, email_field_object);
+            this.form_fields.splice(last_form_field, 0, email_field_object);
         } else {
             //email_field_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, email_field_object);
@@ -141,11 +151,14 @@ export class EditFormComponent {
             label: '-- Number Field --',
             classes: 'ng-form-field ng-number',
             required: false,
+            description: '',
+            placeholder: '',
+            default_value: ''
             //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
             //number_field_object.drop_priority = last_form_field;
-            this.form_fields.splice((last_form_field), 0, number_field_object);
+            this.form_fields.splice(last_form_field, 0, number_field_object);
         } else {
             //number_field_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, number_field_object);
@@ -158,11 +171,12 @@ export class EditFormComponent {
             type: 'radio',
             label: '-- Radio Button --',
             classes: 'ng-form-field ng-radio',
+            choices: ''
             //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
             //radio_button_object.drop_priority = last_form_field;
-            this.form_fields.splice((last_form_field), 0, radio_button_object);
+            this.form_fields.splice(last_form_field, 0, radio_button_object);
         } else {
             //radio_button_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, radio_button_object);
@@ -175,11 +189,12 @@ export class EditFormComponent {
             type: 'checkbox',
             label: '-- Checkbox --',
             classes: 'ng-form-field ng-checkbox',
+            choices: ''
             //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
             //checkbox_object.drop_priority = last_form_field;
-            this.form_fields.splice((last_form_field), 0, checkbox_object);
+            this.form_fields.splice(last_form_field, 0, checkbox_object);
         } else {
             //checkbox_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, checkbox_object);
@@ -192,11 +207,12 @@ export class EditFormComponent {
             type: 'select',
             label: '-- Select --',
             classes: 'ng-form-field ng-select',
+            choices: ''
             //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
             //dropdown_object.drop_priority = last_form_field;
-            this.form_fields.splice((last_form_field), 0, dropdown_object);
+            this.form_fields.splice(last_form_field, 0, dropdown_object);
         } else {
             //dropdown_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, dropdown_object);
@@ -209,6 +225,7 @@ export class EditFormComponent {
                 type: 'submit',
                 label: 'Send',
                 classes: 'ng-form-field ng-submit',
+                position: 'left',
                 //drop_priority: 1,
             }
         ]
@@ -224,6 +241,9 @@ export class EditFormComponent {
                     label: 'Name',
                     classes: 'ng-form-field ng-text',
                     required: false,
+                    description: '',
+                    placeholder: '',
+                    default_value: ''
                     //drop_priority: 1,
                 },
                 {
@@ -231,6 +251,9 @@ export class EditFormComponent {
                     label: 'Title',
                     classes: 'ng-form-field ng-text',
                     required: false,
+                    description: '',
+                    placeholder: '',
+                    default_value: ''
                     //drop_priority: 2,
                 },
                 {
@@ -239,13 +262,16 @@ export class EditFormComponent {
                     classes: 'ng-form-field ng-textarea',
                     rows: 5,
                     required: false,
+                    description: '',
+                    placeholder: '',
+                    default_value: ''
                     //drop_priority: 3,
                 },
                 {
                     type: 'submit',
                     label: 'Send',
-                    position: 'left',
                     classes: 'ng-form-field ng-submit',
+                    position: 'left'
                     //drop_priority: 4,
                 }
             ]
@@ -253,50 +279,50 @@ export class EditFormComponent {
         this.form_fields = basic_fields;
     }
 
-    private generate_form_field_html(form_field_object) {
-        let label = '';
-        let field = '';
-
-        let field_array_object = form_field_object;
-        let field_type = field_array_object.type;
-
-        switch (field_type) {
-            case 'text':
-                label = field_array_object.label + '</br>';
-                field = '<input disabled type="text" class="' + field_array_object.classes + '" />';
-                break;
-            case 'textarea':
-                label = field_array_object.label + '</br>';
-                field = '<textarea disabled class="' + field_array_object.classes + '" rows="2"></textarea>';
-                break;
-            case 'email':
-                label = field_array_object.label + '</br>';
-                field = '<input disabled type="email" class="' + field_array_object.classes + '" />';
-                break;
-            case 'number':
-                label = field_array_object.label + '</br>';
-                field = '<input disabled type="number" class="' + field_array_object.classes + '" />';
-                break;
-            case 'submit':
-                field = '<input disabled type="submit" class="' + field_array_object.classes + '" />';
-                break;
-            case 'radio':
-                label = field_array_object.label + '</br>';
-                field = '<input disabled type="radio" class="' + field_array_object.classes + '" value="radio">Radio<br>'
-                break;
-            case 'checkbox':
-                label = field_array_object.label + '</br>';
-                field = '<input type="checkbox" value="checkbox"> Checkbox<br>';
-                break;
-            case 'select':
-                label = field_array_object.label + '</br>';
-                field = '<select><option value="option1">Option1</option></select>';
-                break;
-        }
-        let final_html = label.concat(field);
-
-        return this.sanitizer.bypassSecurityTrustHtml(final_html);
-    }
+    //private generate_form_field_html(form_field_object) {
+    //    let label = '';
+    //    let field = '';
+    //
+    //    let field_array_object = form_field_object;
+    //    let field_type = field_array_object.type;
+    //
+    //    switch (field_type) {
+    //        case 'text':
+    //            label = '<label>'+field_array_object.label + '</label></br>';
+    //            field = '<input disabled type="text" class="' + field_array_object.classes + '" />';
+    //            break;
+    //        case 'textarea':
+    //            label = '<label>'+field_array_object.label + '</label></br>';
+    //            field = '<textarea disabled class="' + field_array_object.classes + '" rows="2"></textarea>';
+    //            break;
+    //        case 'email':
+    //            label = '<label>'+field_array_object.label + '</label></br>';
+    //            field = '<input disabled type="email" class="' + field_array_object.classes + '" />';
+    //            break;
+    //        case 'number':
+    //            label = '<label>'+field_array_object.label + '</label></br>';
+    //            field = '<input disabled type="number" class="' + field_array_object.classes + '" />';
+    //            break;
+    //        case 'submit':
+    //            field = '<input disabled type="submit" class="' + field_array_object.classes + '" />';
+    //            break;
+    //        case 'radio':
+    //            label = '<label>'+field_array_object.label + '</label></br>';
+    //            field = '<input disabled type="radio" class="' + field_array_object.classes + '" value="radio">Radio<br>'
+    //            break;
+    //        case 'checkbox':
+    //            label = '<label>'+field_array_object.label + '</label></br>';
+    //            field = '<input type="checkbox" value="checkbox"> Checkbox<br>';
+    //            break;
+    //        case 'select':
+    //            label = '<label>'+field_array_object.label + '</label></br>';
+    //            field = '<select><option value="option1">Option1</option></select>';
+    //            break;
+    //    }
+    //    let final_html = label.concat(field);
+    //
+    //    return this.sanitizer.bypassSecurityTrustHtml(final_html);
+    //}
 
     private onDrag(args) {
         let [e, el] = args;

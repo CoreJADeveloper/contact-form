@@ -58,11 +58,44 @@
             <mat-list-item class="ng-drag-drop-field" role="listitem" (click)="open_field_settings()"
                            *ngFor="let field of form_fields; let object_index = index;">
                 <mat-icon *ngIf="field.type != 'submit'" class="close-form-field" (click)="remove_field($event, object_index)">close</mat-icon>
-                <div class="form-field-content" [innerHTML]="generate_form_field_html(field)"></div>
+                <!--<div class="form-field-content" *ngIf="field.type == 'text'" [innerHTML]="generate_form_field_html(field)">-->
+                <!--</div>-->
+
+                <div class="form-field-content" *ngIf="field.type == 'text'">
+                    <label>{{ field.label }}</label>
+                    <input disabled type="text" [class]="field.classes" />
+                </div>
+                <div class="form-field-content" *ngIf="field.type == 'textarea'">
+                    <label>{{ field.label }}</label>
+                    <textarea disabled [class]="field.classes" rows="2"></textarea>
+                </div>
+                <div class="form-field-content" *ngIf="field.type == 'email'">
+                    <label>{{ field.label }}</label>
+                    <input disabled type="email" [class]="field.classes" />
+                </div>
+                <div class="form-field-content" *ngIf="field.type == 'number'">
+                    <label>{{ field.label }}</label>
+                    <input disabled type="number" [class]="field.classes" />
+                </div>
+                <div class="form-field-content" *ngIf="field.type == 'submit'">
+                    <input disabled type="submit" [style.float]="field.position" [class]="field.classes" [value]="field.label" />
+                </div>
+                <div class="form-field-content" *ngIf="field.type == 'radio'">
+                    <label>{{ field.label }}</label>
+                    <input disabled type="radio" [class]="field.classes" value="radio">Radio<br>
+                </div>
+                <div class="form-field-content" *ngIf="field.type == 'checkbox'">
+                    <label>{{ field.label }}</label>
+                    <input type="checkbox" value="checkbox" [class]="field.classes"> Checkbox<br>
+                </div>
+                <div class="form-field-content" *ngIf="field.type == 'select'">
+                    <label>{{ field.label }}</label>
+                    <select><option value="option1" [class]="field.classes">Option1</option></select>
+                </div>
             </mat-list-item>
         </mat-list>
     </mat-grid-tile>
-    <mat-grid-tile colspan="3" rowspan="1">
+    <mat-grid-tile *ngIf="open_field_settings_flag" colspan="3" rowspan="1">
         <mat-card>
             <mat-card-content>
                 <p>
