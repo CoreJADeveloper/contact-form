@@ -12,15 +12,15 @@ export class EditFormComponent {
 
     private form_fields:any;
     private default_form_type:any;
-    private open_field_settings_flag: boolean = false;
-    private choices_values: any;
-    private active_field_object: any;
-    private style_cursor: string;
+    private open_field_settings_flag:boolean = false;
+    private choices_values:any;
+    private active_field_object:any;
+    private style_cursor:string;
 
-    private visible: boolean = true;
-    private selectable: boolean = true;
-    private removable: boolean = true;
-    private addOnBlur: boolean = true;
+    private visible:boolean = true;
+    private selectable:boolean = true;
+    private removable:boolean = true;
+    private addOnBlur:boolean = true;
 
     private separatorKeysCodes = [ENTER, COMMA];
 
@@ -82,7 +82,80 @@ export class EditFormComponent {
 
     }
 
-    private remove_a_choice(event, choice_name){
+    private remove_a_checkbox_choice(active_array, index) {
+        active_array.splice(index, 1);
+    }
+
+    //private is_checkbox_choice_checked(index) {
+    //    let choices_selected_array = this.get_checkbox_choices_selected_array(this.active_field_object);
+    //
+    //    return this.check_if_choice_selected(index, choices_selected_array);
+    //}
+
+    //private check_if_choice_selected(index, choices_selected_array) {
+    //    if (typeof choices_selected_array != undefined || choices_selected_array != null) {
+    //        for (let i = 0; i < choices_selected_array.length; i++) {
+    //            if (choices_selected_array[i] != -1 && choices_selected_array[i] == index) {
+    //                return true;
+    //            }
+    //        }
+    //    }
+    //    return false;
+    //}
+
+    //private get_checkbox_choices_selected_array(active_object) {
+    //    let choice_selected_array;
+    //    if (active_object.choice_selected != -1)
+    //        choice_selected_array = active_object.choice_selected.split(',').map(Number);
+    //    else
+    //        choice_selected_array = new Array();
+    //    //console.log(choice_selected_array);
+    //    choice_selected_array = Array.from(new Set(choice_selected_array));
+    //    return choice_selected_array;
+    //}
+
+    private update_checkbox_choice_selected(event, index) {
+        let choice_selected = event.checked;
+        this.active_field_object.choices[index].checked = choice_selected;
+        //console.log(event);
+        //let choices_selected_array = this.get_checkbox_choices_selected_array(this.active_field_object);
+
+        //if (choice_selected) {
+        //choices_selected_array.push(index);
+        //choices_string = choices_selected_array.join(',');
+        //this.active_field_object.choice_selected = choices_string;
+        //active_choice_object.checked = true;
+        //} else {
+        //choices_selected_array.splice(index, 1);
+        //console.log(choices_selected_array);
+        //if (choices_selected_array.length > 0) {
+        //    choices_string = choices_selected_array.join(',');
+        //    this.active_field_object.choice_selected = choices_string;
+        //} else {
+        //    this.active_field_object.choice_selected = -1;
+        //}
+        //active_choice_object.checked = false;
+        //}
+
+        console.log(this.active_field_object);
+    }
+
+    private track_by_Index(index:any, item:any) {
+        return index;
+    }
+
+    private update_choice_text(event, index, choices_array) {
+        let new_choice_text = event.target.value;
+
+        choices_array[index] = new_choice_text;
+
+        let choices_string = choices_array.join('<>');
+        this.active_field_object.choices = choices_string;
+
+        //event.target.focus();
+    }
+
+    private remove_a_choice(event, choice_name) {
         let choices_string = this.active_field_object.choices;
         let choices_array = choices_string.split('<>');
         var index = choices_array.indexOf(choice_name);
@@ -93,26 +166,32 @@ export class EditFormComponent {
         this.active_field_object.choices = choices_string;
     }
 
-    private add_new_choice(event, active_object){
+    private add_new_checkbox_choice(event, choices) {
         let choice_name = event.target.value;
-        let choices_string = active_object.choices;
-        let choices_array = choices_string.split('<>');
-        choices_array.push(choice_name);
-        choices_string = choices_array.join('<>');
-        active_object.choices = choices_string;
+        //let choices_array = active_object.choices;
+        //let choices_array = choices_string.split('<>');
+        let choice = {
+            text: choice_name,
+            checked: false
+        };
+        choices.push(choice);
+        //choices_string = choices_array.join('<>');
+        //active_object.choices = choices_string;
 
-        this.active_field_object = active_object;
+        //this.active_field_object = active_object;
 
         event.target.value = '';
     }
 
-    private get_checkbox_selected_choices_array(checkbox_selected_choices){
-        let choice_array = checkbox_selected_choices.split(',');
-        return choice_array;
-    }
+    //private get_checkbox_selected_choices_array(checkbox_selected_choices) {
+    //    let choice_array = checkbox_selected_choices.split(',');
+    //    return choice_array;
+    //}
 
     private in_array(needle, haystack) {
         var length = haystack.length;
+        //console.log(needle);
+        //console.log(haystack);
         for (var i = 0; i < length; i++) {
             if (typeof haystack[i] == 'object') {
                 if (this.arrayCompare(haystack[i], needle)) return true;
@@ -132,17 +211,17 @@ export class EditFormComponent {
         return true;
     }
 
-    private get_choices_array(choice_string){
+    private get_choices_array(choice_string) {
         let choice_array = choice_string.split('<>');
         return choice_array;
     }
 
-    private open_field_settings(field){
+    private open_field_settings(field) {
         this.open_field_settings_flag = true;
         this.active_field_object = field;
     }
 
-    private remove_field(event, object_index){
+    private remove_field(event, object_index) {
         event.target.remove();
         if (object_index > -1) {
             this.form_fields.splice(object_index, 1);
@@ -272,9 +351,22 @@ export class EditFormComponent {
             hide_label: false,
             required: false,
             classes: 'ng-form-field ng-checkbox',
-            choices: 'Choice 1<>Choice 2<>Choice 3',
+            choices: [
+                {
+                    text: 'Choice 1',
+                    checked: false,
+                },
+                {
+                    text: 'Choice 2',
+                    checked: false,
+                },
+                {
+                    text: 'Choice 3',
+                    checked: false,
+                }
+            ],
             description: '',
-            choice_selected: '-1'
+            choice_selected: -1
             //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
