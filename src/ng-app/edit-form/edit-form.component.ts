@@ -16,6 +16,7 @@ export class EditFormComponent {
     private choices_values:any;
     private active_field_object:any;
     private style_cursor:string;
+    private required_text_color:any;
 
     private visible:boolean = true;
     private selectable:boolean = true;
@@ -79,7 +80,72 @@ export class EditFormComponent {
         //}
 
         this.style_cursor = 'pointer';
+        this.required_text_color = '#FF0000';
+    }
 
+    private update_submit_position(event, index) {
+        if (event.source.checked) {
+            this.active_field_object.position_checked = index;
+        }
+    }
+
+    get fieldClasses() {
+        return this.active_field_object.classes;
+    }
+
+    set fieldClasses(v) {
+        this.active_field_object.classes = v;
+    }
+
+    get fieldDefaultValue() {
+        return this.active_field_object.default_value;
+    }
+
+    set fieldDefaultValue(v) {
+        this.active_field_object.default_value = v;
+    }
+
+    get fieldDescription() {
+        return this.active_field_object.description;
+    }
+
+    set fieldDescription(v) {
+        this.active_field_object.description = v;
+    }
+
+    private update_hide_label(event) {
+        if (event.checked) {
+            this.active_field_object.hide_label = true;
+        } else {
+            this.active_field_object.hide_label = false;
+        }
+    }
+
+    private update_required_field(event) {
+        if (event.checked) {
+            this.active_field_object.required = true;
+        } else {
+            this.active_field_object.required = false;
+        }
+    }
+
+    private add_new_choice(event) {
+        let new_choice = event.target.value;
+        let choices_array = this.active_field_object.choices;
+        let choice_object = {
+            text: new_choice,
+        };
+        choices_array.push(choice_object);
+
+        event.target.value = '';
+    }
+
+    private update_choice_selected(event, index) {
+        if (event.source.checked) {
+            this.active_field_object.choice_selected = index;
+        } else {
+            this.active_field_object.choice_selected = -1;
+        }
     }
 
     private remove_a_checkbox_choice(active_array, index) {
@@ -155,15 +221,14 @@ export class EditFormComponent {
         //event.target.focus();
     }
 
-    private remove_a_choice(event, choice_name) {
-        let choices_string = this.active_field_object.choices;
-        let choices_array = choices_string.split('<>');
-        var index = choices_array.indexOf(choice_name);
+    private remove_a_choice(index) {
+        let choices_array = this.active_field_object.choices;
         if (index > -1) {
             choices_array.splice(index, 1);
         }
-        choices_string = choices_array.join('<>');
-        this.active_field_object.choices = choices_string;
+        if (this.active_field_object.choice_selected == index) {
+            this.active_field_object.choice_selected = -1;
+        }
     }
 
     private add_new_checkbox_choice(event, choices) {
@@ -211,10 +276,10 @@ export class EditFormComponent {
         return true;
     }
 
-    private get_choices_array(choice_string) {
-        let choice_array = choice_string.split('<>');
-        return choice_array;
-    }
+    //private get_choices_array(choice_string) {
+    //    let choice_array = choice_string.split('<>');
+    //    return choice_array;
+    //}
 
     private open_field_settings(field) {
         this.open_field_settings_flag = true;
@@ -234,11 +299,11 @@ export class EditFormComponent {
             type: 'text',
             label: '-- Text Field --',
             hide_label: false,
-            classes: 'ng-form-field ng-text',
+            built_classes: 'ng-form-field ng-text',
+            classes: '',
             required: false,
             description: '',
             placeholder: '',
-            hide_placeholder: false,
             default_value: ''
             //drop_priority: 1,
         };
@@ -257,12 +322,12 @@ export class EditFormComponent {
             type: 'textarea',
             label: '-- Text area --',
             hide_label: false,
-            classes: 'ng-form-field ng-textarea',
+            built_classes: 'ng-form-field ng-textarea',
+            classes: '',
             rows: 5,
             required: false,
             description: '',
             placeholder: '',
-            hide_placeholder: false,
             default_value: ''
             //drop_priority: 1,
         };
@@ -281,11 +346,11 @@ export class EditFormComponent {
             type: 'email',
             label: '-- Email Field --',
             hide_label: false,
-            classes: 'ng-form-field ng-email',
+            built_classes: 'ng-form-field ng-email',
+            classes: '',
             required: false,
             description: '',
             placeholder: '',
-            hide_placeholder: false,
             default_value: ''
             //drop_priority: 1,
         };
@@ -304,11 +369,11 @@ export class EditFormComponent {
             type: 'number',
             label: '-- Number Field --',
             hide_label: false,
-            classes: 'ng-form-field ng-number',
+            built_classes: 'ng-form-field ng-number',
+            classes: '',
             required: false,
             description: '',
             placeholder: '',
-            hide_placeholder: false,
             default_value: ''
             //drop_priority: 1,
         };
@@ -328,8 +393,9 @@ export class EditFormComponent {
             label: '-- Radio Button --',
             hide_label: false,
             required: false,
-            classes: 'ng-form-field ng-radio',
-            choices: 'Choice 1<>Choice 2<>Choice 3',
+            built_classes: 'ng-form-field ng-radio',
+            classes: '',
+            choices: [{text: 'Choice 1'}, {text: 'Choice 2'}, {text: 'Choice 3'}],
             description: '',
             choice_selected: -1
             //drop_priority: 1,
@@ -350,7 +416,8 @@ export class EditFormComponent {
             label: '-- Checkbox --',
             hide_label: false,
             required: false,
-            classes: 'ng-form-field ng-checkbox',
+            built_classes: 'ng-form-field ng-checkbox',
+            classes: '',
             choices: [
                 {
                     text: 'Choice 1',
@@ -385,8 +452,9 @@ export class EditFormComponent {
             label: '-- Select --',
             hide_label: false,
             required: false,
-            classes: 'ng-form-field ng-select',
-            choices: 'Choice 1<>Choice 2<>Choice 3',
+            built_classes: 'ng-form-field ng-select',
+            classes: '',
+            choices: [{text: 'Choice 1'}, {text: 'Choice 2'}, {text: 'Choice 3'}],
             description: '',
             choice_selected: -1
             //drop_priority: 1,
@@ -405,8 +473,18 @@ export class EditFormComponent {
             {
                 type: 'submit',
                 label: 'Send',
-                classes: 'ng-form-field ng-submit',
-                position: 'left',
+                built_classes: 'ng-form-field ng-submit',
+                classes: '',
+                position: [
+                    {
+                        text: 'left',
+                    },
+                    {
+                        text: 'right',
+
+                    }
+                ],
+                position_checked: 0,
                 //drop_priority: 1,
             }
         ]
@@ -421,11 +499,11 @@ export class EditFormComponent {
                     type: 'text',
                     label: 'Name',
                     hide_label: false,
-                    classes: 'ng-form-field ng-text',
+                    built_classes: 'ng-form-field ng-text',
+                    classes: '',
                     required: false,
                     description: '',
                     placeholder: '',
-                    hide_placeholder: false,
                     default_value: ''
                     //drop_priority: 1,
                 },
@@ -433,11 +511,11 @@ export class EditFormComponent {
                     type: 'text',
                     label: 'Title',
                     hide_label: false,
-                    classes: 'ng-form-field ng-text',
+                    built_classes: 'ng-form-field ng-text',
+                    classes: '',
                     required: false,
                     description: '',
                     placeholder: '',
-                    hide_placeholder: false,
                     default_value: ''
                     //drop_priority: 2,
                 },
@@ -445,20 +523,30 @@ export class EditFormComponent {
                     type: 'textarea',
                     label: 'Description',
                     hide_label: false,
-                    classes: 'ng-form-field ng-textarea',
+                    built_classes: 'ng-form-field ng-textarea',
+                    classes: '',
                     rows: 5,
                     required: false,
                     description: '',
                     placeholder: '',
-                    hide_placeholder: false,
                     default_value: ''
                     //drop_priority: 3,
                 },
                 {
                     type: 'submit',
                     label: 'Send',
-                    classes: 'ng-form-field ng-submit',
-                    position: 'left'
+                    built_classes: 'ng-form-field ng-submit',
+                    classes: '',
+                    position: [
+                        {
+                            text: 'left',
+                        },
+                        {
+                            text: 'right',
+
+                        }
+                    ],
+                    position_checked: 0,
                     //drop_priority: 4,
                 }
             ]
