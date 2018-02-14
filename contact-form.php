@@ -56,6 +56,29 @@ class ngContactForm
                 }
             ));
         });
+
+        add_action('rest_api_init', function () {
+            register_rest_route('angular-forms/v1', '/get-post/', array(
+                'methods' => 'POST',
+                'callback' => array($this, 'get_created_post_data'),
+                'permission_callback' => function () {
+                    return current_user_can('edit_others_posts');
+                }
+            ));
+        });
+    }
+
+    public function get_created_post_data(WP_REST_Request $request){
+        $parameters = $request->get_params();
+
+        $form_id = $parameters['form_id'];
+
+        $data['form_title'] = get_the_title($form_id);
+        $data['form_type'] = get_post_meta($form_id, 'ng_default_form_type', true);
+        $data['form_fields'] = get_post_meta($form_id, 'ng_form_fields', true);
+        $data['settings_data'] = get_post_meta($form_id, 'ng_form_settings', true);
+
+        return wp_json_encode($data);
     }
 
     public function create_custom_post(WP_REST_Request $request)
@@ -67,6 +90,8 @@ class ngContactForm
         $status = $parameters['status'];
         $meta = $parameters['meta'];
         $default_form_type = $meta['default_form_type'];
+        $form_fields= $meta['form_fields'];
+        $settings_data= $meta['settings_data'];
 
         $angular_form_post = array(
             'post_title' => $title,
@@ -78,7 +103,9 @@ class ngContactForm
 
         $angular_form_post_id = wp_insert_post($angular_form_post);
 
-        update_post_meta($angular_form_post_id, 'default_form_type', $default_form_type);
+        update_post_meta($angular_form_post_id, 'ng_default_form_type', $default_form_type);
+        update_post_meta($angular_form_post_id, 'ng_form_fields', $form_fields);
+        update_post_meta($angular_form_post_id, 'ng_form_settings', $settings_data);
 
         $redirect_url = admin_url('/admin.php?page=ng-edit-form&id=' . $angular_form_post_id);
 
@@ -87,7 +114,7 @@ class ngContactForm
 
     public function admin_enqueue_scripts()
     {
-        if (isset($_GET['page']) && ($_GET['page'] == 'ng-add-form' || $_GET['page'] == 'ng-edit-form')) {
+        if (isset($_GET['page']) && ($_GET['page'] == 'ng-add-form' || $_GET['page'] == 'ng-edit-form' || $_GET['page'] == 'ng-settings')) {
             wp_enqueue_script('ang-script', ANGCF_PLUGIN_URL . 'dist/app.bundle.js', array(), '1.1.1', true);
             wp_enqueue_style('dragula-style', ANGCF_PLUGIN_URL . 'dist/dragula.min.css');
             wp_enqueue_style('material-icons', 'https://fonts.googleapis.com/icon?family=Material+Icons');
@@ -186,9 +213,20 @@ EOF;
         global $endpoint;
         $form_id = $_GET['id'];
 
-        if (isset($form_id) && !empty($form_id)) {
+        if (isset($form_id) && !empty($form_id) && get_post_status ( $form_id )) {
+            $data['form_title'] = get_the_title($form_id);
+            $data['form_type'] = get_post_meta($form_id, 'ng_default_form_type', true);
+            $data['form_fields'] = get_post_meta($form_id, 'ng_form_fields', true);
+            $data['settings_data'] = get_post_meta($form_id, 'ng_form_settings', true);
+
             ?>
-            <contact-form type="edit" endpoint="<?php echo $endpoint ?>"
+            <script>
+                sessionStorage.setItem('ng_form_title', '<?php echo html_entity_decode($data['form_title'])?>');
+                sessionStorage.setItem('ng_form_type', '<?php echo html_entity_decode($data['form_type'])?>');
+                sessionStorage.setItem('ng_form_fields', '<?php echo html_entity_decode($data['form_fields'])?>');
+                sessionStorage.setItem('ng_settings_data', '<?php echo html_entity_decode($data['settings_data'])?>');
+            </script>
+            <contact-form type="edit" form_id="<?php echo $form_id?>" endpoint="<?php echo $endpoint ?>"
                           nonce="<?php echo wp_create_nonce('wp_rest') ?>">
                 Loading....
             </contact-form>
@@ -213,7 +251,12 @@ EOF;
 
     public function angular_settings()
     {
-
+        global $endpoint;
+        ?>
+        <contact-form type="settings" endpoint="<?php echo $endpoint ?>" nonce="<?php echo wp_create_nonce('wp_rest') ?>">
+            Loading....
+        </contact-form>
+        <?php
     }
 }
 

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Output, EventEmitter} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {DragulaService} from 'ng2-dragula/ng2-dragula';
 import {ENTER, COMMA} from '@angular/cdk/keycodes';
@@ -9,6 +9,8 @@ import {ENTER, COMMA} from '@angular/cdk/keycodes';
 })
 
 export class EditFormComponent {
+
+    @Output() onFormInputChange = new EventEmitter<any>();
 
     private form_fields:any;
     private default_form_type:any;
@@ -76,17 +78,24 @@ export class EditFormComponent {
         //}
 
         //if (this.default_form_type == 'basic') {
-        this.generate_basic_form_fields();
+        //this.generate_basic_form_fields();
         //}
+
+        this.form_fields = JSON.parse(sessionStorage.getItem('ng_form_fields'));
 
         this.style_cursor = 'pointer';
         this.required_text_color = '#FF0000';
+    }
+
+    private onFormValueUpdated(event){
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     private update_submit_position(event, index) {
         if (event.source.checked) {
             this.active_field_object.position_checked = index;
         }
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     get fieldClasses() {
@@ -95,6 +104,7 @@ export class EditFormComponent {
 
     set fieldClasses(v) {
         this.active_field_object.classes = v;
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     get fieldDefaultValue() {
@@ -103,6 +113,7 @@ export class EditFormComponent {
 
     set fieldDefaultValue(v) {
         this.active_field_object.default_value = v;
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     get fieldDescription() {
@@ -111,6 +122,7 @@ export class EditFormComponent {
 
     set fieldDescription(v) {
         this.active_field_object.description = v;
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     private update_hide_label(event) {
@@ -119,6 +131,7 @@ export class EditFormComponent {
         } else {
             this.active_field_object.hide_label = false;
         }
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     private update_required_field(event) {
@@ -127,6 +140,7 @@ export class EditFormComponent {
         } else {
             this.active_field_object.required = false;
         }
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     private add_new_choice(event) {
@@ -138,6 +152,8 @@ export class EditFormComponent {
         choices_array.push(choice_object);
 
         event.target.value = '';
+
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     private update_choice_selected(event, index) {
@@ -146,10 +162,12 @@ export class EditFormComponent {
         } else {
             this.active_field_object.choice_selected = -1;
         }
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     private remove_a_checkbox_choice(active_array, index) {
         active_array.splice(index, 1);
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     //private is_checkbox_choice_checked(index) {
@@ -203,7 +221,7 @@ export class EditFormComponent {
         //active_choice_object.checked = false;
         //}
 
-        console.log(this.active_field_object);
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     private track_by_Index(index:any, item:any) {
@@ -218,6 +236,7 @@ export class EditFormComponent {
         let choices_string = choices_array.join('<>');
         this.active_field_object.choices = choices_string;
 
+        this.onFormInputChange.emit(this.form_fields);
         //event.target.focus();
     }
 
@@ -229,6 +248,8 @@ export class EditFormComponent {
         if (this.active_field_object.choice_selected == index) {
             this.active_field_object.choice_selected = -1;
         }
+
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     private add_new_checkbox_choice(event, choices) {
@@ -246,6 +267,8 @@ export class EditFormComponent {
         //this.active_field_object = active_object;
 
         event.target.value = '';
+
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     //private get_checkbox_selected_choices_array(checkbox_selected_choices) {
@@ -291,6 +314,7 @@ export class EditFormComponent {
         if (object_index > -1) {
             this.form_fields.splice(object_index, 1);
         }
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     private add_text_field() {
@@ -314,6 +338,7 @@ export class EditFormComponent {
             //text_field_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, text_field_object);
         }
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     private add_text_area_field() {
@@ -338,6 +363,7 @@ export class EditFormComponent {
             //text_field_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, text_field_object);
         }
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     private add_email_field() {
@@ -361,6 +387,7 @@ export class EditFormComponent {
             //email_field_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, email_field_object);
         }
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     private add_number_field() {
@@ -384,6 +411,7 @@ export class EditFormComponent {
             //number_field_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, number_field_object);
         }
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     private add_radio_button() {
@@ -407,6 +435,7 @@ export class EditFormComponent {
             //radio_button_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, radio_button_object);
         }
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     private add_checkbox() {
@@ -443,6 +472,7 @@ export class EditFormComponent {
             //checkbox_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, checkbox_object);
         }
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     private add_dropdown() {
@@ -466,6 +496,7 @@ export class EditFormComponent {
             //dropdown_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, dropdown_object);
         }
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     private generate_blank_form_fields() {
@@ -490,6 +521,8 @@ export class EditFormComponent {
         ]
 
         this.form_fields = blank_fields;
+
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     private generate_basic_form_fields() {
@@ -552,6 +585,8 @@ export class EditFormComponent {
             ]
 
         this.form_fields = basic_fields;
+
+        this.onFormInputChange.emit(this.form_fields);
     }
 
     //private generate_form_field_html(form_field_object) {

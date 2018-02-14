@@ -1,5 +1,6 @@
-<div>
-    <form #formSetup="ngForm" novalidate (ngSubmit)="formSetupModel.valid && onSubmit(formSetup.value)" class="ng-form-setup">
+<div *ngIf="form_action_type == 'add'">
+    <form #formSetup="ngForm" novalidate (ngSubmit)="formSetupModel.valid && onSubmit(formSetup.value)"
+          class="ng-form-setup">
         <div>
             <mat-form-field>
                 <input matInput required placeholder="Form Name" id="name" name="form_name"
@@ -12,8 +13,11 @@
                     Form Name is required.
                 </div>
             </div>
+            <div [hidden]="!submitted">
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </div>
         </div>
-        <div>
+        <div [hidden]="submitted">
             <mat-grid-list cols="6">
                 <mat-grid-tile
                         *ngFor="let form_type of form_types"
@@ -25,11 +29,39 @@
                             <p>
                                 {{ form_type.text }}
                             </p>
-                            <button mat-button type="submit" [id]="form_type.id" (click)="onClick(form_type.id)" name="form-submit">Create Form</button>
+                            <button mat-raised-button color="primary" type="submit" [id]="form_type.id"
+                                    (click)="onClick(form_type.id)" name="form-submit">Create Form
+                            </button>
                         </mat-card-content>
                     </mat-card>
                 </mat-grid-tile>
             </mat-grid-list>
         </div>
     </form>
+</div>
+<div *ngIf="form_action_type == 'edit'">
+    <div>
+        <mat-form-field>
+            <input matInput required placeholder="Form Name"
+                   [ngModel]="edit_form_title" (ngModelChange)="check_title_check($event)">
+        </mat-form-field>
+        <span *ngIf="empty_field">Form title is important to identify your form</span>
+    </div>
+    <div>
+        <mat-grid-list cols="6">
+            <mat-grid-tile
+                    *ngFor="let form_type of form_types"
+                    [colspan]="form_type.cols"
+                    [rowspan]="form_type.rows"
+                    [style.background]="form_type.color">
+                <mat-card>
+                    <mat-card-content>
+                        <p>
+                            {{ form_type.text }}
+                        </p>
+                    </mat-card-content>
+                </mat-card>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </div>
 </div>

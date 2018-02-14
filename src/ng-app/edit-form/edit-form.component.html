@@ -130,7 +130,8 @@
             <mat-card-content>
                 <mat-form-field *ngIf="active_field_object.label != undefined">
                     <input matInput placeholder="Field Label" [(ngModel)]="active_field_object.label"
-                           [value]="active_field_object.label">
+                           [value]="active_field_object.label"
+                           (ngModelChange)="onFormValueUpdated($event)">
                 </mat-form-field>
                 <section *ngIf="active_field_object.choices != undefined && active_field_object.type == 'checkbox'">
                     <label>Choices</label>
@@ -144,7 +145,8 @@
                             <!--[ngModel]="get_choices_array(active_field_object.choices)[i]"-->
                             <!--(input)="update_choice_text($event, i, get_choices_array(active_field_object.choices))">-->
                             <input matInput
-                                   [(ngModel)]="choice.text">
+                                   [(ngModel)]="choice.text"
+                                   (ngModelChange)="onFormValueUpdated($event)">
                         </mat-form-field>
                         <mat-icon *ngIf="active_field_object.choices.length > 1"
                                   (click)="remove_a_checkbox_choice(active_field_object.choices, i)"
@@ -165,7 +167,8 @@
                                           (change)="update_choice_selected($event, i)">
                         </mat-radio-button>
                         <mat-form-field>
-                            <input matInput [(ngModel)]="choice.text">
+                            <input matInput [(ngModel)]="choice.text"
+                                   (ngModelChange)="onFormValueUpdated($event)">
                         </mat-form-field>
                         <mat-icon *ngIf="active_field_object.choices.length > 1"
                                   (click)="remove_a_choice(i)"
@@ -179,6 +182,7 @@
                 </section>
                 <mat-form-field *ngIf="active_field_object.description != undefined">
                     <textarea matInput [(ngModel)]="fieldDescription"
+                              (ngModelChange)="onFormValueUpdated($event)"
                               placeholder="Field Description"></textarea>
                 </mat-form-field>
                 <mat-checkbox *ngIf="active_field_object.required != undefined"
@@ -188,6 +192,7 @@
                 <mat-form-field *ngIf="active_field_object.placeholder != undefined">
                     <input matInput placeholder="Placeholder Text"
                            [(ngModel)]="active_field_object.placeholder"
+                           (ngModelChange)="onFormValueUpdated($event)"
                            [value]="active_field_object.placeholder">
                 </mat-form-field>
                 <section *ngIf="active_field_object.position != undefined">
@@ -205,15 +210,18 @@
                 <mat-form-field
                         *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'text'">
                     <input matInput placeholder="Default Value"
-                           [(ngModel)]="active_field_object.default_value">
+                           [(ngModel)]="active_field_object.default_value"
+                           (ngModelChange)="onFormValueUpdated($event)">
                 </mat-form-field>
                 <mat-form-field
                         *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'textarea'">
                     <textarea matInput [(ngModel)]="fieldDefaultValue"
+                              (ngModelChange)="onFormValueUpdated($event)"
                               placeholder="Default Value"></textarea>
                 </mat-form-field>
                 <mat-form-field *ngIf="active_field_object.classes != undefined">
-                    <textarea matInput placeholder="Class Name" [(ngModel)]="fieldClasses"></textarea>
+                    <textarea matInput placeholder="Class Name" [(ngModel)]="fieldClasses"
+                              (ngModelChange)="onFormValueUpdated($event)"></textarea>
                 </mat-form-field>
             </mat-card-content>
         </mat-card>

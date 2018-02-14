@@ -8,24 +8,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
-//import { FormsViewComponent } from './forms/forms.component';
-import { EmailViewComponent } from './email/email.component';
-import { MessageViewComponent } from './message/message.component';
-import { SettingsViewComponent } from './settings/settings.component';
-import { AdditionalSettingsViewComponent } from './additional-settings/additional-settings.component';
-//import { FormListViewComponent } from './forms/form-list/form-list.component';
-//import { AddFormViewComponent } from './forms/form-list/add-form/add-form.component';
-//import { AllFormsViewComponent } from './forms/form-list/all-forms/all-forms.component';
-//import { TextFieldViewComponent, TextfieldSettingsDialog } from './forms/form-list/form-fields/textfield/textfield.component';
-//import { TextAreaViewComponent, TextareaSettingsDialog } from './forms/form-list/form-fields/textarea/textarea.component';
-//import { EmailFieldViewComponent, EmailfieldSettingsDialog } from './forms/form-list/form-fields/emailfield/emailfield.component';
-//import { NumberFieldViewComponent, NumberfieldSettingsDialog } from './forms/form-list/form-fields/numberfield/numberfield.component';
-//import { RadioButtonViewComponent, RadiobuttonSettingsDialog } from './forms/form-list/form-fields/radiobutton/radiobutton.component';
-//import { CheckboxViewComponent, CheckboxSettingsDialog } from './forms/form-list/form-fields/checkbox/checkbox.component';
-// import { DragTextFieldDirective, DropFieldsDirective } from './forms/form-list/add-form/add-form.directives';
-
-//import {MatDialogModule, MatTabsModule, MatInputModule, MatButtonModule, MatRadioModule, MatListModule, MatCardModule, MatCheckboxModule, MatIconModule} from '@angular/material';
-
+import { SettingsComponent } from './settings/settings.component';
 import {FormSetupComponent} from './form-setup/form-setup.component';
 
 import {MatInputModule} from '@angular/material/input';
@@ -38,16 +21,17 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 import {DragulaModule} from 'ng2-dragula/ng2-dragula';
 import {EditFormComponent} from "./edit-form/edit-form.component";
-//import {AddFormService} from "./forms/form-list/add-form/add-form.service";
-//import {AddFormDirective} from "./forms/form-list/add-form/add-form.directives";
+import {FormSettingsComponent} from "./form-settings/form-settings.component";
 
 @NgModule({
     bootstrap: [
         AppComponent,
-        // CheckboxSettingsDialog
     ],
     imports: [
         RouterModule,
@@ -65,26 +49,17 @@ import {EditFormComponent} from "./edit-form/edit-form.component";
         MatChipsModule,
         MatCheckboxModule,
         MatRadioModule,
-        //MdIconModule,
-        //MdDialogModule,
-        //MdTabsModule,
-        //MdInputModule,
-        //MdButtonModule,
-        //MdCardModule,
-        //MdListModule,
-        //MdRadioModule,
-        //MdCheckboxModule,
+        MatButtonModule,
+        MatDividerModule,
+        MatProgressBarModule,
         BrowserAnimationsModule
     ],
     declarations: [
         AppComponent,
-        //FormsViewComponent,
-        EmailViewComponent,
-        MessageViewComponent,
-        SettingsViewComponent,
-        AdditionalSettingsViewComponent,
+        SettingsComponent,
         FormSetupComponent,
-        EditFormComponent
+        EditFormComponent,
+        FormSettingsComponent
     ],
     entryComponents: [
         FormSetupComponent
