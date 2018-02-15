@@ -22,14 +22,18 @@ export class AppComponent implements AfterViewChecked {
 
     //private check_data_loaded:boolean = false;
 
-    private blank_fields: any;
-    private basic_fields: any;
-    private default_form_settings: any;
+    private blank_fields:any;
+    private basic_fields:any;
+    private default_form_settings:any;
 
-    private form_title: string;
+    private form_title:string;
 
-    private updated_form_fields: any;
-    private updated_form_settings: any;
+    private updated_form_fields:any;
+    private updated_form_settings:any;
+    private load_update_form_spinner: boolean = false;
+    private load_update_global_settings_spinner: boolean = false;
+    private default_global_settings: any;
+    private global_settings: any;
 
     public constructor(public elementRef:ElementRef) {
         let native_element = this.elementRef.nativeElement;
@@ -142,19 +146,74 @@ export class AppComponent implements AfterViewChecked {
             confirmation_email_message: 'Thanks for contacting us! We will be in touch with you shortly.'
         };
 
+        this.default_global_settings = {
+            text_message: '* Please enter text',
+            number_message: '* Please enter number',
+            confirm_number_message: '* Please enter only number',
+            email_message: '* Please enter email address',
+        };
+
+        if (sessionStorage.getItem("ng_global_settings") === null) {
+            this.global_settings = this.default_global_settings;
+        } else{
+            this.global_settings = JSON.parse(sessionStorage.getItem("ng_global_settings"));
+        }
+
         //sessionStorage.setItem('ng_default_form_settings', JSON.stringify(this.default_form_settings));
     }
 
-    private on_form_title_changes(form_title: string){
+    private save_global_settings_updates(){
+        this.load_update_global_settings_spinner = true;
+        var wp = new WPAPI({
+            endpoint: this.endpoint,
+            nonce: this.nonce
+        });
+        wp.forms = wp.registerRoute('angular-forms/v1', 'update-global-settings/', {
+            params: ['genre']
+        });
+        wp.forms().create({
+            global_settings: JSON.stringify(this.global_settings)
+        }).then(function (response) {
+            this.load_update_global_settings_spinner = false;
+        }.bind(this))
+    }
+
+    private on_global_settings_changes(global_settings: any){
+        this.global_settings = global_settings;
+        console.log(this.global_settings);
+    }
+
+    private save_form_updates() {
+        this.load_update_form_spinner = true;
+        var loaded_spinner = this.load_update_form_spinner;
+        var wp = new WPAPI({
+            endpoint: this.endpoint,
+            nonce: this.nonce
+        });
+        wp.forms = wp.registerRoute('angular-forms/v1', 'update-post/', {
+            params: ['genre']
+        });
+        wp.forms().create({
+            form_id: this.form_id,
+            form_title: this.form_title,
+            form_fields: JSON.stringify(this.updated_form_fields),
+            form_settings: JSON.stringify(this.updated_form_settings)
+        }).then(function (response) {
+            console.log(response);
+            this.load_update_form_spinner = false;
+        }.bind(this))
+    }
+
+    private on_form_title_changes(form_title:string) {
         this.form_title = form_title;
     }
 
-    private on_edit_form_updated(form_fields: any){
+    private on_edit_form_updated(form_fields:any) {
         this.updated_form_fields = form_fields;
         console.log(this.updated_form_fields);
     }
 
-    private on_form_settings_updated(settings_data: any){
+    private on_form_settings_updated(settings_data:any) {
         this.updated_form_settings = settings_data;
         console.log(this.updated_form_settings);
     }

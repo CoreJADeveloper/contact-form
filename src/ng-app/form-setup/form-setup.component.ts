@@ -199,6 +199,7 @@ export class FormSetupComponent implements OnInit {
             this.edit_form_type = sessionStorage.getItem('ng_form_type');
         } else {
             this.form_action_mode = 'add';
+
         }
     }
 

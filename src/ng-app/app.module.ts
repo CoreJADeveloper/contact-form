@@ -24,6 +24,8 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import {DragulaModule} from 'ng2-dragula/ng2-dragula';
 import {EditFormComponent} from "./edit-form/edit-form.component";
@@ -52,6 +54,8 @@ import {FormSettingsComponent} from "./form-settings/form-settings.component";
         MatButtonModule,
         MatDividerModule,
         MatProgressBarModule,
+        MatToolbarModule,
+        MatProgressSpinnerModule,
         BrowserAnimationsModule
     ],
     declarations: [

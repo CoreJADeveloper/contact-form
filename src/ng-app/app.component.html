@@ -9,13 +9,25 @@
                                        [default_form_settings]="default_form_settings"
                                        [endpoint]="endpoint"
                                        [nonce]="nonce"
-                                       [default_form_action]="component_type"></ng-form-setup>
+                                       [default_form_action]="component_type">
+                        </ng-form-setup>
                     </mat-tab>
                 </mat-tab-group>
             </mat-card-content>
         </mat-card>
     </div>
     <div *ngIf="component_type == 'edit'">
+        <mat-progress-bar mode="indeterminate" *ngIf="load_update_form_spinner" color="accent"></mat-progress-bar>
+        <mat-toolbar color="primary">
+            <mat-toolbar-row>
+                <span>ngContact Form</span>
+                <span></span>
+                <div>
+                    <button mat-raised-button color="accent"
+                            (click)="save_form_updates()">Save</button>
+                </div>
+            </mat-toolbar-row>
+        </mat-toolbar>
         <mat-card>
             <mat-card-content>
                 <mat-tab-group [selectedIndex]="selectedTab">
@@ -41,11 +53,24 @@
         </mat-card>
     </div>
     <div *ngIf="component_type == 'settings'">
+        <mat-progress-bar mode="indeterminate" *ngIf="load_update_global_settings_spinner" color="accent"></mat-progress-bar>
+        <mat-toolbar color="primary">
+            <mat-toolbar-row>
+                <span>ngContact Form</span>
+                <span></span>
+                <div>
+                    <button mat-raised-button color="accent"
+                            (click)="save_global_settings_updates()">Save</button>
+                </div>
+            </mat-toolbar-row>
+        </mat-toolbar>
         <mat-card>
             <mat-card-content>
                 <mat-tab-group>
                     <mat-tab label="Form Validation">
-                        <ng-settings></ng-settings>
+                        <ng-settings
+                        [default_global_settings]="global_settings"
+                        (onGlobalSettingsChanges)="on_global_settings_changes($event)"></ng-settings>
                     </mat-tab>
                     <mat-tab disabled label="More to come">
                     </mat-tab>

@@ -66,9 +66,64 @@ class ngContactForm
                 }
             ));
         });
+
+        add_action('rest_api_init', function () {
+            register_rest_route('angular-forms/v1', '/update-post/', array(
+                'methods' => 'POST',
+                'callback' => array($this, 'update_post_data'),
+                'permission_callback' => function () {
+                    return current_user_can('edit_others_posts');
+                }
+            ));
+        });
+
+        add_action('rest_api_init', function () {
+            register_rest_route('angular-forms/v1', '/update-global-settings/', array(
+                'methods' => 'POST',
+                'callback' => array($this, 'update_global_settings'),
+                'permission_callback' => function () {
+                    return current_user_can('edit_others_posts');
+                }
+            ));
+        });
     }
 
-    public function get_created_post_data(WP_REST_Request $request){
+    public function update_global_settings(WP_REST_Request $request)
+    {
+        $parameters = $request->get_params();
+
+        $global_settings = $parameters['global_settings'];
+
+        update_option('ng_global_settings', $global_settings);
+
+        return 'success';
+    }
+
+    public function update_post_data(WP_REST_Request $request)
+    {
+        $parameters = $request->get_params();
+
+        $form_id = $parameters['form_id'];
+        $form_title = $parameters['form_title'];
+        $form_fields = $parameters['form_fields'];
+        $form_settings = $parameters['form_settings'];
+
+        $form_post = array(
+            'ID' => $form_id,
+            'post_title' => $form_title
+        );
+
+        wp_update_post($form_post);
+
+        update_post_meta($form_id, 'ng_default_form_type', $form_title);
+        update_post_meta($form_id, 'ng_form_fields', $form_fields);
+        update_post_meta($form_id, 'ng_form_settings', $form_settings);
+
+        return 'success';
+    }
+
+    public function get_created_post_data(WP_REST_Request $request)
+    {
         $parameters = $request->get_params();
 
         $form_id = $parameters['form_id'];
@@ -90,8 +145,8 @@ class ngContactForm
         $status = $parameters['status'];
         $meta = $parameters['meta'];
         $default_form_type = $meta['default_form_type'];
-        $form_fields= $meta['form_fields'];
-        $settings_data= $meta['settings_data'];
+        $form_fields = $meta['form_fields'];
+        $settings_data = $meta['settings_data'];
 
         $angular_form_post = array(
             'post_title' => $title,
@@ -213,7 +268,7 @@ EOF;
         global $endpoint;
         $form_id = $_GET['id'];
 
-        if (isset($form_id) && !empty($form_id) && get_post_status ( $form_id )) {
+        if (isset($form_id) && !empty($form_id) && get_post_status($form_id)) {
             $data['form_title'] = get_the_title($form_id);
             $data['form_type'] = get_post_meta($form_id, 'ng_default_form_type', true);
             $data['form_fields'] = get_post_meta($form_id, 'ng_form_fields', true);
@@ -226,7 +281,7 @@ EOF;
                 sessionStorage.setItem('ng_form_fields', '<?php echo html_entity_decode($data['form_fields'])?>');
                 sessionStorage.setItem('ng_settings_data', '<?php echo html_entity_decode($data['settings_data'])?>');
             </script>
-            <contact-form type="edit" form_id="<?php echo $form_id?>" endpoint="<?php echo $endpoint ?>"
+            <contact-form type="edit" form_id="<?php echo $form_id ?>" endpoint="<?php echo $endpoint ?>"
                           nonce="<?php echo wp_create_nonce('wp_rest') ?>">
                 Loading....
             </contact-form>
@@ -252,8 +307,15 @@ EOF;
     public function angular_settings()
     {
         global $endpoint;
-        ?>
-        <contact-form type="settings" endpoint="<?php echo $endpoint ?>" nonce="<?php echo wp_create_nonce('wp_rest') ?>">
+        if (get_option('ng_global_settings') != false) {
+            ?>
+            <script>
+                sessionStorage.setItem('ng_global_settings', '<?php echo html_entity_decode(get_option('ng_global_settings'))?>');
+                console.log(sessionStorage.getItem('ng_global_settings'));
+            </script>
+        <?php } ?>
+        <contact-form type="settings" endpoint="<?php echo $endpoint ?>"
+                      nonce="<?php echo wp_create_nonce('wp_rest') ?>">
             Loading....
         </contact-form>
         <?php

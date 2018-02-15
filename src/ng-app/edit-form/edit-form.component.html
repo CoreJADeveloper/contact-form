@@ -220,8 +220,11 @@
                               placeholder="Default Value"></textarea>
                 </mat-form-field>
                 <mat-form-field *ngIf="active_field_object.classes != undefined">
-                    <textarea matInput placeholder="Class Name" [(ngModel)]="fieldClasses"
-                              (ngModelChange)="onFormValueUpdated($event)"></textarea>
+                    <input matInput placeholder="Class Name"
+                           [(ngModel)]="fieldClasses"
+                           (ngModelChange)="onFormValueUpdated($event)">
+                    <!--<textarea matInput placeholder="Class Name" [(ngModel)]="fieldClasses"-->
+                              <!--(ngModelChange)="onFormValueUpdated($event)"></textarea>-->
                 </mat-form-field>
             </mat-card-content>
         </mat-card>
