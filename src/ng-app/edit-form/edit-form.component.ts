@@ -47,24 +47,30 @@ export class EditFormComponent {
         });
 
         dragulaService.drag.subscribe((value) => {
+            this.onFormInputChange.emit(this.form_fields);
             //this.onDrag(value.slice(1));
         });
         dragulaService.drop.subscribe((value) => {
+            this.onFormInputChange.emit(this.form_fields);
             // console.log(value);
             //this.onDrop(value.slice(1));
         });
         dragulaService.over.subscribe((value) => {
+            this.onFormInputChange.emit(this.form_fields);
             // this.onOver(value.slice(1));
             // console.log("over");
         });
         dragulaService.out.subscribe((value) => {
+            this.onFormInputChange.emit(this.form_fields);
             // this.onOut(value.slice(1));
             // console.log("out");
         });
         dragulaService.shadow.subscribe((value) => {
+            this.onFormInputChange.emit(this.form_fields);
             // this.onShadow(value.slice(1));
         });
         dragulaService.dragend.subscribe((value) => {
+            this.onFormInputChange.emit(this.form_fields);
             // this.onDragend(value.slice(1));
             // console.log("out");
             // this._shadow.remove();
