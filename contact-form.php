@@ -47,6 +47,7 @@ class ngContactForm
         add_action('init', array($this, 'register_contact_form_post_type'));
         add_action('admin_menu', array($this, 'admin_contact_form_menu'));
         add_action('init', array($this, 'add_short_code'));
+        add_action('wp_enqueue_scripts', array($this, 'ng_enqueue_script'));
 
         add_action('rest_api_init', function () {
             register_rest_route('angular-forms/v1', '/create-post/', array(
@@ -89,6 +90,11 @@ class ngContactForm
         });
     }
 
+    public function ng_enqueue_script()
+    {
+        wp_enqueue_script('angcf-script', ANGCF_PLUGIN_URL . 'dist/script.js');
+    }
+
     public function add_short_code()
     {
         add_shortcode('ngForms', array($this, 'generate_short_code_content'));
@@ -96,6 +102,8 @@ class ngContactForm
 
     public function generate_short_code_content($atts)
     {
+        wp_register_script('angcf-inline-script', ANGCF_PLUGIN_URL . 'dist/script.js', array('angcf-script'), false, true);
+        wp_enqueue_script('angcf-inline-script');
         $short_code_atts = shortcode_atts(array(
             'id' => 0
         ), $atts);
@@ -106,49 +114,56 @@ class ngContactForm
             return false;
 
         $form_fields = html_entity_decode(get_post_meta($form_id, 'ng_form_fields', true));
-//        $form_settings = get_post_meta($form_id, 'ng_form_settings', true);
+        $form_settings = html_entity_decode(get_post_meta($form_id, 'ng_form_settings', true));
 
         $form_fields_array = json_decode($form_fields);
+        $form_fields_settings = json_decode($form_settings);
 
         ob_start();
 
-//        echo '<pre>';
-//        print_r($form_fields_array);
-//        echo '</pre>';
+        echo '<pre>';
+        print_r($form_fields_settings);
+        echo '</pre>';
+
+        if (isset($form_fields_settings->form_name) && !empty($form_fields_settings->form_name)) {
+            echo <<<EOV
+            <h3>{$form_fields_settings->form_name}</h3>
+EOV;
+        }
 
         echo <<<EOY
-            <form action='#' method='post'>
+            <form action='#' method='post' class='{$form_fields_settings->form_css_classes} ng-contact-form-submit'>
 EOY;
 
 
         foreach ($form_fields_array as $key => $field) {
             switch ($field->type) {
                 case 'text':
-                    echo $this->generate_text_field($field);
+                    echo $this->generate_text_field($key, $field);
                     break;
 
                 case 'textarea':
-                    echo $this->generate_textarea_field($field);
+                    echo $this->generate_textarea_field($key, $field);
                     break;
 
                 case 'email':
-                    echo $this->generate_email_field($field);
+                    echo $this->generate_email_field($key, $field);
                     break;
 
                 case 'number':
-                    echo $this->generate_number_field($field);
+                    echo $this->generate_number_field($key, $field);
                     break;
 
                 case 'checkbox':
-                    echo $this->generate_checkbox_field($field);
+                    echo $this->generate_checkbox_field($key, $field);
                     break;
 
                 case 'radio':
-                    echo $this->generate_radio_field($field);
+                    echo $this->generate_radio_field($key, $field);
                     break;
 
                 case 'select':
-                    echo $this->generate_select_field($field);
+                    echo $this->generate_select_field($key, $field);
                     break;
 
                 case 'submit':
@@ -161,10 +176,19 @@ EOY;
             </form>
 EOY;
 
+        $custom_form_submission = "
+document.getElementsByClassName('ng-contact-form-submit')[0].addEventListener('submit', function (e) {
+            e.preventDefault();
+
+        });
+        ";
+
+        wp_add_inline_script('angcf-inline-script', $custom_form_submission);
+
         return ob_get_clean();
     }
 
-    private function generate_text_field($field_object)
+    private function generate_text_field($key, $field_object)
     {
         if ($field_object->required) {
             $required = 'required';
@@ -194,7 +218,7 @@ EOD;
                     <input type='text'
                     placeholder='{$field_object->placeholder}'
                     class='{$field_object->built_classes} {$field_object->classes}'
-                    {$required} name='ng-field[]'
+                    {$required} name='ng-field[ng-field-{$key}]'
                     value='{$field_object->default_value}' />
                     </div>
 EOF;
@@ -204,7 +228,7 @@ EOF;
                     <input type='text'
                     placeholder='{$field_object->placeholder}'
                     class='{$field_object->classes}'
-                    {$required} name='ng-field[]'
+                    {$required} name='ng-field[ng-field-{$key}]'
                     value='{$field_object->default_value}' />
                     </div>
 EOF;
@@ -213,7 +237,7 @@ EOF;
         return $field_html_label . $field_html_input;
     }
 
-    private function generate_textarea_field($field_object)
+    private function generate_textarea_field($key, $field_object)
     {
         if ($field_object->required) {
             $required = 'required';
@@ -243,7 +267,7 @@ EOD;
                     <textarea
                     placeholder='{$field_object->placeholder}'
                     class='{$field_object->built_classes} {$field_object->classes}'
-                    {$required} name='ng-field[]'>{$field_object->default_value}</textarea>
+                    {$required} name='ng-field[ng-field-{$key}]'>{$field_object->default_value}</textarea>
                     </div>
 EOF;
         } else {
@@ -252,7 +276,7 @@ EOF;
                     <textarea
                     placeholder='{$field_object->placeholder}'
                     class='{$field_object->classes}'
-                    {$required} name='ng-field[]'>{$field_object->default_value}</textarea>
+                    {$required} name='ng-field[ng-field-{$key}]'>{$field_object->default_value}</textarea>
                     </div>
 EOF;
         }
@@ -261,7 +285,7 @@ EOF;
 
     }
 
-    private function generate_email_field($field_object)
+    private function generate_email_field($key, $field_object)
     {
         if ($field_object->required) {
             $required = 'required';
@@ -291,7 +315,7 @@ EOD;
                     <input type='email'
                     placeholder='{$field_object->placeholder}'
                     class='{$field_object->built_classes} {$field_object->classes}'
-                    {$required} name='ng-field[]'
+                    {$required} name='ng-field[ng-field-{$key}]'
                     value='{$field_object->default_value}' />
                     </div>
 EOF;
@@ -301,7 +325,7 @@ EOF;
                     <input type='email'
                     placeholder='{$field_object->placeholder}'
                     class='{$field_object->classes}'
-                    {$required} name='ng-field[]'
+                    {$required} name='ng-field[ng-field-{$key}]'
                     value='{$field_object->default_value}' />
                     </div>
 EOF;
@@ -310,7 +334,7 @@ EOF;
         return $field_html_label . $field_html_input;
     }
 
-    private function generate_number_field($field_object)
+    private function generate_number_field($key, $field_object)
     {
         if ($field_object->required) {
             $required = 'required';
@@ -340,7 +364,7 @@ EOD;
                     <input type='number'
                     placeholder='{$field_object->placeholder}'
                     class='{$field_object->built_classes} {$field_object->classes}'
-                    {$required} name='ng-field[]'
+                    {$required} name='ng-field[ng-field-{$key}]'
                     value='{$field_object->default_value}' />
                     </div>
 EOF;
@@ -350,7 +374,7 @@ EOF;
                     <input type='number'
                     placeholder='{$field_object->placeholder}'
                     class='{$field_object->classes}'
-                    {$required} name='ng-field[]'
+                    {$required} name='ng-field[ng-field-{$key}]'
                     value='{$field_object->default_value}' />
                     </div>
 EOF;
@@ -359,7 +383,7 @@ EOF;
         return $field_html_label . $field_html_input;
     }
 
-    private function generate_checkbox_field($field_object)
+    private function generate_checkbox_field($array_key, $field_object)
     {
         if ($field_object->required) {
             $required = 'required';
@@ -398,7 +422,7 @@ EOD;
                     <input type='checkbox'
                     class='{$field_object->built_classes} {$field_object->classes}'
                     {$checked}
-                    {$required} name='ng-field[]' />{$choice->text}</label>
+                    {$required} name='ng-field[ng-field-{$array_key}]' />{$choice->text}</label>
                     </div>
 EOF;
             } else {
@@ -408,16 +432,61 @@ EOF;
                     <input type='checkbox'
                     class='{$field_object->built_classes} {$field_object->classes}'
                     {$checked}
-                    {$required} name='ng-field[]' />{$choice->text}</label>
+                    {$required} name='ng-field[ng-field-{$array_key}]' />{$choice->text}</label>
                     </div>
 EOF;
             }
         }
 
+        if ($required == 'required') {
+            $checkbox_required = "
+        var checkbox_elements = document.getElementsByName('ng-field[ng-field-" . $array_key . "]');
+
+        for (let el of checkbox_elements) {
+          if (el.checked === true) {
+            remove_required_attribute(checkbox_elements);
+            break;
+          }
+
+          el.addEventListener( 'change', function() {
+            if(this.checked) {
+                remove_required_attribute(checkbox_elements);
+            } else {
+                check_required_attribute_checked(checkbox_elements);
+            }
+          });
+        }
+
+        function check_required_attribute_checked(checkbox_elements){
+          for (let el of checkbox_elements) {
+            if (el.checked === true) {
+                remove_required_attribute(checkbox_elements);
+                break;
+            } else{
+                add_required_attribute(checkbox_elements);
+            }
+          }
+        }
+
+        function remove_required_attribute(checkbox_elements){
+            for (let el of checkbox_elements) {
+              el.required = false;
+            }
+        }
+
+        function add_required_attribute(checkbox_elements){
+            for (let el of checkbox_elements) {
+              el.required = true;
+            }
+        }
+        ";
+            wp_add_inline_script('angcf-inline-script', $checkbox_required);
+        }
+
         return $field_html_label . $field_html_input;
     }
 
-    private function generate_radio_field($field_object)
+    private function generate_radio_field($array_key, $field_object)
     {
         if ($field_object->required) {
             $required = 'required';
@@ -457,7 +526,7 @@ EOD;
                     <input type='radio'
                     class='{$field_object->built_classes} {$field_object->classes}'
                     {$checked}
-                    {$required} name='ng-field[]' />{$choice->text}</label>
+                    {$required} name='ng-field[ng-field-{$array_key}]' />{$choice->text}</label>
                     </div>
 EOF;
             } else {
@@ -467,7 +536,7 @@ EOF;
                     <input type='radio'
                     class='{$field_object->built_classes} {$field_object->classes}'
                     {$checked}
-                    {$required} name='ng-field[]' />{$choice->text}</label>
+                    {$required} name='ng-field[ng-field-{$array_key}]' />{$choice->text}</label>
                     </div>
 EOF;
             }
@@ -476,7 +545,7 @@ EOF;
         return $field_html_label . $field_html_input;
     }
 
-    private function generate_select_field($field_object)
+    private function generate_select_field($array_key, $field_object)
     {
         if ($field_object->required) {
             $required = 'required';
@@ -519,7 +588,7 @@ EOL;
                     <span><span class='required-field-class'>*</span></span>
                     <select
                     class='{$field_object->built_classes} {$field_object->classes}'
-                    {$required} name='ng-field[]'>{$field_html_options}</select>
+                    {$required} name='ng-field[ng-field-{$array_key}]'>{$field_html_options}</select>
                     </div>
 EOF;
         } else {
@@ -527,7 +596,7 @@ EOF;
                     <div class={$field_object->built_classes}>
                     <select
                     class='{$field_object->built_classes} {$field_object->classes}'
-                    {$required} name='ng-field[]'>{$field_html_options}</select>
+                    {$required} name='ng-field[ng-field-{$array_key}]'>{$field_html_options}</select>
                     </div>
 EOF;
         }
