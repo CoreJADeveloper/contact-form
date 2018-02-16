@@ -179,7 +179,7 @@ class ngForms_Listing_Table extends WP_List_Table
         // Preview
         $row_actions['preview_'] = sprintf(
             '<a href="%s" title="%s" target="_blank" rel="noopener">%s</a>',
-            esc_url(wpforms()->preview->form_preview_url($form->ID)),
+            esc_url($this->form_preview_url($form->ID)),
             __('View preview', 'ngForms'),
             __('Preview', 'ngForms')
         );
@@ -210,7 +210,7 @@ class ngForms_Listing_Table extends WP_List_Table
                         'action' => 'delete',
                         'form_id' => $form->ID,
                     ),
-                    admin_url('admin.php?page=wpforms-overview')
+                    admin_url('admin.php?page=ng-forms')
                 ),
                 'ng_forms_delete_form_nonce'
             ),
@@ -222,6 +222,28 @@ class ngForms_Listing_Table extends WP_List_Table
         $value = $name . $this->row_actions($row_actions);
 
         return apply_filters('ng_forms_overview_row_actions', $value, $form);
+    }
+
+    public function form_preview_url( $form_id ) {
+
+        $id = get_option( 'ngContact_form_preview_page' );
+
+        if ( ! $id ) {
+            return home_url();
+        }
+
+        $url = get_permalink( $id );
+
+        if ( ! $url ) {
+            return home_url();
+        }
+
+        return add_query_arg(
+            array(
+                'form_id'         => absint( $form_id ),
+            ),
+            $url
+        );
     }
 
     /**
@@ -335,7 +357,7 @@ class ngForms_Listing_Table extends WP_List_Table
     public function no_items()
     {
 
-        printf(__('No form created yet, <a href="%s">let\'s make a party</a>?', 'wpforms'), admin_url('admin.php?page=ng-add-form'));
+        printf(__('No form created yet, <a href="%s">let\'s create a form</a>?', 'wpforms'), admin_url('admin.php?page=ng-add-form'));
     }
 
     /**

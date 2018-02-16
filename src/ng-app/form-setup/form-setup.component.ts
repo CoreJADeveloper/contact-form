@@ -190,6 +190,7 @@ export class FormSetupComponent implements OnInit {
         this.basic_fields = this.default_basic_fields;
         this.blank_fields = this.default_blank_fields;
         this.settings_data = this.default_form_settings;
+        console.log(this.settings_data);
         this.form_action_type = this.default_form_action;
 
         if (this.form_action_type == 'edit') {

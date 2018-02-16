@@ -43,7 +43,8 @@
     <div>
         <mat-form-field>
             <input matInput required placeholder="Form Name"
-                   [ngModel]="edit_form_title" (ngModelChange)="check_title_check($event)">
+                   [ngModel]="edit_form_title"
+                   (ngModelChange)="check_title_check($event)">
         </mat-form-field>
         <span *ngIf="empty_field">Form title is important to identify your form</span>
     </div>

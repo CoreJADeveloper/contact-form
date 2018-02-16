@@ -5,6 +5,11 @@
  * Author: Tauhidul Alam
  * Description: A contact form :(
  */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 class ngContactForm
 {
     protected static $_instance = null;
@@ -89,33 +94,128 @@ class ngContactForm
                 }
             ));
         });
+
+        add_filter('the_posts', array($this, 'ng_load_contact_form_preview'), 10, 2);
+
+        register_activation_hook(__FILE__, array($this, 'ng_create_preview_page'));
     }
 
-    public function ng_process_contact_email(){
+    public function ng_load_contact_form_preview($posts, $query)
+    {
+        if (!is_user_logged_in() || !current_user_can('manage_options')) {
+            return $posts;
+        }
+
+        if (!$query->is_main_query()) {
+            return $posts;
+        }
+
+        $id = absint(get_option('ngContact_form_preview_page'));
+
+        $queried = $query->get_queried_object_id();
+        if (
+            $queried &&
+            $queried !== $id &&
+            isset($query->query_vars['page_id']) &&
+            $id != $query->query_vars['page_id']
+        ) {
+            return $posts;
+        }
+
+        $form_id = $_GET['form_id'];
+
+        if(!get_post_status($form_id))
+            return $posts;
+
+        $shortcode = ! empty( $form_id ) ? '[ngForms id="' . $form_id . '"]' : '';
+        $content   = __( 'This is a preview of ngContact form. This page is not publicly accessible.', 'ngForms' );
+
+        $posts[0]->post_content = $content . $shortcode;
+        $posts[0]->post_status  = 'public';
+
+        return $posts;
+    }
+
+    public function ng_create_preview_page()
+    {
+        $preview_page = array(
+            'post_title' => wp_strip_all_tags('ngContact Form Preview'),
+            'post_content' => 'This is a private page of ngContact Form. Please don\'t delete the page.',
+            'post_status' => 'private',
+            'post_author' => 1,
+            'post_type' => 'page',
+        );
+
+        $page_id = wp_insert_post($preview_page);
+
+        update_option('ngContact_form_preview_page', $page_id);
+    }
+
+    public function ng_process_contact_email()
+    {
         unset($_POST['action']);
 
         $form_id = $_POST['form_id'];
         unset($_POST['form_id']);
 
         $form_fields = html_entity_decode(get_post_meta($form_id, 'ng_form_fields', true));
+        $form_settings = html_entity_decode(get_post_meta($form_id, 'ng_form_settings', true));
 
         $form_fields_array = json_decode($form_fields);
+        $form_settings_object = json_decode($form_settings);
 
-//        echo json_encode($form_fields_array);
-//        die;
+        $form_fields_info = '';
 
-        foreach ($_POST as $value_array){
+        $user_email = '';
+
+        foreach ($_POST as $value_array) {
             $index_count = 0;
-            foreach ($value_array as $key=>$value){
-                echo $form_fields_array[$index_count]->label.': '.$value. "\n";
-//                echo $form_fields_array[$key]->label;
-//                echo json_encode($form_fields_array[$key]);
-//                echo '<pre>';
-//                print_r($form_fields_array[$index_count]);
-//                echo '</pre>';
+            foreach ($value_array as $key => $value) {
+                $form_fields_info .= $form_fields_array[$index_count]->label . ': ' . $value . "\n";
+
+                if ($form_fields_array[$index_count]->type == 'email') {
+                    $user_email = $value;
+                }
                 $index_count++;
             }
         }
+
+        $send_to_email = $form_settings_object->send_to_email;
+        $send_to_email = str_replace('{admin_email}', strval(get_bloginfo('admin_email')), $send_to_email);
+
+        $email_subject = $form_settings_object->email_subject;
+        $email_subject = str_replace('{site_title}', strval(get_bloginfo('name')), $email_subject);
+
+        $user_info = get_userdata(1);
+
+        $from_name = $form_settings_object->from_name;
+        $from_name = str_replace('{admin_name}', strval($user_info->user_login), $from_name);
+
+        $from_email = $form_settings_object->from_email;
+        $from_email = str_replace('{admin_email}', strval(get_bloginfo('admin_email')), $from_email);
+
+        $reply_to = $form_settings_object->reply_to;
+        $reply_to = str_replace('{admin_email}', strval(get_bloginfo('admin_email')), $reply_to);
+
+        $message = $form_settings_object->message;
+        $message = str_replace('{form-fields}', strval($form_fields_info), $message);
+
+        $name = $from_name;
+        $email = $from_email;
+        $subject = $email_subject;
+        $to = $send_to_email;
+        $headers = 'From: ' . $reply_to . "\r\n" .
+            'Reply-To: ' . $reply_to . "\r\n" .
+            'X-Mailer: PHP/' . phpversion();
+
+        mail($to, $subject, $message, $headers, "From: " . $name);
+
+        if ($user_email != '' && $form_settings_object->send_confirmation_email) {
+            $confirmation_email_message = $form_settings_object->confirmation_email_message;
+
+            mail($user_email, $subject, $confirmation_email_message);
+        }
+
         die();
     }
 
@@ -131,8 +231,6 @@ class ngContactForm
 
     public function generate_short_code_content($atts)
     {
-        wp_register_script('angcf-inline-script', ANGCF_PLUGIN_URL . 'dist/script.js', array('angcf-script'), false, true);
-        wp_enqueue_script('angcf-inline-script');
         $short_code_atts = shortcode_atts(array(
             'id' => 0
         ), $atts);
@@ -142,6 +240,9 @@ class ngContactForm
         if ($form_id == 0)
             return false;
 
+        wp_register_script('angcf-inline-script', ANGCF_PLUGIN_URL . 'dist/script.js', array('angcf-script'), false, true);
+        wp_enqueue_script('angcf-inline-script');
+
         $form_fields = html_entity_decode(get_post_meta($form_id, 'ng_form_fields', true));
         $form_settings = html_entity_decode(get_post_meta($form_id, 'ng_form_settings', true));
 
@@ -150,9 +251,9 @@ class ngContactForm
 
         ob_start();
 
-        echo '<pre>';
-        print_r($form_fields_settings);
-        echo '</pre>';
+//        echo '<pre>';
+//        print_r($form_fields_settings);
+//        echo '</pre>';
 
         if (isset($form_fields_settings->form_name) && !empty($form_fields_settings->form_name)) {
             echo <<<EOV
@@ -214,9 +315,9 @@ document.getElementsByClassName('ng-contact-form-submit')[0].addEventListener('s
             let submit_button_element = document.getElementsByClassName('ng-contact-form-submit-button')[0];
             let submit_button_text = submit_button_element.value;
 
-            submit_button_element.value = '".$form_fields_settings->submit_button_processing_text."';
+            submit_button_element.value = '" . $form_fields_settings->submit_button_processing_text . "';
 
-            let url = '".admin_url('admin-ajax.php')."';
+            let url = '" . admin_url('admin-ajax.php') . "';
             let type = 'POST';
 
             let post_data = urlencodedFormData(new FormData(e.target));
@@ -259,9 +360,10 @@ document.getElementsByClassName('ng-contact-form-submit')[0].addEventListener('s
 
             // Response handlers.
             xhr.onload = function () {
-                let responseText = xhr.responseText;
-                let responseObject = JSON.parse(responseText);
+                //let responseText = xhr.responseText;
+                //let responseObject = JSON.parse(responseText);
                 document.getElementsByClassName('ng-contact-form-submit-button')[0].value = submit_button_text;
+                reset_form();
             };
 
             xhr.onerror = function () {
@@ -269,6 +371,10 @@ document.getElementsByClassName('ng-contact-form-submit')[0].addEventListener('s
             };
 
             xhr.send(post_data);
+        }
+
+        function reset_form() {
+            document.getElementsByClassName('ng-contact-form-submit')[0].reset();
         }
         ";
 
@@ -711,41 +817,6 @@ EOF;
         return $field_html_submit;
     }
 
-//    private function angcf_locate_template_part($template_name, $args = array(), $template_path = '', $default_path = '')
-//    {
-//        if (is_array($args) && isset($args)) :
-//            extract($args);
-//        endif;
-//
-//        $template_file = $this->angcf_locate_template($template_name, $template_path, $default_path);
-//
-//
-//        include $template_file;
-//    }
-//
-//    private function angcf_locate_template($template_name, $template_path = '', $default_path = '')
-//    {
-//        if (!$template_path) :
-//            $template_path = 'templates/';
-//        endif;
-//
-//        if (!$default_path) :
-//            $default_path = ANGCF_PLUGIN_URL . 'templates/';
-//        endif;
-//
-//        $template = locate_template(array(
-//            $template_path . $template_name,
-//            $template_name
-//        ));
-//
-//        if (!$template) :
-//            $template = $default_path . $template_name;
-//        endif;
-//
-//        return apply_filters('angcf_locate_template', $template, $template_name, $template_path, $default_path);
-//    }
-
-
     public function update_global_settings(WP_REST_Request $request)
     {
         $parameters = $request->get_params();
@@ -896,13 +967,13 @@ EOF;
             __('Add Form', 'ngForms'),
             'manage_options', 'ng-add-form',
             array($this, 'angular_add_form'));
-        add_submenu_page(
-            'ng-forms',
-            __('ngContact Form', 'ngForms'),
-            __('Settings', 'ngForms'),
-            'manage_options',
-            'ng-settings',
-            array($this, 'angular_settings'));
+//        add_submenu_page(
+//            'ng-forms',
+//            __('ngContact Form', 'ngForms'),
+//            __('Settings', 'ngForms'),
+//            'manage_options',
+//            'ng-settings',
+//            array($this, 'angular_settings'));
         $edit_hook = add_submenu_page(
             null,
             __('ngContact Form', 'ngForms'),
@@ -949,6 +1020,12 @@ EOF;
 
     public function angular_forms()
     {
+        if(isset($_GET['action']) && isset($_GET['form_id']) && $_GET['action'] == 'delete' && isset($_GET['_wpnonce']) && wp_verify_nonce($_GET['_wpnonce'])){
+            $form_id = $_GET['form_id'];
+
+            wp_delete_post( $form_id );
+        }
+
         do_action('ng_forms_admin_page');
     }
 
@@ -957,7 +1034,9 @@ EOF;
         global $endpoint;
         ?>
         <contact-form type="add" endpoint="<?php echo $endpoint ?>" nonce="<?php echo wp_create_nonce('wp_rest') ?>">
-            Loading....
+            <div class="ng-content-loader">
+                Hello World
+            </div>
         </contact-form>
         <?php
     }

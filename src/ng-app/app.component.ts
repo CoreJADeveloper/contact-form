@@ -137,10 +137,10 @@ export class AppComponent implements AfterViewChecked {
             submit_button_processing_text: 'Please wait...',
             anti_span_honeybot: false,
             send_to_email: '{admin_email}',
-            email_subject: '',
-            from_name: '',
+            email_subject: '{site_title}',
+            from_name: '{admin_name}',
             from_email: '{admin_email}',
-            reply_to: '',
+            reply_to: '{admin_email}',
             message: '{form-fields}',
             send_confirmation_email: true,
             confirmation_email_message: 'Thanks for contacting us! We will be in touch with you shortly.'
