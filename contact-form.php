@@ -48,6 +48,7 @@ class ngContactForm
         add_action('admin_menu', array($this, 'admin_contact_form_menu'));
         add_action('init', array($this, 'add_short_code'));
         add_action('wp_enqueue_scripts', array($this, 'ng_enqueue_script'));
+        add_action('wp_ajax_send-ng-contact-email', array($this, 'ng_process_contact_email'));
 
         add_action('rest_api_init', function () {
             register_rest_route('angular-forms/v1', '/create-post/', array(
@@ -88,6 +89,34 @@ class ngContactForm
                 }
             ));
         });
+    }
+
+    public function ng_process_contact_email(){
+        unset($_POST['action']);
+
+        $form_id = $_POST['form_id'];
+        unset($_POST['form_id']);
+
+        $form_fields = html_entity_decode(get_post_meta($form_id, 'ng_form_fields', true));
+
+        $form_fields_array = json_decode($form_fields);
+
+//        echo json_encode($form_fields_array);
+//        die;
+
+        foreach ($_POST as $value_array){
+            $index_count = 0;
+            foreach ($value_array as $key=>$value){
+                echo $form_fields_array[$index_count]->label.': '.$value. "\n";
+//                echo $form_fields_array[$key]->label;
+//                echo json_encode($form_fields_array[$key]);
+//                echo '<pre>';
+//                print_r($form_fields_array[$index_count]);
+//                echo '</pre>';
+                $index_count++;
+            }
+        }
+        die();
     }
 
     public function ng_enqueue_script()
@@ -173,6 +202,8 @@ EOY;
         }
 
         echo <<<EOY
+            <input type='hidden' name='action' value='send-ng-contact-email' />
+            <input type='hidden' name='form_id' value='{$form_id}' />
             </form>
 EOY;
 
@@ -180,7 +211,65 @@ EOY;
 document.getElementsByClassName('ng-contact-form-submit')[0].addEventListener('submit', function (e) {
             e.preventDefault();
 
+            let submit_button_element = document.getElementsByClassName('ng-contact-form-submit-button')[0];
+            let submit_button_text = submit_button_element.value;
+
+            submit_button_element.value = '".$form_fields_settings->submit_button_processing_text."';
+
+            let url = '".admin_url('admin-ajax.php')."';
+            let type = 'POST';
+
+            let post_data = urlencodedFormData(new FormData(e.target));
+
+            make_xhr_request(url, type, post_data, submit_button_text, submit_button_text);
         });
+
+        function urlencodedFormData(fd){
+            var s = '';
+            function encode(s){ return encodeURIComponent(s).replace(/%20/g,'+'); }
+            for(var pair of fd.entries()){
+                if(typeof pair[1]=='string'){
+                    s += (s?'&':'') + encode(pair[0])+'='+encode(pair[1]);
+                }
+            }
+            return s;
+        }
+
+        function create_CORS_request(method, url) {
+            var xhr = new XMLHttpRequest();
+
+            if ('withCredentials' in xhr) {
+                xhr.open(method, url, true);
+            } else if (typeof XDomainRequest != 'undefined') {
+                xhr = new XDomainRequest();
+                xhr.open(method, url);
+            } else {
+                xhr = null;
+            }
+            return xhr;
+        }
+
+
+        function make_xhr_request(url, type, post_data, submit_button_text) {
+            var xhr = create_CORS_request(type, url);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            if (!xhr) {
+                throw new Error('CORS not supported');
+            }
+
+            // Response handlers.
+            xhr.onload = function () {
+                let responseText = xhr.responseText;
+                let responseObject = JSON.parse(responseText);
+                document.getElementsByClassName('ng-contact-form-submit-button')[0].value = submit_button_text;
+            };
+
+            xhr.onerror = function () {
+                throw new Error('Woops, there was an error making the request.');
+            };
+
+            xhr.send(post_data);
+        }
         ";
 
         wp_add_inline_script('angcf-inline-script', $custom_form_submission);
@@ -422,6 +511,7 @@ EOD;
                     <input type='checkbox'
                     class='{$field_object->built_classes} {$field_object->classes}'
                     {$checked}
+                    value='{$choice->text}'
                     {$required} name='ng-field[ng-field-{$array_key}]' />{$choice->text}</label>
                     </div>
 EOF;
@@ -432,6 +522,7 @@ EOF;
                     <input type='checkbox'
                     class='{$field_object->built_classes} {$field_object->classes}'
                     {$checked}
+                    value='{$choice->text}'
                     {$required} name='ng-field[ng-field-{$array_key}]' />{$choice->text}</label>
                     </div>
 EOF;
@@ -526,6 +617,7 @@ EOD;
                     <input type='radio'
                     class='{$field_object->built_classes} {$field_object->classes}'
                     {$checked}
+                    value='{$choice->text}'
                     {$required} name='ng-field[ng-field-{$array_key}]' />{$choice->text}</label>
                     </div>
 EOF;
@@ -536,6 +628,7 @@ EOF;
                     <input type='radio'
                     class='{$field_object->built_classes} {$field_object->classes}'
                     {$checked}
+                    value='{$choice->text}'
                     {$required} name='ng-field[ng-field-{$array_key}]' />{$choice->text}</label>
                     </div>
 EOF;
@@ -609,7 +702,7 @@ EOF;
         $field_html_submit = <<<EOF
                     <div class={$field_object->built_classes}>
                     <input type='submit'
-                    class='{$field_object->classes}'
+                    class='{$field_object->classes} ng-contact-form-submit-button'
                     value='{$field_object->label}' />
                     </div>
 EOF;
