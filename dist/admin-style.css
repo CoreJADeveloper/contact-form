@@ -1,0 +1,17 @@
+.ng-content-loader{
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    width:30em;
+    height:10em;
+    margin-top: -9em;
+    margin-left: -15em;
+    border: 2px dashed #f69c55;
+    background-color: #ffffff;
+}
+
+.ng-content-loader .loader-text {
+    height: 90px;
+    line-height: 90px;
+    text-align: center;
+}

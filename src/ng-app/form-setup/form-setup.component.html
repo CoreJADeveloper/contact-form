@@ -1,35 +1,33 @@
 <div *ngIf="form_action_type == 'add'">
     <form #formSetup="ngForm" novalidate (ngSubmit)="formSetupModel.valid && onSubmit(formSetup.value)"
           class="ng-form-setup">
-        <div>
+        <div class="div-form-field">
             <mat-form-field>
-                <input matInput required placeholder="Form Name" id="name" name="form_name"
+                <input matInput required id="name" placeholder="Form name" name="form_name"
                        class="form-control" [(ngModel)]="form_name" value="" #formSetupModel="ngModel">
             </mat-form-field>
             <div *ngIf="formSetupModel.invalid && (formSetupModel.dirty || formSetupModel.touched)"
                  class="alert alert-danger">
 
                 <div *ngIf="formSetupModel.errors.required">
-                    Form Name is required.
+                    <span class="span-form-name-required">Form Name can not be empty.</span>
                 </div>
             </div>
-            <div [hidden]="!submitted">
+            <div *ngIf="submitted">
                 <mat-progress-bar mode="indeterminate"></mat-progress-bar>
             </div>
         </div>
-        <div [hidden]="submitted">
-            <mat-grid-list cols="6">
+        <div *ngIf="!submitted" class="div-form-create">
+            <mat-grid-list cols="6" gutterSize="10px">
                 <mat-grid-tile
                         *ngFor="let form_type of form_types"
                         [colspan]="form_type.cols"
-                        [rowspan]="form_type.rows"
-                        [style.background]="form_type.color">
-                    <mat-card>
-                        <mat-card-content>
-                            <p>
-                                {{ form_type.text }}
-                            </p>
-                            <button mat-raised-button color="primary" type="submit" [id]="form_type.id"
+                        [rowspan]="form_type.rows">
+                    <mat-card class="card-create-form">
+                        <mat-card-content class="card-content-create-form">
+                            <h2 class="card-content-text">{{form_type.header}}</h2>
+                            <p class="card-content-text">{{ form_type.text }}</p>
+                            <button mat-raised-button type="submit" [id]="form_type.id"
                                     (click)="onClick(form_type.id)" name="form-submit">Create Form
                             </button>
                         </mat-card-content>
@@ -40,26 +38,26 @@
     </form>
 </div>
 <div *ngIf="form_action_type == 'edit'">
-    <div>
+    <div class="div-form-field">
         <mat-form-field>
             <input matInput required placeholder="Form Name"
                    [ngModel]="edit_form_title"
                    (ngModelChange)="check_title_check($event)">
         </mat-form-field>
-        <span *ngIf="empty_field">Form title is important to identify your form</span>
+        <div>
+            <span *ngIf="empty_field" class="span-form-name-required">If you keep the field empty, then form name must not be updated</span>
+        </div>
     </div>
     <div>
-        <mat-grid-list cols="6">
+        <mat-grid-list cols="6" gutterSize="10px">
             <mat-grid-tile
                     *ngFor="let form_type of form_types"
                     [colspan]="form_type.cols"
-                    [rowspan]="form_type.rows"
-                    [style.background]="form_type.color">
-                <mat-card>
-                    <mat-card-content>
-                        <p>
-                            {{ form_type.text }}
-                        </p>
+                    [rowspan]="form_type.rows">
+                <mat-card class="card-create-form">
+                    <mat-card-content class="card-content-create-form">
+                        <h2 class="card-content-text">{{form_type.header}} <mat-icon *ngIf="edit_form_type == form_type.id">done</mat-icon></h2>
+                        <p class="card-content-text">{{ form_type.text }}</p>
                     </mat-card-content>
                 </mat-card>
             </mat-grid-tile>

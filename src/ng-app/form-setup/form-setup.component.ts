@@ -64,18 +64,20 @@ export class FormSetupComponent implements OnInit {
     public constructor() {
         this.form_types = [
             {
-                text: 'This is a blank form. You can add, edit and delete any field later.',
+                text: 'If you create a blank form, initially you get no form field except submit button. You can add, edit and delete any field later.',
                 id: 'blank',
+                header: 'Blank Form',
                 cols: 2,
                 rows: 1,
-                color: '#FFFFFF'
+                color: '#E4C4D8'
             },
             {
-                text: 'This is a basic form. You can add, edit and delete any field later.',
+                text: 'If you create a basic form, initially you get a basic contact form including Name, Title and Description. You can add, edit and delete any field later.',
                 id: 'basic',
+                header: 'Basic Form',
                 cols: 2,
                 rows: 1,
-                color: '#FFFFFF'
+                color: '#E4C4D8'
             },
         ];
         //this.form_action_type = sessionStorage.getItem('ng_default_form_action');

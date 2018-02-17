@@ -53,6 +53,7 @@ class ngContactForm
         add_action('admin_menu', array($this, 'admin_contact_form_menu'));
         add_action('init', array($this, 'add_short_code'));
         add_action('wp_enqueue_scripts', array($this, 'ng_enqueue_script'));
+        add_action('admin_enqueue_scripts', array($this, 'ng_admin_enqueue_script'));
         add_action('wp_ajax_send-ng-contact-email', array($this, 'ng_process_contact_email'));
 
         add_action('rest_api_init', function () {
@@ -98,6 +99,10 @@ class ngContactForm
         add_filter('the_posts', array($this, 'ng_load_contact_form_preview'), 10, 2);
 
         register_activation_hook(__FILE__, array($this, 'ng_create_preview_page'));
+    }
+
+    public function ng_admin_enqueue_script(){
+        wp_enqueue_style('ng-admin-style', ANGCF_PLUGIN_URL. 'dist/admin-style.css');
     }
 
     public function ng_load_contact_form_preview($posts, $query)
@@ -837,10 +842,16 @@ EOF;
         $form_fields = $parameters['form_fields'];
         $form_settings = $parameters['form_settings'];
 
-        $form_post = array(
-            'ID' => $form_id,
-            'post_title' => $form_title
-        );
+        if(isset($form_title) && !empty($form_title)) {
+            $form_post = array(
+                'ID' => $form_id,
+                'post_title' => $form_title
+            );
+        } else{
+            $form_post = array(
+                'ID' => $form_id
+            );
+        }
 
         wp_update_post($form_post);
 
@@ -1012,7 +1023,9 @@ EOF;
             </script>
             <contact-form type="edit" form_id="<?php echo $form_id ?>" endpoint="<?php echo $endpoint ?>"
                           nonce="<?php echo wp_create_nonce('wp_rest') ?>">
-                Loading....
+                <div class="ng-content-loader">
+                    <h3 class="loader-text">Please wait...</h3>
+                </div>
             </contact-form>
             <?php
         }
@@ -1035,7 +1048,7 @@ EOF;
         ?>
         <contact-form type="add" endpoint="<?php echo $endpoint ?>" nonce="<?php echo wp_create_nonce('wp_rest') ?>">
             <div class="ng-content-loader">
-                Hello World
+                <h3 class="loader-text">Please wait...</h3>
             </div>
         </contact-form>
         <?php
@@ -1053,7 +1066,9 @@ EOF;
         <?php } ?>
         <contact-form type="settings" endpoint="<?php echo $endpoint ?>"
                       nonce="<?php echo wp_create_nonce('wp_rest') ?>">
-            Loading....
+            <div class="ng-content-loader">
+                <h3 class="loader-text">Please wait...</h3>
+            </div>
         </contact-form>
         <?php
     }

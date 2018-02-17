@@ -5,14 +5,14 @@
 //@import "forms";
 //@import "forms_drop_field";
 
-.ng-drag-drop-field{
-  margin: 10px 0;
-  position: relative;
-  width: 100%;
-  border-style: dotted;
-  border-width: 1px;
-  border-color: grey;
-}
+//.ng-drag-drop-field{
+//  margin: 10px 0;
+//  position: relative;
+//  width: 100%;
+//  border-style: dotted;
+//  border-width: 1px;
+//  border-color: grey;
+//}
 
 .close-form-field{
   position: absolute;
@@ -25,14 +25,39 @@
   padding: 20px 0;
 }
 
-.ng-content-loader{
-  position:fixed;
-  top: 50%;
-  left: 50%;
-  width:30em;
-  height:18em;
-  margin-top: -9em; /*set to a negative number 1/2 of your height*/
-  margin-left: -15em; /*set to a negative number 1/2 of your width*/
-  border: 1px solid #ccc;
-  background-color: #f3f3f3;
+.ng-contact-form{
+  margin: 10px 20px 0 2px;
 }
+
+//Setup form and edit setup form
+
+.div-form-field{
+  margin-top: 10px;
+}
+
+.span-form-name-required{
+  font-style: italic;
+  color: #EB0000;
+  font-size: 12px;
+}
+
+.div-form-create{
+  margin-top: 20px;
+}
+
+.card-create-form{
+  background-color: #2196F3;
+}
+
+.card-content-create-form{
+  margin: 10px 0;
+}
+
+.card-content-text{
+  color: #fff;
+}
+
+.card-content-create-form p{
+  font-size: 13px;
+}
+
