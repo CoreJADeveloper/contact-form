@@ -855,7 +855,7 @@ EOF;
 
         wp_update_post($form_post);
 
-        update_post_meta($form_id, 'ng_default_form_type', $form_title);
+        //update_post_meta($form_id, 'ng_default_form_type', $form_title);
         update_post_meta($form_id, 'ng_form_fields', $form_fields);
         update_post_meta($form_id, 'ng_form_settings', $form_settings);
 

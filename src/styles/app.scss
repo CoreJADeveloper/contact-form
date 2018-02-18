@@ -21,10 +21,6 @@
   cursor: pointer;
 }
 
-.form-field-content{
-  padding: 20px 0;
-}
-
 .ng-contact-form{
   margin: 10px 20px 0 2px;
 }
@@ -61,3 +57,17 @@
   font-size: 13px;
 }
 
+.contact-form-update-action{
+  flex: 1 1 auto;
+}
+
+
+//Edit Form Style
+
+.ng-field-label{
+  margin-bottom: 10px;
+}
+
+.form-field-content{
+  //padding: 20px 0;
+}

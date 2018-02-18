@@ -1,5 +1,6 @@
 import 'rxjs/add/operator/let';
 import { Component, Input, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 export var WPAPI = require('wpapi');
 
@@ -35,7 +36,7 @@ export class AppComponent implements AfterViewChecked {
     private default_global_settings: any;
     private global_settings: any;
 
-    public constructor(public elementRef:ElementRef) {
+    public constructor(public elementRef:ElementRef, public dialog: MatDialog) {
         let native_element = this.elementRef.nativeElement;
         this.endpoint = native_element.getAttribute("endpoint");
         this.nonce = native_element.getAttribute("nonce");

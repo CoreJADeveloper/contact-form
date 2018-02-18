@@ -26,6 +26,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import {DragulaModule} from 'ng2-dragula/ng2-dragula';
 import {EditFormComponent} from "./edit-form/edit-form.component";
@@ -56,6 +57,7 @@ import {FormSettingsComponent} from "./form-settings/form-settings.component";
         MatProgressBarModule,
         MatToolbarModule,
         MatProgressSpinnerModule,
+        MatDialogModule,
         BrowserAnimationsModule
     ],
     declarations: [

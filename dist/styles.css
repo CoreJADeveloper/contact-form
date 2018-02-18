@@ -4,9 +4,6 @@
   right: 0;
   cursor: pointer; }
 
-.form-field-content {
-  padding: 20px 0; }
-
 .ng-contact-form {
   margin: 10px 20px 0 2px; }
 
@@ -32,5 +29,13 @@
 
 .card-content-create-form p {
   font-size: 13px; }
+
+.contact-form-update-action {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto; }
+
+.ng-field-label {
+  margin-bottom: 10px; }
 
 /*# sourceMappingURL=styles.css.map*/

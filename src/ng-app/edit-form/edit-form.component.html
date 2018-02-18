@@ -1,232 +1,316 @@
-<mat-grid-list cols="7">
-    <mat-grid-tile colspan="1" rowspan="3">
-        <mat-list>
-            <h3 mat-subheader>Available Fields</h3>
-            <mat-list-item>
-                <mat-chip-list>
-                    <mat-chip (click)="add_text_field()" [style.cursor]="style_cursor">Text Field
-                        <mat-icon>add</mat-icon>
-                    </mat-chip>
-                </mat-chip-list>
-            </mat-list-item>
-            <mat-list-item>
-                <mat-chip-list>
-                    <mat-chip (click)="add_text_area_field()" [style.cursor]="style_cursor">Text Area
-                        <mat-icon>add</mat-icon>
-                    </mat-chip>
-                </mat-chip-list>
-            </mat-list-item>
-            <mat-list-item>
-                <mat-chip-list>
-                    <mat-chip (click)="add_email_field()" [style.cursor]="style_cursor">Email Field
-                        <mat-icon>add</mat-icon>
-                    </mat-chip>
-                </mat-chip-list>
-            </mat-list-item>
-            <mat-list-item>
-                <mat-chip-list>
-                    <mat-chip (click)="add_number_field()" [style.cursor]="style_cursor">Number Field
-                        <mat-icon>add</mat-icon>
-                    </mat-chip>
-                </mat-chip-list>
-            </mat-list-item>
-            <mat-list-item>
-                <mat-chip-list>
-                    <mat-chip (click)="add_checkbox()" [style.cursor]="style_cursor">Checkbox
-                        <mat-icon>add</mat-icon>
-                    </mat-chip>
-                </mat-chip-list>
-            </mat-list-item>
-            <mat-list-item>
-                <mat-chip-list>
-                    <mat-chip (click)="add_radio_button()" [style.cursor]="style_cursor">Radiobutton
-                        <mat-icon>add</mat-icon>
-                    </mat-chip>
-                </mat-chip-list>
-            </mat-list-item>
-            <mat-list-item>
-                <mat-chip-list>
-                    <mat-chip (click)="add_dropdown()" [style.cursor]="style_cursor">Dropdown
-                        <mat-icon>add</mat-icon>
-                    </mat-chip>
-                </mat-chip-list>
-            </mat-list-item>
-        </mat-list>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="3" rowspan="3">
-        <mat-list role="list" [dragula]="drag-drop-fields" [dragulaModel]="form_fields">
-            <mat-list-item class="ng-drag-drop-field" role="listitem" (click)="open_field_settings(field)"
-                           *ngFor="let field of form_fields; let object_index = index;" [style.cursor]="style_cursor">
-                <mat-icon *ngIf="field.type != 'submit'" class="close-form-field"
-                          (click)="remove_field($event, object_index)">close
-                </mat-icon>
-                <!--<div class="form-field-content" *ngIf="field.type == 'text'" [innerHTML]="generate_form_field_html(field)">-->
-                <!--</div>-->
+<mat-grid-list cols="12" rowHeight="fit" gutterSize="20px" style="min-height: 1200px; max-height: 1500px;">
+    <mat-grid-tile colspan="2" rowspan="1" class="mi-tile-contents-top">
+        <div style="position: absolute; top: 0; margin-top: 25px;">
+            <mat-toolbar>
+                <mat-toolbar-row>
+                    <span>Available Fields</span>
+                </mat-toolbar-row>
+            </mat-toolbar>
+            <mat-list>
+                <mat-list-item>
+                    <button mat-raised-button style="min-width: 140px;" color="primary" (click)="add_text_field()" [style.cursor]="style_cursor">
+                        Text
+                    </button>
+                </mat-list-item>
+                <mat-list-item>
+                    <button mat-raised-button style="min-width: 140px;" color="primary" (click)="add_text_area_field()"
+                            [style.cursor]="style_cursor">
+                        Text Area
+                    </button>
+                    <!--<mat-chip-list>-->
+                    <!--<mat-chip (click)="add_text_area_field()" [style.cursor]="style_cursor">Text Area-->
+                    <!--<mat-icon>add</mat-icon>-->
+                    <!--</mat-chip>-->
+                    <!--</mat-chip-list>-->
+                </mat-list-item>
+                <mat-list-item>
+                    <button mat-raised-button style="min-width: 140px;" color="primary" (click)="add_email_field()" [style.cursor]="style_cursor">
+                        Email
+                    </button>
+                    <!--<mat-chip-list>-->
+                    <!--<mat-chip (click)="add_email_field()" [style.cursor]="style_cursor">Email Field-->
+                    <!--<mat-icon>add</mat-icon>-->
+                    <!--</mat-chip>-->
+                    <!--</mat-chip-list>-->
+                </mat-list-item>
+                <mat-list-item>
+                    <button mat-raised-button style="min-width: 140px;" color="primary" (click)="add_number_field()"
+                            [style.cursor]="style_cursor">
+                        Number
+                    </button>
+                    <!--<mat-chip-list>-->
+                    <!--<mat-chip (click)="add_number_field()" [style.cursor]="style_cursor">Number Field-->
+                    <!--<mat-icon>add</mat-icon>-->
+                    <!--</mat-chip>-->
+                    <!--</mat-chip-list>-->
+                </mat-list-item>
+                <mat-list-item>
+                    <button mat-raised-button style="min-width: 140px;" color="primary" (click)="add_checkbox()" [style.cursor]="style_cursor">
+                        Checkbox
+                    </button>
+                    <!--<mat-chip-list>-->
+                    <!--<mat-chip (click)="add_checkbox()" [style.cursor]="style_cursor">Checkbox-->
+                    <!--<mat-icon>add</mat-icon>-->
+                    <!--</mat-chip>-->
+                    <!--</mat-chip-list>-->
+                </mat-list-item>
+                <mat-list-item>
+                    <button mat-raised-button style="min-width: 140px;" color="primary" (click)="add_radio_button()"
+                            [style.cursor]="style_cursor">
+                        Radiobutton
+                    </button>
+                    <!--<mat-chip-list>-->
+                    <!--<mat-chip (click)="add_radio_button()" [style.cursor]="style_cursor">Radiobutton-->
+                    <!--<mat-icon>add</mat-icon>-->
+                    <!--</mat-chip>-->
+                    <!--</mat-chip-list>-->
+                </mat-list-item>
+                <mat-list-item>
+                    <button mat-raised-button style="min-width: 140px;" color="primary" (click)="add_dropdown()"
+                            [style.cursor]="style_cursor">
+                        Dropdown
+                    </button>
+                    <!--<mat-chip-list>-->
+                    <!--<mat-chip (click)="add_dropdown()" [style.cursor]="style_cursor">Dropdown-->
+                    <!--<mat-icon>add</mat-icon>-->
+                    <!--</mat-chip>-->
+                    <!--</mat-chip-list>-->
+                </mat-list-item>
+            </mat-list>
+        </div>
 
-                <div class="form-field-content" *ngIf="field.type == 'text'">
-                    <label *ngIf="!field.hide_label">{{ field.label }}</label>
-                    <span *ngIf="field.required" [style.color]="required_text_color">*</span>
-                    <input disabled type="text" [placeholder]="field.placeholder" [value]="field.default_value"
-                           [class]="field.classes"/>
-                    <span>{{field.description}}</span>
-                </div>
-                <div class="form-field-content" *ngIf="field.type == 'textarea'">
-                    <label *ngIf="!field.hide_label">{{ field.label }}</label>
-                    <span *ngIf="field.required" [style.color]="required_text_color">*</span>
-                    <textarea disabled [placeholder]="field.placeholder" [class]="field.classes" rows="2">{{ field.default_value }}</textarea>
-                    <span>{{field.description}}</span>
-                </div>
-                <div class="form-field-content" *ngIf="field.type == 'email'">
-                    <label *ngIf="!field.hide_label">{{ field.label }}</label>
-                    <span *ngIf="field.required" [style.color]="required_text_color">*</span>
-                    <input disabled type="email" [placeholder]="field.placeholder" [class]="field.classes"/>
-                    <span>{{field.description}}</span>
-                </div>
-                <div class="form-field-content" *ngIf="field.type == 'number'">
-                    <label *ngIf="!field.hide_label">{{ field.label }}</label>
-                    <span *ngIf="field.required" [style.color]="required_text_color">*</span>
-                    <input disabled type="number" [placeholder]="field.placeholder" [class]="field.classes"/>
-                    <span>{{field.description}}</span>
-                </div>
-                <div class="form-field-content" *ngIf="field.type == 'submit'">
-                    <input disabled type="submit" [style.float]="field.position[field.position_checked].text"
-                           [class]="field.classes"
-                           [value]="field.label"/>
-                </div>
-                <div class="form-field-content" *ngIf="field.type == 'radio'">
-                    <label *ngIf="!field.hide_label">{{ field.label }}</label>
-                    <span *ngIf="field.required" [style.color]="required_text_color">*</span>
-                    <label *ngFor="let choice of field.choices; let i = index;">
-                        <input disabled type="radio" [class]="field.classes" [checked]="field.choice_selected == i"> {{
-                        choice.text }} </label>
-                    <span>{{field.description}}</span>
-                </div>
-                <div class="form-field-content" *ngIf="field.type == 'checkbox'">
-                    <label *ngIf="!field.hide_label">{{ field.label }}</label>
-                    <span *ngIf="field.required" [style.color]="required_text_color">*</span>
-                    <label *ngFor="let choice of field.choices; let i = index; trackBy:track_by_Index">
-                        <input type="checkbox" disabled [class]="field.classes"
-                               [checked]="choice.checked"
-                        >
-                        {{choice.text}} </label>
-                    <span>{{field.description}}</span>
-                </div>
-                <div class="form-field-content" *ngIf="field.type == 'select'">
-                    <label *ngIf="!field.hide_label">{{ field.label }}</label>
-                    <span *ngIf="field.required" [style.color]="required_text_color">*</span>
-                    <select disabled [class]="field.classes">
-                        <option *ngFor="let choice of field.choices; let i = index;"
-                                [class]="field.classes" [selected]="field.choice_selected == i">
-                            {{ choice.text }}
-                        </option>
-                    </select>
-                    <span>{{field.description}}</span>
-                </div>
-            </mat-list-item>
-        </mat-list>
     </mat-grid-tile>
-    <mat-grid-tile *ngIf="open_field_settings_flag && (active_field_object != null)" colspan="3" rowspan="3">
-        <mat-card>
-            <mat-card-content>
-                <mat-form-field *ngIf="active_field_object.label != undefined">
-                    <input matInput placeholder="Field Label" [(ngModel)]="active_field_object.label"
-                           [value]="active_field_object.label"
-                           (ngModelChange)="onFormValueUpdated($event)">
+    <mat-grid-tile colspan="5" style="overflow-y: auto;">
+        <div style="position: absolute; top: 0; margin-top: 25px;">
+            <mat-list role="list" [dragula]="drag-drop-fields" [dragulaModel]="form_fields">
+                <mat-list-item class="ng-drag-drop-field" role="listitem" (click)="open_field_settings(field)"
+                               *ngFor="let field of form_fields; let object_index = index;"
+                               [style.cursor]="style_cursor" style="width: 380px; padding: 7px 0; position: relative; height: auto;">
+                    <div class="close-form-field">
+                        <mat-icon *ngIf="field.type != 'submit'"
+                                  (click)="remove_field($event, object_index)">close
+                        </mat-icon>
+                    </div>
+                    <!--<div class="form-field-content" *ngIf="field.type == 'text'" [innerHTML]="generate_form_field_html(field)">-->
+                    <!--</div>-->
+
+                    <div>
+                        <div class="form-field-content" *ngIf="field.type == 'text'">
+                            <div class="ng-field-label">
+                                <label *ngIf="!field.hide_label">{{ field.label }}</label>
+                                <span *ngIf="field.required" [style.color]="required_text_color">*</span>
+                            </div>
+                            <div>
+                                <input disabled type="text" [placeholder]="field.placeholder" [value]="field.default_value"
+                                       [class]="field.classes"/>
+                            </div>
+                            <div>
+                                <span>{{field.description}}</span>
+                            </div>
+                        </div>
+                        <div class="form-field-content" *ngIf="field.type == 'textarea'">
+                            <div class="ng-field-label">
+                                <label *ngIf="!field.hide_label">{{ field.label }}</label>
+                                <span *ngIf="field.required" [style.color]="required_text_color">*</span>
+                            </div>
+                            <div>
+                                <textarea disabled [placeholder]="field.placeholder" [class]="field.classes" rows="2">{{ field.default_value }}</textarea>
+                            </div>
+                            <div>
+                                <span>{{field.description}}</span>
+                            </div>
+                        </div>
+                        <div class="form-field-content" *ngIf="field.type == 'email'">
+                            <div class="ng-field-label">
+                                <label *ngIf="!field.hide_label">{{ field.label }}</label>
+                                <span *ngIf="field.required" [style.color]="required_text_color">*</span>
+                            </div>
+                            <div>
+                                <input disabled type="email" [placeholder]="field.placeholder" [class]="field.classes"/>
+                            </div>
+                            <div>
+                                <span>{{field.description}}</span>
+                            </div>
+                        </div>
+                        <div class="form-field-content" *ngIf="field.type == 'number'">
+                            <div class="ng-field-label">
+                                <label *ngIf="!field.hide_label">{{ field.label }}</label>
+                                <span *ngIf="field.required" [style.color]="required_text_color">*</span>
+                            </div>
+                            <div>
+                                <input disabled type="number" [placeholder]="field.placeholder" [class]="field.classes"/>
+                            </div>
+                            <div>
+                                <span>{{field.description}}</span>
+                            </div>
+                        </div>
+                        <div class="form-field-content" *ngIf="field.type == 'submit'">
+                            <input disabled type="submit" [style.float]="field.position[field.position_checked].text"
+                                   [class]="field.classes"
+                                   [value]="field.label"/>
+                        </div>
+                        <div class="form-field-content" *ngIf="field.type == 'radio'">
+                            <div class="ng-field-label">
+                                <label *ngIf="!field.hide_label">{{ field.label }}</label>
+                                <span *ngIf="field.required" [style.color]="required_text_color">*</span>
+                            </div>
+                            <div>
+                                <div *ngFor="let choice of field.choices; let i = index;">
+                                    <label style="padding: 5px 0;">
+                                        <input disabled type="radio" [class]="field.classes" [checked]="field.choice_selected == i">
+                                        {{
+                                        choice.text }} </label><br/>
+                                </div>
+                            </div>
+                            <div>
+                                <span>{{field.description}}</span>
+                            </div>
+                        </div>
+                        <div class="form-field-content" *ngIf="field.type == 'checkbox'">
+                            <div class="ng-field-label">
+                                <label *ngIf="!field.hide_label">{{ field.label }}</label>
+                                <span *ngIf="field.required" [style.color]="required_text_color">*</span>
+                            </div>
+                            <div>
+                                <div *ngFor="let choice of field.choices; let i = index; trackBy:track_by_Index">
+                                    <label style="padding: 5px 0;">
+                                        <input type="checkbox" disabled [class]="field.classes"
+                                               [checked]="choice.checked"
+                                        >
+                                        {{choice.text}} </label><br/>
+                                </div>
+                            </div>
+                            <div>
+                                <span>{{field.description}}</span>
+                            </div>
+                        </div>
+                        <div class="form-field-content" *ngIf="field.type == 'select'">
+                            <div class="ng-field-label">
+                                <label *ngIf="!field.hide_label">{{ field.label }}</label>
+                                <span *ngIf="field.required" [style.color]="required_text_color">*</span>
+                            </div>
+                            <div>
+                                <select disabled [class]="field.classes">
+                                    <option *ngFor="let choice of field.choices; let i = index;"
+                                            [class]="field.classes" [selected]="field.choice_selected == i">
+                                        {{ choice.text }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div>
+                                <span>{{field.description}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </mat-list-item>
+            </mat-list>
+        </div>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="open_field_settings_flag && (active_field_object != null)" colspan="5">
+        <div style="position: absolute; top: 0; left: 0; margin-top: 25px;">
+            <!--<mat-card>-->
+            <!--<mat-card-content>-->
+            <mat-form-field *ngIf="active_field_object.label != undefined">
+                <input matInput placeholder="Field Label" [(ngModel)]="active_field_object.label"
+                       [value]="active_field_object.label"
+                       (ngModelChange)="onFormValueUpdated($event)">
+            </mat-form-field>
+            <section *ngIf="active_field_object.choices != undefined && active_field_object.type == 'checkbox'">
+                <label>Choices</label>
+
+                <div *ngFor="let choice of active_field_object.choices; let i = index; trackBy:track_by_Index">
+                    <mat-checkbox [checked]="choice.checked"
+                                  (change)="update_checkbox_choice_selected($event, i)">
+                    </mat-checkbox>
+                    <mat-form-field>
+                        <!--<input matInput-->
+                        <!--[ngModel]="get_choices_array(active_field_object.choices)[i]"-->
+                        <!--(input)="update_choice_text($event, i, get_choices_array(active_field_object.choices))">-->
+                        <input matInput
+                               [(ngModel)]="choice.text"
+                               (ngModelChange)="onFormValueUpdated($event)">
+                    </mat-form-field>
+                    <mat-icon *ngIf="active_field_object.choices.length > 1"
+                              (click)="remove_a_checkbox_choice(active_field_object.choices, i)"
+                              [style.cursor]="style_cursor">close
+                    </mat-icon>
+                </div>
+                <mat-form-field>
+                    <input matInput placeholder="Add Choice by pressing enter"
+                           (keyup.enter)="add_new_checkbox_choice($event, active_field_object.choices)">
                 </mat-form-field>
-                <section *ngIf="active_field_object.choices != undefined && active_field_object.type == 'checkbox'">
-                    <label>Choices</label>
+            </section>
+            <section
+                    *ngIf="active_field_object.choices != undefined && (active_field_object.type == 'radio' || active_field_object.type == 'select')">
+                <label>Choices</label>
 
-                    <div *ngFor="let choice of active_field_object.choices; let i = index; trackBy:track_by_Index">
-                        <mat-checkbox [checked]="choice.checked"
-                                      (change)="update_checkbox_choice_selected($event, i)">
-                        </mat-checkbox>
-                        <mat-form-field>
-                            <!--<input matInput-->
-                            <!--[ngModel]="get_choices_array(active_field_object.choices)[i]"-->
-                            <!--(input)="update_choice_text($event, i, get_choices_array(active_field_object.choices))">-->
-                            <input matInput
-                                   [(ngModel)]="choice.text"
-                                   (ngModelChange)="onFormValueUpdated($event)">
-                        </mat-form-field>
-                        <mat-icon *ngIf="active_field_object.choices.length > 1"
-                                  (click)="remove_a_checkbox_choice(active_field_object.choices, i)"
-                                  [style.cursor]="style_cursor">close
-                        </mat-icon>
-                    </div>
+                <div *ngFor="let choice of active_field_object.choices; let i = index;">
+                    <mat-radio-button [checked]="active_field_object.choice_selected == i"
+                                      (change)="update_choice_selected($event, i)">
+                    </mat-radio-button>
                     <mat-form-field>
-                        <input matInput placeholder="Add Choice by pressing enter"
-                               (keyup.enter)="add_new_checkbox_choice($event, active_field_object.choices)">
+                        <input matInput [(ngModel)]="choice.text"
+                               (ngModelChange)="onFormValueUpdated($event)">
                     </mat-form-field>
-                </section>
-                <section
-                        *ngIf="active_field_object.choices != undefined && (active_field_object.type == 'radio' || active_field_object.type == 'select')">
-                    <label>Choices</label>
-
-                    <div *ngFor="let choice of active_field_object.choices; let i = index;">
-                        <mat-radio-button [checked]="active_field_object.choice_selected == i"
-                                          (change)="update_choice_selected($event, i)">
-                        </mat-radio-button>
-                        <mat-form-field>
-                            <input matInput [(ngModel)]="choice.text"
-                                   (ngModelChange)="onFormValueUpdated($event)">
-                        </mat-form-field>
-                        <mat-icon *ngIf="active_field_object.choices.length > 1"
-                                  (click)="remove_a_choice(i)"
-                                  [style.cursor]="style_cursor">close
-                        </mat-icon>
-                    </div>
-                    <mat-form-field>
-                        <input matInput placeholder="Add Choice by pressing enter"
-                               (keyup.enter)="add_new_choice($event)">
-                    </mat-form-field>
-                </section>
-                <mat-form-field *ngIf="active_field_object.description != undefined">
+                    <mat-icon *ngIf="active_field_object.choices.length > 1"
+                              (click)="remove_a_choice(i)"
+                              [style.cursor]="style_cursor">close
+                    </mat-icon>
+                </div>
+                <mat-form-field>
+                    <input matInput placeholder="Add Choice by pressing enter"
+                           (keyup.enter)="add_new_choice($event)">
+                </mat-form-field>
+            </section>
+            <mat-form-field *ngIf="active_field_object.description != undefined">
                     <textarea matInput [(ngModel)]="fieldDescription"
                               (ngModelChange)="onFormValueUpdated($event)"
                               placeholder="Field Description"></textarea>
-                </mat-form-field>
-                <mat-checkbox *ngIf="active_field_object.required != undefined"
-                              [checked]="active_field_object.required"
-                              (change)="update_required_field($event)">Required
-                </mat-checkbox>
-                <mat-form-field *ngIf="active_field_object.placeholder != undefined">
-                    <input matInput placeholder="Placeholder Text"
-                           [(ngModel)]="active_field_object.placeholder"
-                           (ngModelChange)="onFormValueUpdated($event)"
-                           [value]="active_field_object.placeholder">
-                </mat-form-field>
-                <section *ngIf="active_field_object.position != undefined">
-                    <label>Position</label>
-                    <mat-radio-button *ngFor="let position of active_field_object.position; let i = index;"
+            </mat-form-field>
+            <mat-checkbox *ngIf="active_field_object.required != undefined"
+                          [checked]="active_field_object.required"
+                          (change)="update_required_field($event)">Required
+            </mat-checkbox>
+            <mat-form-field *ngIf="active_field_object.placeholder != undefined">
+                <input matInput placeholder="Placeholder Text"
+                       [(ngModel)]="active_field_object.placeholder"
+                       (ngModelChange)="onFormValueUpdated($event)"
+                       [value]="active_field_object.placeholder">
+            </mat-form-field>
+            <section *ngIf="active_field_object.position != undefined">
+                <label>Position</label>
+                <mat-radio-button *ngFor="let position of active_field_object.position; let i = index;"
                                   [checked]="active_field_object.position_checked == i"
                                   (change)="update_submit_position($event, i)">
-                        {{ position.text }}
-                    </mat-radio-button>
-                </section>
-                <mat-checkbox *ngIf="active_field_object.hide_label != undefined"
-                              [checked]="active_field_object.hide_label"
-                              (change)="update_hide_label($event)">Hide Label
-                </mat-checkbox>
-                <mat-form-field
-                        *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'text'">
-                    <input matInput placeholder="Default Value"
-                           [(ngModel)]="active_field_object.default_value"
-                           (ngModelChange)="onFormValueUpdated($event)">
-                </mat-form-field>
-                <mat-form-field
-                        *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'textarea'">
+                    {{ position.text }}
+                </mat-radio-button>
+            </section>
+            <mat-checkbox *ngIf="active_field_object.hide_label != undefined"
+                          [checked]="active_field_object.hide_label"
+                          (change)="update_hide_label($event)">Hide Label
+            </mat-checkbox>
+            <mat-form-field
+                    *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'text'">
+                <input matInput placeholder="Default Value"
+                       [(ngModel)]="active_field_object.default_value"
+                       (ngModelChange)="onFormValueUpdated($event)">
+            </mat-form-field>
+            <mat-form-field
+                    *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'textarea'">
                     <textarea matInput [(ngModel)]="fieldDefaultValue"
                               (ngModelChange)="onFormValueUpdated($event)"
                               placeholder="Default Value"></textarea>
-                </mat-form-field>
-                <mat-form-field *ngIf="active_field_object.classes != undefined">
-                    <input matInput placeholder="Class Name"
-                           [(ngModel)]="fieldClasses"
-                           (ngModelChange)="onFormValueUpdated($event)">
-                    <!--<textarea matInput placeholder="Class Name" [(ngModel)]="fieldClasses"-->
-                              <!--(ngModelChange)="onFormValueUpdated($event)"></textarea>-->
-                </mat-form-field>
-            </mat-card-content>
-        </mat-card>
+            </mat-form-field>
+            <mat-form-field *ngIf="active_field_object.classes != undefined">
+                <input matInput placeholder="Class Name"
+                       [(ngModel)]="fieldClasses"
+                       (ngModelChange)="onFormValueUpdated($event)">
+                <!--<textarea matInput placeholder="Class Name" [(ngModel)]="fieldClasses"-->
+                <!--(ngModelChange)="onFormValueUpdated($event)"></textarea>-->
+            </mat-form-field>
+            <!--</mat-card-content>-->
+            <!--</mat-card>-->
+        </div>
     </mat-grid-tile>
 </mat-grid-list>
