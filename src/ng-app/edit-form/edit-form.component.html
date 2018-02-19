@@ -85,11 +85,13 @@
     </mat-grid-tile>
     <mat-grid-tile colspan="5" style="overflow-y: auto;">
         <div class="edit-form-fields-container">
-            <mat-list role="list" [dragula]="drag-drop-fields" [dragulaModel]="form_fields">
-                <mat-list-item class="ng-drag-drop-field mat-list-ng-each-field" role="listitem" (click)="open_field_settings(field)"
+            <mat-list role="list" [dragula]="drag-drop-fields" [dragulaModel]="form_fields" style="padding-top: 0;">
+                <mat-list-item class="ng-drag-drop-field mat-list-ng-each-field" role="listitem" (click)="open_field_settings(object_index, field)"
                                *ngFor="let field of form_fields; let object_index = index;"
-                               [style.cursor]="style_cursor" style="width: 380px; padding: 7px 0; position: relative; height: auto;">
-                    <div class="close-form-field">
+                               (mouseenter)="on_hover_over_field($event)"
+                               (mouseleave)="on_leave_hover_over_field($event)"
+                               [style.cursor]="style_cursor" style="width: 380px; padding: 10px 15px; position: relative; height: auto;">
+                    <div class="close-form-field" style="display: none">
                         <mat-icon *ngIf="field.type != 'submit'"
                                   (click)="remove_field($event, object_index)">close
                         </mat-icon>
@@ -221,14 +223,14 @@
         <div class="edit-form-settings-container">
             <!--<mat-card>-->
             <!--<mat-card-content>-->
-            <section *ngIf="active_field_object.label != undefined">
+            <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.label != undefined">
                 <mat-form-field>
                     <input matInput placeholder="Field Label" [(ngModel)]="active_field_object.label"
                            [value]="active_field_object.label"
                            (ngModelChange)="onFormValueUpdated($event)">
                 </mat-form-field>
             </section>
-            <section *ngIf="active_field_object.choices != undefined && active_field_object.type == 'checkbox'">
+            <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.choices != undefined && active_field_object.type == 'checkbox'">
                 <label>Choices</label>
 
                 <div *ngFor="let choice of active_field_object.choices; let i = index; trackBy:track_by_Index">
@@ -253,7 +255,7 @@
                            (keyup.enter)="add_new_checkbox_choice($event, active_field_object.choices)">
                 </mat-form-field>
             </section>
-            <section
+            <section class="ng-keep-field-gutter-between"
                     *ngIf="active_field_object.choices != undefined && (active_field_object.type == 'radio' || active_field_object.type == 'select')">
                 <label>Choices</label>
 
@@ -275,20 +277,20 @@
                            (keyup.enter)="add_new_choice($event)">
                 </mat-form-field>
             </section>
-            <section *ngIf="active_field_object.description != undefined">
+            <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.description != undefined">
                 <mat-form-field>
                     <textarea matInput [(ngModel)]="fieldDescription"
                               (ngModelChange)="onFormValueUpdated($event)"
                               placeholder="Field Description"></textarea>
                 </mat-form-field>
             </section>
-            <section *ngIf="active_field_object.required != undefined">
+            <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.required != undefined">
                 <mat-checkbox
                               [checked]="active_field_object.required"
                               (change)="update_required_field($event)">Required
                 </mat-checkbox>
             </section>
-            <section *ngIf="active_field_object.placeholder != undefined">
+            <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.placeholder != undefined">
                 <mat-form-field>
                     <input matInput placeholder="Placeholder Text"
                            [(ngModel)]="active_field_object.placeholder"
@@ -296,7 +298,7 @@
                            [value]="active_field_object.placeholder">
                 </mat-form-field>
             </section>
-            <section *ngIf="active_field_object.position != undefined">
+            <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.position != undefined">
                 <label>Position</label>
                 <div *ngFor="let position of active_field_object.position; let i = index;" style="margin: 5px 0;">
                     <mat-radio-button
@@ -306,27 +308,27 @@
                     </mat-radio-button>
                 </div>
             </section>
-            <section *ngIf="active_field_object.hide_label != undefined">
+            <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.hide_label != undefined">
                 <mat-checkbox
                               [checked]="active_field_object.hide_label"
                               (change)="update_hide_label($event)">Hide Label
                 </mat-checkbox>
             </section>
-            <section *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'text'">
+            <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'text'">
                 <mat-form-field>
                     <input matInput placeholder="Default Value"
                            [(ngModel)]="active_field_object.default_value"
                            (ngModelChange)="onFormValueUpdated($event)">
                 </mat-form-field>
             </section>
-            <section *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'textarea'">
+            <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'textarea'">
                 <mat-form-field>
                     <textarea matInput [(ngModel)]="fieldDefaultValue"
                               (ngModelChange)="onFormValueUpdated($event)"
                               placeholder="Default Value"></textarea>
                 </mat-form-field>
             </section>
-            <section *ngIf="active_field_object.classes != undefined">
+            <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.classes != undefined">
                 <mat-form-field>
                     <input matInput placeholder="Class Name"
                            [(ngModel)]="fieldClasses"

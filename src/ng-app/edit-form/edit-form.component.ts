@@ -27,6 +27,8 @@ export class EditFormComponent {
 
     private separatorKeysCodes = [ENTER, COMMA];
 
+    private make_field_close_hidden:boolean = true;
+
     public constructor(public dragulaService:DragulaService, public sanitizer:DomSanitizer) {
         const bag:any = this.dragulaService.find('drag-drop-fields');
         if (bag !== undefined)
@@ -93,7 +95,19 @@ export class EditFormComponent {
         this.required_text_color = '#FF0000';
     }
 
-    private onFormValueUpdated(event){
+    private on_hover_over_field(event) {
+        let element = event.target;
+        element.className += ' on-mouse-over-form-field';
+        element.getElementsByClassName('close-form-field')[0].style.display = 'inline-block';
+    }
+
+    private on_leave_hover_over_field(event) {
+        let element = event.target;
+        element.classList.remove('on-mouse-over-form-field');
+        element.getElementsByClassName('close-form-field')[0].style.display = 'none';
+    }
+
+    private onFormValueUpdated(event) {
         this.onFormInputChange.emit(this.form_fields);
     }
 
@@ -310,9 +324,18 @@ export class EditFormComponent {
     //    return choice_array;
     //}
 
-    private open_field_settings(field) {
+    private open_field_settings(index, field) {
         this.open_field_settings_flag = true;
         this.active_field_object = field;
+
+        let list_items = document.getElementsByClassName('mat-list-ng-each-field');
+        for (let i = 0; i < list_items.length; i++) {
+            if (list_items[i].classList.contains('active-form-field-identify')) {
+                list_items[i].classList.remove('active-form-field-identify');
+            }
+        }
+
+        list_items[index].className += ' active-form-field-identify';
     }
 
     private remove_field(event, object_index) {

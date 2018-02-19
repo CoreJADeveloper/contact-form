@@ -88,6 +88,7 @@
 .edit-form-fields-container{
   position: absolute;
   top: 0;
+  right: 0;
   margin-top: 25px;
 }
 
@@ -100,8 +101,20 @@
 .edit-form-settings-container{
   position: absolute;
   top: 0;
-  left: 0;
   margin-top: 25px;
+  background-color: #F2F2F2;
+  padding: 30px;
+  width: 70%;
+  //border: 1px solid #2196F3;
+}
+
+.on-mouse-over-form-field{
+  background-color: #F2F2F2;
+}
+
+.active-form-field-identify{
+  background-color: #F2F2F2;
+  //border: 1px solid #2196F3;
 }
 
 //.mat-list-ng-each-field{
@@ -118,4 +131,8 @@
 
 .form-field-button-style{
   width: 140px;
+}
+
+.ng-keep-field-gutter-between{
+  margin-bottom: 7px;
 }
