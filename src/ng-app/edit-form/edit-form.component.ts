@@ -95,6 +95,17 @@ export class EditFormComponent {
         this.required_text_color = '#FF0000';
     }
 
+    private close_form_field_settings(){
+        this.open_field_settings_flag = false;
+
+        let form_fields = document.getElementsByClassName('mat-list-ng-each-field');
+        for(let i =0; i < form_fields.length; i++){
+            if(form_fields[i].classList.contains('active-form-field-identify')){
+                form_fields[i].classList.remove('active-form-field-identify');
+            }
+        }
+    }
+
     private on_hover_over_field(event) {
         let element = event.target;
         element.className += ' on-mouse-over-form-field';
@@ -344,10 +355,15 @@ export class EditFormComponent {
             this.form_fields.splice(object_index, 1);
         }
         this.onFormInputChange.emit(this.form_fields);
+
+        if(document.getElementsByClassName('mat-list-ng-each-field')[object_index].classList.contains('active-form-field-identify')){
+            this.open_field_settings_flag = false;
+        }
     }
 
     private add_text_field() {
         let last_form_field = this.form_fields.length - 1;
+        let added_field_index = 0;
         let text_field_object = {
             type: 'text',
             label: '-- Text Field --',
@@ -363,11 +379,21 @@ export class EditFormComponent {
         if (this.form_fields[last_form_field].type == 'submit') {
             //text_field_object.drop_priority = last_form_field;
             this.form_fields.splice(last_form_field, 0, text_field_object);
+            added_field_index = last_form_field;
         } else {
             //text_field_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, text_field_object);
+            added_field_index = this.form_fields.length - 1;
         }
         this.onFormInputChange.emit(this.form_fields);
+
+        let added_form_fields = document.getElementsByClassName('mat-list-ng-each-field');
+
+        //console.log(added_field_index);
+        //console.log(added_form_fields.length);
+        for(let i =0; i < added_form_fields.length; i++){
+            console.log(added_form_fields[i]);
+        }
     }
 
     private add_text_area_field() {

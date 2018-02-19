@@ -90,7 +90,7 @@
                                *ngFor="let field of form_fields; let object_index = index;"
                                (mouseenter)="on_hover_over_field($event)"
                                (mouseleave)="on_leave_hover_over_field($event)"
-                               [style.cursor]="style_cursor" style="width: 380px; padding: 10px 15px; position: relative; height: auto;">
+                               [style.cursor]="style_cursor" style="padding: 10px 15px; position: relative; height: auto;">
                     <div class="close-form-field" style="display: none">
                         <mat-icon *ngIf="field.type != 'submit'"
                                   (click)="remove_field($event, object_index)">close
@@ -131,7 +131,11 @@
                                 <span *ngIf="field.required" [style.color]="required_text_color">*</span>
                             </div>
                             <div>
-                                <input disabled type="email" [placeholder]="field.placeholder" [class]="field.classes"/>
+                                <input disabled
+                                       type="email"
+                                       [value]="field.default_value"
+                                       [placeholder]="field.placeholder"
+                                       [class]="field.classes"/>
                             </div>
                             <div class="ng-field-description">
                                 <span class="ng-field-description-text">{{field.description}}</span>
@@ -143,7 +147,11 @@
                                 <span *ngIf="field.required" [style.color]="required_text_color">*</span>
                             </div>
                             <div>
-                                <input disabled type="number" [placeholder]="field.placeholder" [class]="field.classes"/>
+                                <input disabled
+                                       type="number"
+                                       [value]="field.default_value"
+                                       [placeholder]="field.placeholder"
+                                       [class]="field.classes"/>
                             </div>
                             <div class="ng-field-description">
                                 <span class="ng-field-description-text">{{field.description}}</span>
@@ -223,6 +231,9 @@
         <div class="edit-form-settings-container">
             <!--<mat-card>-->
             <!--<mat-card-content>-->
+            <section class="ng-keep-field-gutter-between" style="position: absolute; right: 0; margin-right: 10px;">
+                <a mat-raised-button color="warn" (click)="close_form_field_settings()">Close</a>
+            </section>
             <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.label != undefined">
                 <mat-form-field>
                     <input matInput placeholder="Field Label" [(ngModel)]="active_field_object.label"
@@ -281,6 +292,7 @@
                 <mat-form-field>
                     <textarea matInput [(ngModel)]="fieldDescription"
                               (ngModelChange)="onFormValueUpdated($event)"
+                              rows="8"
                               placeholder="Field Description"></textarea>
                 </mat-form-field>
             </section>
@@ -321,10 +333,27 @@
                            (ngModelChange)="onFormValueUpdated($event)">
                 </mat-form-field>
             </section>
+            <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'email'">
+                <mat-form-field>
+                    <input matInput placeholder="Default Value"
+                           type="email"
+                           [(ngModel)]="active_field_object.default_value"
+                           (ngModelChange)="onFormValueUpdated($event)">
+                </mat-form-field>
+            </section>
+            <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'number'">
+                <mat-form-field>
+                    <input matInput placeholder="Default Value"
+                           type="number"
+                           [(ngModel)]="active_field_object.default_value"
+                           (ngModelChange)="onFormValueUpdated($event)">
+                </mat-form-field>
+            </section>
             <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'textarea'">
                 <mat-form-field>
                     <textarea matInput [(ngModel)]="fieldDefaultValue"
                               (ngModelChange)="onFormValueUpdated($event)"
+                              rows="8"
                               placeholder="Default Value"></textarea>
                 </mat-form-field>
             </section>

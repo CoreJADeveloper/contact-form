@@ -90,6 +90,7 @@
   top: 0;
   right: 0;
   margin-top: 25px;
+  width: 90%;
 }
 
 .available-fields-container{
@@ -135,4 +136,9 @@
 
 .ng-keep-field-gutter-between{
   margin-bottom: 7px;
+}
+
+.just-added-new-form-field{
+  border: 1px solid #2196F3;
+  background-color: #F2F2F2;
 }
