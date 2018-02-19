@@ -1,78 +1,112 @@
-<mat-grid-list cols="2" rowHeight="2:1">
-    <mat-grid-tile>
-        <div>
-            <mat-form-field>
-                <input matInput placeholder="Form Name" [(ngModel)]="settings_data.form_name" (ngModelChange)="onFormSettingsUpdated($event)">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field>
-                <input matInput placeholder="Form CSS classes" [(ngModel)]="settings_data.form_css_classes" (ngModelChange)="onFormSettingsUpdated($event)">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field>
-                <input matInput placeholder="Submit button processing text" [(ngModel)]="settings_data.submit_button_processing_text"
-                       (ngModelChange)="onFormSettingsUpdated($event)">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-checkbox [checked]="settings_data.anti_span_honeybot"
-                          (change)="update_anti_spam_honeybot($event)">
-                Enable anti spam honeybot
-            </mat-checkbox>
-        </div>
-    </mat-grid-tile>
-    <mat-grid-tile>
-        <div>
-            <mat-form-field>
-                <input matInput placeholder="Send to email" [(ngModel)]="settings_data.send_to_email"
-                       (ngModelChange)="onFormSettingsUpdated($event)">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field>
-                <input matInput placeholder="Email subject" [(ngModel)]="settings_data.email_subject"
-                       (ngModelChange)="onFormSettingsUpdated($event)">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field>
-                <input matInput placeholder="From name" [(ngModel)]="settings_data.from_name"
-                       (ngModelChange)="onFormSettingsUpdated($event)">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field>
-                <input matInput placeholder="From email" [(ngModel)]="settings_data.from_email"
-                       (ngModelChange)="onFormSettingsUpdated($event)">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field>
-                <input matInput placeholder="Reply to" [(ngModel)]="settings_data.reply_to"
-                       (ngModelChange)="onFormSettingsUpdated($event)">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field>
-                <textarea matInput placeholder="Message" [(ngModel)]="emailMessage" (ngModelChange)="onFormSettingsUpdated($event)"></textarea>
-            </mat-form-field>
+<mat-grid-list cols="12" rowHeight="fit" style="height: 800px;">
+    <mat-grid-tile colspan="4" rowspan="1">
+        <div style="position: absolute; top: 0; left: 0; margin-top: 25px;">
+            <mat-toolbar style="margin-bottom: 10px;">
+                <mat-toolbar-row>
+                    <span>General Settings</span>
+                </mat-toolbar-row>
+            </mat-toolbar>
+            <section>
+                <mat-form-field>
+                    <input matInput placeholder="Form Name" [(ngModel)]="settings_data.form_name" (ngModelChange)="onFormSettingsUpdated($event)">
+                </mat-form-field>
+            </section>
+            <section>
+                <mat-form-field>
+                    <input matInput placeholder="Form CSS classes" [(ngModel)]="settings_data.form_css_classes" (ngModelChange)="onFormSettingsUpdated($event)">
+                </mat-form-field>
+            </section>
+            <section>
+                <mat-form-field>
+                    <input matInput placeholder="Submit button processing text" [(ngModel)]="settings_data.submit_button_processing_text"
+                           (ngModelChange)="onFormSettingsUpdated($event)">
+                </mat-form-field>
+            </section>
+            <section>
+                <mat-checkbox [checked]="settings_data.anti_span_honeybot"
+                              (change)="update_anti_spam_honeybot($event)">
+                    Enable anti spam honeybot
+                </mat-checkbox>
+                <div>
+                    <span style="font-size: 13px;">Note: The feature currently is not implemented</span>
+                </div>
+            </section>
         </div>
     </mat-grid-tile>
-    <mat-grid-tile>
-        <div>
-            <mat-checkbox [checked]="settings_data.send_confirmation_email"
-                          (change)="update_send_confirmation_email($event)">
-                Send Confirmation email
-            </mat-checkbox>
+    <mat-grid-tile colspan="4" rowspan="1">
+        <div style="position: absolute; top: 0; left: 0; margin-top: 25px;">
+            <mat-toolbar style="margin-bottom: 10px;">
+                <mat-toolbar-row>
+                    <span>Email Settings</span>
+                </mat-toolbar-row>
+            </mat-toolbar>
+            <section>
+                <mat-form-field>
+                    <input matInput placeholder="Send to email" [(ngModel)]="settings_data.send_to_email"
+                           (ngModelChange)="onFormSettingsUpdated($event)">
+                </mat-form-field>
+            </section>
+            <section>
+                <mat-form-field>
+                    <input matInput placeholder="Email subject" [(ngModel)]="settings_data.email_subject"
+                           (ngModelChange)="onFormSettingsUpdated($event)">
+                </mat-form-field>
+            </section>
+            <section>
+                <mat-form-field>
+                    <input matInput placeholder="From name" [(ngModel)]="settings_data.from_name"
+                           (ngModelChange)="onFormSettingsUpdated($event)">
+                </mat-form-field>
+            </section>
+            <section>
+                <mat-form-field>
+                    <input matInput placeholder="From email" [(ngModel)]="settings_data.from_email"
+                           (ngModelChange)="onFormSettingsUpdated($event)">
+                </mat-form-field>
+            </section>
+            <section>
+                <mat-form-field>
+                    <input matInput placeholder="Reply to" [(ngModel)]="settings_data.reply_to"
+                           (ngModelChange)="onFormSettingsUpdated($event)">
+                </mat-form-field>
+            </section>
+            <section>
+                <mat-form-field>
+                    <textarea matInput placeholder="Message"
+                              rows="8"
+                              [(ngModel)]="emailMessage"
+                              (ngModelChange)="onFormSettingsUpdated($event)"></textarea>
+                </mat-form-field>
+            </section>
         </div>
-        <div *ngIf="settings_data.send_confirmation_email">
-            <mat-form-field>
-                <textarea matInput placeholder="Confirmation email message"
-                          (ngModelChange)="onFormSettingsUpdated($event)"
-                          [(ngModel)]="confirmationEmailMessage"></textarea>
-            </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="4" rowspan="1">
+        <div style="position: absolute; top: 0; left: 0; margin-top: 25px;">
+            <mat-toolbar style="margin-bottom: 10px;">
+                <mat-toolbar-row>
+                    <span>Confirmation Email Settings</span>
+                </mat-toolbar-row>
+            </mat-toolbar>
+            <section>
+                <mat-checkbox [checked]="settings_data.send_confirmation_email"
+                              (change)="update_send_confirmation_email($event)">
+                    Send Confirmation email
+                </mat-checkbox>
+            </section>
+            <br/>
+            <section *ngIf="settings_data.send_confirmation_email">
+                <!--<mat-form-field>-->
+                <!--<editor (onSelectionChange)="onFormSettingsUpdated($event)"-->
+                          <!--[(ngModel)]="confirmationEmailMessage"></editor>-->
+                <!--</mat-form-field>-->
+                <mat-form-field>
+                    <textarea matInput
+                              rows="8"
+                              placeholder="Confirmation email message"
+                            (ngModelChange)="onFormSettingsUpdated($event)"
+                            [(ngModel)]="confirmationEmailMessage"></textarea>
+                </mat-form-field>
+            </section>
         </div>
     </mat-grid-tile>
 </mat-grid-list>
