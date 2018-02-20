@@ -2,10 +2,11 @@
     <mat-grid-tile colspan="2" rowspan="1" class="mi-tile-contents-top">
         <div class="available-fields-container">
             <mat-toolbar>
-                <mat-toolbar-row>
-                    <span>Available Fields</span>
-                </mat-toolbar-row>
+                <span>Available Fields</span>
             </mat-toolbar>
+            <div style="text-align: center; margin-top: 10px;">
+                <a [matTooltip]="tooltip_help_text" matTooltipPosition="right" style="cursor: pointer;">Need Help?</a>
+            </div>
             <mat-list>
                 <mat-list-item>
                     <button mat-raised-button class="form-field-button-style"
@@ -16,7 +17,8 @@
                     </button>
                 </mat-list-item>
                 <mat-list-item>
-                    <button mat-raised-button class="form-field-button-style" color="primary" (click)="add_text_area_field()"
+                    <button mat-raised-button class="form-field-button-style" color="primary"
+                            (click)="add_text_area_field()"
                             [style.cursor]="style_cursor">
                         Text Area
                     </button>
@@ -27,7 +29,8 @@
                     <!--</mat-chip-list>-->
                 </mat-list-item>
                 <mat-list-item>
-                    <button mat-raised-button class="form-field-button-style" color="primary" (click)="add_email_field()" [style.cursor]="style_cursor">
+                    <button mat-raised-button class="form-field-button-style" color="primary"
+                            (click)="add_email_field()" [style.cursor]="style_cursor">
                         Email
                     </button>
                     <!--<mat-chip-list>-->
@@ -37,7 +40,8 @@
                     <!--</mat-chip-list>-->
                 </mat-list-item>
                 <mat-list-item>
-                    <button mat-raised-button class="form-field-button-style" color="primary" (click)="add_number_field()"
+                    <button mat-raised-button class="form-field-button-style" color="primary"
+                            (click)="add_number_field()"
                             [style.cursor]="style_cursor">
                         Number
                     </button>
@@ -48,7 +52,8 @@
                     <!--</mat-chip-list>-->
                 </mat-list-item>
                 <mat-list-item>
-                    <button mat-raised-button class="form-field-button-style" color="primary" (click)="add_checkbox()" [style.cursor]="style_cursor">
+                    <button mat-raised-button class="form-field-button-style" color="primary" (click)="add_checkbox()"
+                            [style.cursor]="style_cursor">
                         Checkbox
                     </button>
                     <!--<mat-chip-list>-->
@@ -58,7 +63,8 @@
                     <!--</mat-chip-list>-->
                 </mat-list-item>
                 <mat-list-item>
-                    <button mat-raised-button class="form-field-button-style" color="primary" (click)="add_radio_button()"
+                    <button mat-raised-button class="form-field-button-style" color="primary"
+                            (click)="add_radio_button()"
                             [style.cursor]="style_cursor">
                         Radiobutton
                     </button>
@@ -86,11 +92,13 @@
     <mat-grid-tile colspan="5" style="overflow-y: auto;">
         <div class="edit-form-fields-container">
             <mat-list role="list" [dragula]="drag-drop-fields" [dragulaModel]="form_fields" style="padding-top: 0;">
-                <mat-list-item class="ng-drag-drop-field mat-list-ng-each-field" role="listitem" (click)="open_field_settings(object_index, field)"
+                <mat-list-item class="ng-drag-drop-field mat-list-ng-each-field" role="listitem"
+                               (click)="open_field_settings(object_index, field)"
                                *ngFor="let field of form_fields; let object_index = index;"
                                (mouseenter)="on_hover_over_field($event)"
                                (mouseleave)="on_leave_hover_over_field($event)"
-                               [style.cursor]="style_cursor" style="padding: 10px 15px; position: relative; height: auto;">
+                               [style.cursor]="style_cursor"
+                               style="padding: 10px 15px; position: relative; height: auto;">
                     <div class="close-form-field" style="display: none">
                         <mat-icon *ngIf="field.type != 'submit'"
                                   (click)="remove_field($event, object_index)">close
@@ -106,7 +114,8 @@
                                 <span *ngIf="field.required" [style.color]="required_text_color">*</span>
                             </div>
                             <div>
-                                <input disabled type="text" [placeholder]="field.placeholder" [value]="field.default_value"
+                                <input disabled type="text" [placeholder]="field.placeholder"
+                                       [value]="field.default_value"
                                        [class]="field.classes"/>
                             </div>
                             <div class="ng-field-description">
@@ -158,7 +167,8 @@
                             </div>
                         </div>
                         <div class="form-field-content" *ngIf="field.type == 'submit'">
-                            <div class="button-form-submit" *ngIf="field.position[field.position_checked].text == 'right'">
+                            <div class="button-form-submit"
+                                 *ngIf="field.position[field.position_checked].text == 'right'">
                                 <input disabled type="submit"
                                        style="position: absolute; right: 0;"
                                        [class]="field.classes"
@@ -177,7 +187,8 @@
                             <div>
                                 <div *ngFor="let choice of field.choices; let i = index;">
                                     <label style="padding: 5px 0;">
-                                        <input disabled type="radio" [class]="field.classes" [checked]="field.choice_selected == i">
+                                        <input disabled type="radio" [class]="field.classes"
+                                               [checked]="field.choice_selected == i">
                                         {{
                                         choice.text }} </label><br/>
                                 </div>
@@ -241,7 +252,8 @@
                            (ngModelChange)="onFormValueUpdated($event)">
                 </mat-form-field>
             </section>
-            <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.choices != undefined && active_field_object.type == 'checkbox'">
+            <section class="ng-keep-field-gutter-between"
+                     *ngIf="active_field_object.choices != undefined && active_field_object.type == 'checkbox'">
                 <label>Choices</label>
 
                 <div *ngFor="let choice of active_field_object.choices; let i = index; trackBy:track_by_Index">
@@ -267,7 +279,7 @@
                 </mat-form-field>
             </section>
             <section class="ng-keep-field-gutter-between"
-                    *ngIf="active_field_object.choices != undefined && (active_field_object.type == 'radio' || active_field_object.type == 'select')">
+                     *ngIf="active_field_object.choices != undefined && (active_field_object.type == 'radio' || active_field_object.type == 'select')">
                 <label>Choices</label>
 
                 <div *ngFor="let choice of active_field_object.choices; let i = index;">
@@ -298,8 +310,8 @@
             </section>
             <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.required != undefined">
                 <mat-checkbox
-                              [checked]="active_field_object.required"
-                              (change)="update_required_field($event)">Required
+                        [checked]="active_field_object.required"
+                        (change)="update_required_field($event)">Required
                 </mat-checkbox>
             </section>
             <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.placeholder != undefined">
@@ -312,28 +324,31 @@
             </section>
             <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.position != undefined">
                 <label>Position</label>
+
                 <div *ngFor="let position of active_field_object.position; let i = index;" style="margin: 5px 0;">
                     <mat-radio-button
-                                      [checked]="active_field_object.position_checked == i"
-                                      (change)="update_submit_position($event, i)">
+                            [checked]="active_field_object.position_checked == i"
+                            (change)="update_submit_position($event, i)">
                         {{ position.text }}
                     </mat-radio-button>
                 </div>
             </section>
             <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.hide_label != undefined">
                 <mat-checkbox
-                              [checked]="active_field_object.hide_label"
-                              (change)="update_hide_label($event)">Hide Label
+                        [checked]="active_field_object.hide_label"
+                        (change)="update_hide_label($event)">Hide Label
                 </mat-checkbox>
             </section>
-            <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'text'">
+            <section class="ng-keep-field-gutter-between"
+                     *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'text'">
                 <mat-form-field>
                     <input matInput placeholder="Default Value"
                            [(ngModel)]="active_field_object.default_value"
                            (ngModelChange)="onFormValueUpdated($event)">
                 </mat-form-field>
             </section>
-            <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'email'">
+            <section class="ng-keep-field-gutter-between"
+                     *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'email'">
                 <mat-form-field>
                     <input matInput placeholder="Default Value"
                            type="email"
@@ -341,7 +356,8 @@
                            (ngModelChange)="onFormValueUpdated($event)">
                 </mat-form-field>
             </section>
-            <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'number'">
+            <section class="ng-keep-field-gutter-between"
+                     *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'number'">
                 <mat-form-field>
                     <input matInput placeholder="Default Value"
                            type="number"
@@ -349,7 +365,8 @@
                            (ngModelChange)="onFormValueUpdated($event)">
                 </mat-form-field>
             </section>
-            <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'textarea'">
+            <section class="ng-keep-field-gutter-between"
+                     *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'textarea'">
                 <mat-form-field>
                     <textarea matInput [(ngModel)]="fieldDefaultValue"
                               (ngModelChange)="onFormValueUpdated($event)"

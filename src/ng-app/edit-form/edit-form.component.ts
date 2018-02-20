@@ -28,6 +28,10 @@ export class EditFormComponent {
     private separatorKeysCodes = [ENTER, COMMA];
 
     private make_field_close_hidden:boolean = true;
+    private tooltip_help_text: string = 'Click following buttons to add fields to your form. ' +
+        'Button\'s name are associated with form field type. When you click a button then associated form field would be ' +
+        'added to the below of the form but before of the send button. ' +
+        'You can drag drop field within the form. Also you can customize a field settings and delete the field.';
 
     public constructor(public dragulaService:DragulaService, public sanitizer:DomSanitizer) {
         const bag:any = this.dragulaService.find('drag-drop-fields');
@@ -363,7 +367,7 @@ export class EditFormComponent {
 
     private add_text_field() {
         let last_form_field = this.form_fields.length - 1;
-        let added_field_index = 0;
+        //let added_field_index = 0;
         let text_field_object = {
             type: 'text',
             label: '-- Text Field --',
@@ -379,21 +383,21 @@ export class EditFormComponent {
         if (this.form_fields[last_form_field].type == 'submit') {
             //text_field_object.drop_priority = last_form_field;
             this.form_fields.splice(last_form_field, 0, text_field_object);
-            added_field_index = last_form_field;
+            //added_field_index = last_form_field;
         } else {
             //text_field_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, text_field_object);
-            added_field_index = this.form_fields.length - 1;
+            //added_field_index = this.form_fields.length - 1;
         }
         this.onFormInputChange.emit(this.form_fields);
 
-        let added_form_fields = document.getElementsByClassName('mat-list-ng-each-field');
+        //let added_form_fields = document.getElementsByClassName('mat-list-ng-each-field');
 
         //console.log(added_field_index);
         //console.log(added_form_fields.length);
-        for(let i =0; i < added_form_fields.length; i++){
-            console.log(added_form_fields[i]);
-        }
+        //for(let i =0; i < added_form_fields.length; i++){
+        //    console.log(added_form_fields[i]);
+        //}
     }
 
     private add_text_area_field() {

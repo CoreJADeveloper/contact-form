@@ -27,6 +27,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 //import { EditorModule } from '@tinymce/tinymce-angular';
 
@@ -60,6 +61,7 @@ import {FormSettingsComponent} from "./form-settings/form-settings.component";
         MatToolbarModule,
         MatProgressSpinnerModule,
         MatDialogModule,
+        MatTooltipModule,
         //EditorModule,
         BrowserAnimationsModule
     ],
