@@ -256,7 +256,7 @@
                      *ngIf="active_field_object.choices != undefined && active_field_object.type == 'checkbox'">
                 <label>Choices</label>
 
-                <div *ngFor="let choice of active_field_object.choices; let i = index; trackBy:track_by_Index">
+                <div *ngFor="let choice of active_field_object.choices; let i = index; trackBy: track_by_Index;">
                     <mat-checkbox [checked]="choice.checked"
                                   (change)="update_checkbox_choice_selected($event, i)">
                     </mat-checkbox>
@@ -351,7 +351,6 @@
                      *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'email'">
                 <mat-form-field>
                     <input matInput placeholder="Default Value"
-                           type="email"
                            [(ngModel)]="active_field_object.default_value"
                            (ngModelChange)="onFormValueUpdated($event)">
                 </mat-form-field>
@@ -360,9 +359,9 @@
                      *ngIf="active_field_object.default_value != undefined && active_field_object.type == 'number'">
                 <mat-form-field>
                     <input matInput placeholder="Default Value"
-                           type="number"
                            [(ngModel)]="active_field_object.default_value"
                            (ngModelChange)="onFormValueUpdated($event)">
+                    <mat-error *ngIf="defult_value_is_not_number">Input must be number</mat-error>
                 </mat-form-field>
             </section>
             <section class="ng-keep-field-gutter-between"

@@ -26,7 +26,7 @@ class ngContactForm
     public function __construct()
     {
         global $endpoint;
-        $endpoint = site_url('/wp-json/');
+        $endpoint = site_url('index.php/wp-json/');
 
         $this->_actions();
         $this->_define();
@@ -227,6 +227,7 @@ class ngContactForm
     public function ng_enqueue_script()
     {
         wp_enqueue_script('angcf-script', ANGCF_PLUGIN_URL . 'dist/script.js');
+        wp_enqueue_style('angcf-style', ANGCF_PLUGIN_URL . 'dist/front-style.css');
     }
 
     public function add_short_code()
@@ -608,6 +609,10 @@ EOD;
 
         $field_html_input = '';
 
+        $field_html_input .=<<<EOH
+                         <div class={$field_object->built_classes}>
+EOH;
+
         foreach ($field_object->choices as $key => $choice) {
             if ($choice->checked) {
                 $checked = 'checked';
@@ -616,7 +621,7 @@ EOD;
             }
             if ($field_object->hide_label && $field_object->required) {
                 $field_html_input .= <<<EOF
-                    <div class={$field_object->built_classes}>
+                    <div>
                     <span class='required-field-class'>*</span>
                     <label>
                     <input type='checkbox'
@@ -628,7 +633,7 @@ EOD;
 EOF;
             } else {
                 $field_html_input .= <<<EOF
-                    <div class={$field_object->built_classes}>
+                    <div>
                     <label>
                     <input type='checkbox'
                     class='{$field_object->built_classes} {$field_object->classes}'
@@ -639,6 +644,10 @@ EOF;
 EOF;
             }
         }
+
+        $field_html_input .=<<<EOI
+                         </div>
+EOI;
 
         if ($required == 'required') {
             $checkbox_required = "
@@ -714,6 +723,10 @@ EOD;
 
         $field_html_input = '';
 
+        $field_html_input .=<<<EOH
+                         <div class={$field_object->built_classes}>
+EOH;
+
         foreach ($field_object->choices as $key => $choice) {
             if ($field_object->choice_selected == $key) {
                 $checked = 'checked';
@@ -722,7 +735,7 @@ EOD;
             }
             if ($field_object->hide_label && $field_object->required) {
                 $field_html_input .= <<<EOF
-                    <div class={$field_object->built_classes}>
+                    <div>
                     <span class='required-field-class'>*</span>
                     <label>
                     <input type='radio'
@@ -734,7 +747,7 @@ EOD;
 EOF;
             } else {
                 $field_html_input .= <<<EOF
-                    <div class={$field_object->built_classes}>
+                    <div>
                     <label>
                     <input type='radio'
                     class='{$field_object->built_classes} {$field_object->classes}'
@@ -745,6 +758,10 @@ EOF;
 EOF;
             }
         }
+
+        $field_html_input .=<<<EOI
+                         </div>
+EOI;
 
         return $field_html_label . $field_html_input;
     }

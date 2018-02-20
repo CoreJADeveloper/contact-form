@@ -20,7 +20,7 @@
     "raw-loader": "^0.5.1",
     "sass-loader": "^6.0.6",
     "typescript": "^2.5.1",
-    "webpack": "^3.5.5"
+    "webpack": "^3.11.0"
   },
   "dependencies": {
     "@angular/animations": "^5.2.3",

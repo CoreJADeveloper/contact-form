@@ -33,6 +33,8 @@ export class EditFormComponent {
         'added to the below of the form but before of the send button. ' +
         'You can drag drop field within the form. Also you can customize a field settings and delete the field.';
 
+    private defult_value_is_not_number: boolean = false;
+
     public constructor(public dragulaService:DragulaService, public sanitizer:DomSanitizer) {
         const bag:any = this.dragulaService.find('drag-drop-fields');
         if (bag !== undefined)
