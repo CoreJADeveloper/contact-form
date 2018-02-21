@@ -234,7 +234,6 @@ class ngContactForm
 
         $response['confirmation'] = $confirmation_email_message;
 
-
         die(json_encode($response));
     }
 
@@ -323,7 +322,7 @@ EOY;
         echo <<<EOY
         <div class="ng-confirmation-message"></div>
             <input type='hidden' name='action' value='send-ng-contact-email' />
-            <input type='hidden' name='form_id' value='{esc_html($form_id)}' />
+            <input type='hidden' name='form_id' value='{$esc_html($form_id)}' />
             </form>
 EOY;
 
