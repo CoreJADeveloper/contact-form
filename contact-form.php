@@ -215,13 +215,19 @@ class ngContactForm
 
         mail($to, $subject, $message, $headers, "From: " . $name);
 
-        if ($user_email != '' && $form_settings_object->send_confirmation_email) {
+        if ($form_settings_object->send_confirmation_email) {
             $confirmation_email_message = $form_settings_object->confirmation_email_message;
 
-            mail($user_email, $subject, $confirmation_email_message);
+//            mail($user_email, $subject, $confirmation_email_message);
+        }else{
+            $confirmation_email_message = '';
         }
 
-        die();
+        $response['confirmation'] = $confirmation_email_message;
+
+
+
+        die(json_encode($response));
     }
 
     public function ng_enqueue_script()
@@ -269,6 +275,7 @@ EOV;
 
         echo <<<EOY
             <form action='#' method='post' class='{$form_fields_settings->form_css_classes} ng-contact-form-submit'>
+            <div class="ng-confirmation-message"></div>
 EOY;
 
 
@@ -366,9 +373,19 @@ document.getElementsByClassName('ng-contact-form-submit')[0].addEventListener('s
 
             // Response handlers.
             xhr.onload = function () {
-                //let responseText = xhr.responseText;
-                //let responseObject = JSON.parse(responseText);
+                let responseMessage = xhr.responseText;
+                let responseObject = JSON.parse(responseMessage);
+                //console.log(responseObject);
                 document.getElementsByClassName('ng-contact-form-submit-button')[0].value = submit_button_text;
+                if(responseObject.confirmation != ''){
+                  let message_element = document.createElement('p');
+                  message_element.innerHTML = responseObject.confirmation;
+                  let confirmation_element = document.getElementsByClassName('ng-confirmation-message')[0];
+                  confirmation_element.innerHTML = '';
+                  confirmation_element.scrollIntoView();
+                  confirmation_element.parentNode.scrollTop = confirmation_element.offsetTop;
+                  document.getElementsByClassName('ng-confirmation-message')[0].appendChild(message_element); 
+                }
                 reset_form();
             };
 
@@ -421,6 +438,7 @@ EOD;
                     class='{$field_object->built_classes} {$field_object->classes}'
                     {$required} name='ng-field[ng-field-{$key}]'
                     value='{$field_object->default_value}' />
+                    <span>{$field_object->description}</span>
                     </div>
 EOF;
         } else {
@@ -431,6 +449,7 @@ EOF;
                     class='{$field_object->classes}'
                     {$required} name='ng-field[ng-field-{$key}]'
                     value='{$field_object->default_value}' />
+                    <span>{$field_object->description}</span>
                     </div>
 EOF;
         }
@@ -469,6 +488,7 @@ EOD;
                     placeholder='{$field_object->placeholder}'
                     class='{$field_object->built_classes} {$field_object->classes}'
                     {$required} name='ng-field[ng-field-{$key}]'>{$field_object->default_value}</textarea>
+                    <span>{$field_object->description}</span>
                     </div>
 EOF;
         } else {
@@ -478,6 +498,7 @@ EOF;
                     placeholder='{$field_object->placeholder}'
                     class='{$field_object->classes}'
                     {$required} name='ng-field[ng-field-{$key}]'>{$field_object->default_value}</textarea>
+                    <span>{$field_object->description}</span>
                     </div>
 EOF;
         }
@@ -518,6 +539,7 @@ EOD;
                     class='{$field_object->built_classes} {$field_object->classes}'
                     {$required} name='ng-field[ng-field-{$key}]'
                     value='{$field_object->default_value}' />
+                    <span>{$field_object->description}</span>
                     </div>
 EOF;
         } else {
@@ -528,6 +550,7 @@ EOF;
                     class='{$field_object->classes}'
                     {$required} name='ng-field[ng-field-{$key}]'
                     value='{$field_object->default_value}' />
+                    <span>{$field_object->description}</span>
                     </div>
 EOF;
         }
@@ -567,6 +590,7 @@ EOD;
                     class='{$field_object->built_classes} {$field_object->classes}'
                     {$required} name='ng-field[ng-field-{$key}]'
                     value='{$field_object->default_value}' />
+                    <span>{$field_object->description}</span>
                     </div>
 EOF;
         } else {
@@ -577,6 +601,7 @@ EOF;
                     class='{$field_object->classes}'
                     {$required} name='ng-field[ng-field-{$key}]'
                     value='{$field_object->default_value}' />
+                    <span>{$field_object->description}</span>
                     </div>
 EOF;
         }
@@ -625,7 +650,7 @@ EOH;
                     <span class='required-field-class'>*</span>
                     <label>
                     <input type='checkbox'
-                    class='{$field_object->built_classes} {$field_object->classes}'
+                    class='{$field_object->classes}'
                     {$checked}
                     value='{$choice->text}'
                     {$required} name='ng-field[ng-field-{$array_key}]' />{$choice->text}</label>
@@ -636,7 +661,7 @@ EOF;
                     <div>
                     <label>
                     <input type='checkbox'
-                    class='{$field_object->built_classes} {$field_object->classes}'
+                    class='{$field_object->classes}'
                     {$checked}
                     value='{$choice->text}'
                     {$required} name='ng-field[ng-field-{$array_key}]' />{$choice->text}</label>
@@ -646,6 +671,7 @@ EOF;
         }
 
         $field_html_input .=<<<EOI
+        <span>{$field_object->description}</span>
                          </div>
 EOI;
 
@@ -739,7 +765,7 @@ EOH;
                     <span class='required-field-class'>*</span>
                     <label>
                     <input type='radio'
-                    class='{$field_object->built_classes} {$field_object->classes}'
+                    class='{$field_object->classes}'
                     {$checked}
                     value='{$choice->text}'
                     {$required} name='ng-field[ng-field-{$array_key}]' />{$choice->text}</label>
@@ -750,7 +776,7 @@ EOF;
                     <div>
                     <label>
                     <input type='radio'
-                    class='{$field_object->built_classes} {$field_object->classes}'
+                    class='{$field_object->classes}'
                     {$checked}
                     value='{$choice->text}'
                     {$required} name='ng-field[ng-field-{$array_key}]' />{$choice->text}</label>
@@ -760,6 +786,7 @@ EOF;
         }
 
         $field_html_input .=<<<EOI
+        <span>{$field_object->description}</span>
                          </div>
 EOI;
 
@@ -805,19 +832,21 @@ EOL;
 
         if ($field_object->hide_label && $field_object->required) {
             $field_html_input = <<<EOF
-                    <div class={$field_object->built_classes}>
+                    <div>
                     <span><span class='required-field-class'>*</span></span>
                     <select
-                    class='{$field_object->built_classes} {$field_object->classes}'
+                    class='{$field_object->classes}'
                     {$required} name='ng-field[ng-field-{$array_key}]'>{$field_html_options}</select>
+                    <div><span>{$field_object->description}</span></div>
                     </div>
 EOF;
         } else {
             $field_html_input = <<<EOF
                     <div class={$field_object->built_classes}>
                     <select
-                    class='{$field_object->built_classes} {$field_object->classes}'
+                    class='{$field_object->classes}'
                     {$required} name='ng-field[ng-field-{$array_key}]'>{$field_html_options}</select>
+                    <div><span>{$field_object->description}</span></div>
                     </div>
 EOF;
         }
@@ -828,7 +857,7 @@ EOF;
     private function generate_submit_field($field_object)
     {
         $field_html_submit = <<<EOF
-                    <div class={$field_object->built_classes}>
+                    <div class='{$field_object->built_classes}'>
                     <input type='submit'
                     class='{$field_object->classes} ng-contact-form-submit-button'
                     value='{$field_object->label}' />
