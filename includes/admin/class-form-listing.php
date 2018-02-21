@@ -28,20 +28,11 @@ class ngForms_Listing
 
             require_once 'class-form-listing-table.php';
 
-//            wpforms()->preview->form_preview_check();
-
-            add_action('admin_enqueue_scripts', array($this, 'enqueues'));
             add_action('ng_forms_admin_page', array($this, 'output'));
 
-//            do_action('ng_forms_overview_init');
         }
     }
 
-    /**
-     * Add per-page screen option to the Forms table.
-     *
-     * @since 1.0.0
-     */
     public function screen_options()
     {
         $screen = get_current_screen();
@@ -78,23 +69,7 @@ class ngForms_Listing
         return $status;
     }
 
-    /**
-     * Enqueue assets for the overview page.
-     *
-     * @since 1.0.0
-     */
-    public function enqueues()
-    {
 
-        // Hook for addons.
-//        do_action( 'wpforms_overview_enqueue' );
-    }
-
-    /**
-     * Build the output for the overview page.
-     *
-     * @since 1.0.0
-     */
     public function output()
     {
         ?>

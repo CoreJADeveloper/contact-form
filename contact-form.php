@@ -101,8 +101,9 @@ class ngContactForm
         register_activation_hook(__FILE__, array($this, 'ng_create_preview_page'));
     }
 
-    public function ng_admin_enqueue_script(){
-        wp_enqueue_style('ng-admin-style', ANGCF_PLUGIN_URL. 'dist/admin-style.css');
+    public function ng_admin_enqueue_script()
+    {
+        wp_enqueue_style('ng-admin-style', ANGCF_PLUGIN_URL . 'dist/admin-style.css');
     }
 
     public function ng_load_contact_form_preview($posts, $query)
@@ -129,14 +130,14 @@ class ngContactForm
 
         $form_id = $_GET['form_id'];
 
-        if(!get_post_status($form_id))
+        if (!get_post_status($form_id))
             return $posts;
 
-        $shortcode = ! empty( $form_id ) ? '[ngForms id="' . $form_id . '"]' : '';
-        $content   = __( 'This is a preview of ngContact form. This page is not publicly accessible.', 'ngForms' );
+        $shortcode = !empty($form_id) ? '[ngForms id="' . $form_id . '"]' : '';
+        $content = __('This is a preview of ngContact form. This page is not publicly accessible.', 'ngForms');
 
         $posts[0]->post_content = $content . $shortcode;
-        $posts[0]->post_status  = 'public';
+        $posts[0]->post_status = 'public';
 
         return $posts;
     }
@@ -158,10 +159,17 @@ class ngContactForm
 
     public function ng_process_contact_email()
     {
-        unset($_POST['action']);
+        if (isset($_POST['action']))
+            unset($_POST['action']);
 
-        $form_id = $_POST['form_id'];
-        unset($_POST['form_id']);
+        $form_id = 0;
+
+        if(isset($_POST['form_id'])) {
+            $form_id = sanitize_text_field($_POST['form_id']);
+            unset($_POST['form_id']);
+        }else{
+            die();
+        }
 
         $form_fields = html_entity_decode(get_post_meta($form_id, 'ng_form_fields', true));
         $form_settings = html_entity_decode(get_post_meta($form_id, 'ng_form_settings', true));
@@ -171,16 +179,19 @@ class ngContactForm
 
         $form_fields_info = '';
 
-        $user_email = '';
-
         foreach ($_POST as $value_array) {
             $index_count = 0;
             foreach ($value_array as $key => $value) {
-                $form_fields_info .= $form_fields_array[$index_count]->label . ': ' . $value . "\n";
-
-                if ($form_fields_array[$index_count]->type == 'email') {
-                    $user_email = $value;
+                if ($form_fields_array[$index_count]->type == 'text' || $form_fields_array[$index_count]->type == 'number') {
+                    $value = sanitize_text_field($value);
                 }
+                if ($form_fields_array[$index_count]->type == 'textarea') {
+                    $value = sanitize_textarea_field($value);
+                }
+                if ($form_fields_array[$index_count]->type == 'email') {
+                    $value = sanitize_email($value);
+                }
+                $form_fields_info .= $form_fields_array[$index_count]->label . ': ' . $value . "\n";
                 $index_count++;
             }
         }
@@ -217,14 +228,11 @@ class ngContactForm
 
         if ($form_settings_object->send_confirmation_email) {
             $confirmation_email_message = $form_settings_object->confirmation_email_message;
-
-//            mail($user_email, $subject, $confirmation_email_message);
-        }else{
+        } else {
             $confirmation_email_message = '';
         }
 
         $response['confirmation'] = $confirmation_email_message;
-
 
 
         die(json_encode($response));
@@ -263,19 +271,14 @@ class ngContactForm
 
         ob_start();
 
-//        echo '<pre>';
-//        print_r($form_fields_settings);
-//        echo '</pre>';
-
         if (isset($form_fields_settings->form_name) && !empty($form_fields_settings->form_name)) {
             echo <<<EOV
-            <h3>{$form_fields_settings->form_name}</h3>
+            <h3>{esc_html($form_fields_settings->form_name)}</h3>
 EOV;
         }
 
         echo <<<EOY
             <form action='#' method='post' class='{$form_fields_settings->form_css_classes} ng-contact-form-submit'>
-            <div class="ng-confirmation-message"></div>
 EOY;
 
 
@@ -316,6 +319,7 @@ EOY;
         }
 
         echo <<<EOY
+        <div class="ng-confirmation-message"></div>
             <input type='hidden' name='action' value='send-ng-contact-email' />
             <input type='hidden' name='form_id' value='{$form_id}' />
             </form>
@@ -375,7 +379,6 @@ document.getElementsByClassName('ng-contact-form-submit')[0].addEventListener('s
             xhr.onload = function () {
                 let responseMessage = xhr.responseText;
                 let responseObject = JSON.parse(responseMessage);
-                //console.log(responseObject);
                 document.getElementsByClassName('ng-contact-form-submit-button')[0].value = submit_button_text;
                 if(responseObject.confirmation != ''){
                   let message_element = document.createElement('p');
@@ -634,7 +637,7 @@ EOD;
 
         $field_html_input = '';
 
-        $field_html_input .=<<<EOH
+        $field_html_input .= <<<EOH
                          <div class={$field_object->built_classes}>
 EOH;
 
@@ -670,7 +673,7 @@ EOF;
             }
         }
 
-        $field_html_input .=<<<EOI
+        $field_html_input .= <<<EOI
         <span>{$field_object->description}</span>
                          </div>
 EOI;
@@ -749,7 +752,7 @@ EOD;
 
         $field_html_input = '';
 
-        $field_html_input .=<<<EOH
+        $field_html_input .= <<<EOH
                          <div class={$field_object->built_classes}>
 EOH;
 
@@ -785,7 +788,7 @@ EOF;
             }
         }
 
-        $field_html_input .=<<<EOI
+        $field_html_input .= <<<EOI
         <span>{$field_object->description}</span>
                          </div>
 EOI;
@@ -888,12 +891,12 @@ EOF;
         $form_fields = $parameters['form_fields'];
         $form_settings = $parameters['form_settings'];
 
-        if(isset($form_title) && !empty($form_title)) {
+        if (isset($form_title) && !empty($form_title)) {
             $form_post = array(
                 'ID' => $form_id,
                 'post_title' => $form_title
             );
-        } else{
+        } else {
             $form_post = array(
                 'ID' => $form_id
             );
@@ -1079,10 +1082,10 @@ EOF;
 
     public function angular_forms()
     {
-        if(isset($_GET['action']) && isset($_GET['form_id']) && $_GET['action'] == 'delete' && isset($_GET['_wpnonce']) && wp_verify_nonce($_GET['_wpnonce'])){
+        if (isset($_GET['action']) && isset($_GET['form_id']) && $_GET['action'] == 'delete' && isset($_GET['_wpnonce']) && wp_verify_nonce($_GET['_wpnonce'])) {
             $form_id = $_GET['form_id'];
 
-            wp_delete_post( $form_id );
+            wp_delete_post($form_id);
         }
 
         do_action('ng_forms_admin_page');

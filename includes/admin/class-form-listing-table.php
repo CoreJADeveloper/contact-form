@@ -9,25 +9,13 @@
 class ngForms_Listing_Table extends WP_List_Table
 {
 
-    /**
-     * Number of forms to show per page.
-     *
-     * @since 1.0.0
-     */
     public $per_page;
 
-    /**
-     * Primary class constructor.
-     *
-     * @since 1.0.0
-     */
     public function __construct()
     {
 
-        // Bring globals into scope for parent.
         global $status, $page;
 
-        // Utilize the parent constructor to build the main class properties.
         parent::__construct(
             array(
                 'singular' => 'form',
@@ -36,16 +24,9 @@ class ngForms_Listing_Table extends WP_List_Table
             )
         );
 
-        // Default number of forms to show per page
         $this->per_page = apply_filters('ng_forms_overview_per_page', 20);
     }
 
-    /**
-     * Retrieve the table columns
-     *
-     * @since 1.0.0
-     * @return array $columns Array of all the list table columns
-     */
     public function get_columns()
     {
 
@@ -59,31 +40,12 @@ class ngForms_Listing_Table extends WP_List_Table
         return apply_filters('ng_forms_overview_table_columns', $columns);
     }
 
-    /**
-     * Render the checkbox column.
-     *
-     * @since 1.0.0
-     *
-     * @param WP_Post $form
-     *
-     * @return string
-     */
     public function column_cb($form)
     {
 
         return '<input type="checkbox" name="form_id[]" value="' . absint($form->ID) . '" />';
     }
 
-    /**
-     * Renders the columns.
-     *
-     * @since 1.0.0
-     *
-     * @param WP_Post $form
-     * @param string $column_name
-     *
-     * @return string
-     */
     public function column_default($form, $column_name)
     {
 
@@ -120,19 +82,9 @@ class ngForms_Listing_Table extends WP_List_Table
         return apply_filters('ng_forms_overview_table_column_value', $value, $form, $column_name);
     }
 
-    /**
-     * Render the form name column with action links.
-     *
-     * @since 1.0.0
-     *
-     * @param WP_Post $form
-     *
-     * @return string
-     */
     public function column_form_name($form)
     {
 
-        // Prepare variables.
         $name = !empty($form->post_title) ? $form->post_title : $form->post_name;
         $name = sprintf(
             '<a class="row-title" href="%s" title="%s"><strong>%s</strong></a>',
@@ -146,10 +98,8 @@ class ngForms_Listing_Table extends WP_List_Table
             $name
         );
 
-        // Build all of the row action links.
         $row_actions = array();
 
-        // Edit
         $row_actions['edit'] = sprintf(
             '<a href="%s" title="%s">%s</a>',
             add_query_arg(
@@ -162,21 +112,6 @@ class ngForms_Listing_Table extends WP_List_Table
             __('Edit', 'ngForms')
         );
 
-        // Entries
-//        $row_actions['entries'] = sprintf(
-//            '<a href="%s" title="%s">%s</a>',
-//            add_query_arg(
-//                array(
-//                    'view' => 'list',
-//                    'form_id' => $form->ID,
-//                ),
-//                admin_url( 'admin.php?page=wpforms-entries' )
-//            ),
-//            __( 'View entries', 'wpforms' ),
-//            __( 'Entries', 'wpforms' )
-//        );
-
-        // Preview
         $row_actions['preview_'] = sprintf(
             '<a href="%s" title="%s" target="_blank" rel="noopener">%s</a>',
             esc_url($this->form_preview_url($form->ID)),
@@ -184,24 +119,7 @@ class ngForms_Listing_Table extends WP_List_Table
             __('Preview', 'ngForms')
         );
 
-        // Duplicate
-//        $row_actions['duplicate'] = sprintf(
-//            '<a href="%s" title="%s">%s</a>',
-//            wp_nonce_url(
-//                add_query_arg(
-//                    array(
-//                        'action'  => 'duplicate',
-//                        'form_id' => $form->ID,
-//                    ),
-//                    admin_url( 'admin.php?page=wpforms-overview' )
-//                ),
-//                'wpforms_duplicate_form_nonce'
-//            ),
-//            __( 'Duplicate this form', 'wpforms' ),
-//            __( 'Duplicate', 'wpforms' )
-//        );
 
-        // Delete
         $row_actions['delete'] = sprintf(
             '<a href="%s" title="%s">%s</a>',
             wp_nonce_url(
@@ -218,7 +136,6 @@ class ngForms_Listing_Table extends WP_List_Table
             __('Delete', 'ngForms')
         );
 
-        // Build the row action links and return the value.
         $value = $name . $this->row_actions($row_actions);
 
         return apply_filters('ng_forms_overview_row_actions', $value, $form);
@@ -246,13 +163,6 @@ class ngForms_Listing_Table extends WP_List_Table
         );
     }
 
-    /**
-     * Define bulk actions available for our table listing.
-     *
-     * @since 1.0.0
-     *
-     * @return array
-     */
     public function get_bulk_actions()
     {
 
@@ -262,11 +172,6 @@ class ngForms_Listing_Table extends WP_List_Table
         return $actions;
     }
 
-    /**
-     * Process the bulk actions.
-     *
-     * @since 1.0.0
-     */
     public function process_bulk_actions()
     {
 
@@ -283,7 +188,6 @@ class ngForms_Listing_Table extends WP_List_Table
             return;
         }
 
-        // Delete one or multiple forms - both delete links and bulk actions
         if ('delete' === $this->current_action()) {
 
             if (
@@ -316,77 +220,30 @@ class ngForms_Listing_Table extends WP_List_Table
                 <?php
             }
         }
-
-        // Duplicate form - currently just delete links (no bulk action at the moment)
-        if ('duplicate' === $this->current_action()) {
-
-            if (wp_verify_nonce($_GET['_wpnonce'], 'ng_forms_delete_form_nonce')) {
-                foreach ($ids as $id) {
-                    wpforms()->form->duplicate($id);
-                }
-                ?>
-                <div class="notice updated">
-                    <p>
-                        <?php
-                        if (count($ids) === 1) {
-                            _e('Form was successfully duplicated.', 'ngForms');
-                        } else {
-                            _e('Forms were successfully duplicated.', 'ngForms');
-                        }
-                        ?>
-                    </p>
-                </div>
-                <?php
-            } else {
-                ?>
-                <div class="notice updated">
-                    <p>
-                        <?php _e('Security check failed. Please try again.', 'ngForms'); ?>
-                    </p>
-                </div>
-                <?php
-            }
-        }
     }
 
-    /**
-     * Message to be displayed when there are no forms.
-     *
-     * @since 1.0.0
-     */
     public function no_items()
     {
 
-        printf(__('No form created yet, <a href="%s">let\'s create a form</a>?', 'wpforms'), admin_url('admin.php?page=ng-add-form'));
+        printf(__('No form created yet, <a href="%s">let\'s create a form</a>?', 'ngForms'), admin_url('admin.php?page=ng-add-form'));
     }
 
-    /**
-     * Fetch and setup the final data for the table.
-     *
-     * @since 1.0.0
-     */
     public function prepare_items()
     {
 
-        // Process bulk actions if found
         $this->process_bulk_actions();
 
-        // Setup the columns
         $columns = $this->get_columns();
 
-        // Hidden columns (none)
         $hidden = array();
 
-        // Define which columns can be sorted - form name, date
         $sortable = array(
             'form_name' => array('title', false),
             'created' => array('date', false),
         );
 
-        // Set column headers
         $this->_column_headers = array($columns, $hidden, $sortable);
 
-        // Get forms
         $total = wp_count_posts('angular-forms')->publish;
         $page = $this->get_pagenum();
         $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
