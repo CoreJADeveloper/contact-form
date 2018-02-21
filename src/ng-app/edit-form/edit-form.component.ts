@@ -29,9 +29,9 @@ export class EditFormComponent {
 
     private make_field_close_hidden:boolean = true;
     private tooltip_help_text: string = 'Click following buttons to add fields to your form. ' +
-        'Button\'s name are associated with form field type. When you click a button then associated form field would be ' +
+        'Button name is associated with form field type. When you click a button then associated form field would be ' +
         'added to the below of the form but before of the send button. ' +
-        'You can drag drop field within the form. Also you can customize a field settings and delete the field.';
+        'You can drag drop field within the form. Also, you can customize a field settings and delete the field.';
 
     private defult_value_is_not_number: boolean = false;
 
