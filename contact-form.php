@@ -323,7 +323,7 @@ EOY;
         echo <<<EOY
         <div class="ng-confirmation-message"></div>
             <input type='hidden' name='action' value='send-ng-contact-email' />
-            <input type='hidden' name='form_id' value='{$form_id}' />
+            <input type='hidden' name='form_id' value='{esc_html($form_id)}' />
             </form>
 EOY;
 
@@ -444,7 +444,7 @@ EOD;
                     placeholder='{$field_object->placeholder}'
                     class='{$esc_attr($field_object->built_classes)} {$esc_attr($field_object->classes)}'
                     {$required} name='ng-field[ng-field-{$key}]'
-                    value='{$field_object->default_value}' />
+                    value='{$esc_html($field_object->default_value)}' />
                     <span>{$esc_html($field_object->description)}</span>
                     </div>
 EOF;
@@ -455,7 +455,7 @@ EOF;
                     placeholder='{$field_object->placeholder}'
                     class='{$esc_attr($field_object->classes)}'
                     {$required} name='ng-field[ng-field-{$key}]'
-                    value='{$field_object->default_value}' />
+                    value='{$esc_html($field_object->default_value)}' />
                     <span>{$esc_html($field_object->description)}</span>
                     </div>
 EOF;
@@ -551,7 +551,7 @@ EOD;
                     placeholder='{$field_object->placeholder}'
                     class='{$esc_attr($field_object->built_classes)} {$esc_attr($field_object->classes)}'
                     {$required} name='ng-field[ng-field-{$key}]'
-                    value='{$field_object->default_value}' />
+                    value='{$esc_html($field_object->default_value)}' />
                     <span>{$esc_html($field_object->description)}</span>
                     </div>
 EOF;
@@ -562,7 +562,7 @@ EOF;
                     placeholder='{$field_object->placeholder}'
                     class='{$esc_attr($field_object->classes)}'
                     {$required} name='ng-field[ng-field-{$key}]'
-                    value='{$field_object->default_value}' />
+                    value='{$esc_html($field_object->default_value)}' />
                     <span>{$esc_html($field_object->description)}</span>
                     </div>
 EOF;
@@ -604,7 +604,7 @@ EOD;
                     placeholder='{$field_object->placeholder}'
                     class='{$esc_attr($field_object->built_classes)} {$esc_attr($field_object->classes)}'
                     {$required} name='ng-field[ng-field-{$key}]'
-                    value='{$field_object->default_value}' />
+                    value='{$esc_html($field_object->default_value)}' />
                     <span>{$esc_html($field_object->description)}</span>
                     </div>
 EOF;
@@ -615,7 +615,7 @@ EOF;
                     placeholder='{$field_object->placeholder}'
                     class='{$esc_attr($field_object->classes)}'
                     {$required} name='ng-field[ng-field-{$key}]'
-                    value='{$field_object->default_value}' />
+                    value='{$esc_html($field_object->default_value)}' />
                     <span>{$esc_html($field_object->description)}</span>
                     </div>
 EOF;
@@ -669,7 +669,7 @@ EOH;
                     <input type='checkbox'
                     class='{$esc_attr($field_object->classes)}'
                     {$checked}
-                    value='{$choice->text}'
+                    value='{$esc_html($choice->text)}'
                     {$required} name='ng-field[ng-field-{$array_key}]' />{$esc_html($choice->text)}</label>
                     </div>
 EOF;
@@ -680,7 +680,7 @@ EOF;
                     <input type='checkbox'
                     class='{$esc_attr($field_object->classes)}'
                     {$checked}
-                    value='{$choice->text}'
+                    value='{$esc_html($choice->text)}'
                     {$required} name='ng-field[ng-field-{$array_key}]' />{$esc_html($choice->text)}</label>
                     </div>
 EOF;
@@ -786,7 +786,7 @@ EOH;
                     <input type='radio'
                     class='{$esc_attr($field_object->classes)}'
                     {$checked}
-                    value='{$choice->text}'
+                    value='{$esc_html($choice->text)}'
                     {$required} name='ng-field[ng-field-{$array_key}]' />{$esc_html($choice->text)}</label>
                     </div>
 EOF;
@@ -797,7 +797,7 @@ EOF;
                     <input type='radio'
                     class='{$esc_attr($field_object->classes)}'
                     {$checked}
-                    value='{$choice->text}'
+                    value='{$esc_html($choice->text)}'
                     {$required} name='ng-field[ng-field-{$array_key}]' />{$esc_html($choice->text)}</label>
                     </div>
 EOF;
@@ -877,11 +877,13 @@ EOF;
 
     private function generate_submit_field($field_object)
     {
+        $esc_html = 'esc_html';
+        $esc_attr = 'esc_attr';
         $field_html_submit = <<<EOF
                     <div class='{$field_object->built_classes}'>
                     <input type='submit'
-                    class='{$field_object->classes} ng-contact-form-submit-button'
-                    value='{$field_object->label}' />
+                    class='{$esc_attr($field_object->classes)} ng-contact-form-submit-button'
+                    value='{$esc_html($field_object->label)}' />
                     </div>
 EOF;
 
