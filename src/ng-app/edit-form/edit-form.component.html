@@ -254,25 +254,60 @@
             </section>
             <section class="ng-keep-field-gutter-between"
                      *ngIf="active_field_object.choices != undefined && active_field_object.type == 'checkbox'">
-                <label>Choices</label>
 
-                <div *ngFor="let choice of active_field_object.choices; let i = index; trackBy: track_by_Index;">
-                    <mat-checkbox [checked]="choice.checked"
-                                  (change)="update_checkbox_choice_selected($event, i)">
-                    </mat-checkbox>
-                    <mat-form-field>
+                <mat-table #table [dataSource]="checkbox_data_source">
+
+                    <ng-container matColumnDef="select">
+                        <mat-header-cell *matHeaderCellDef>Choices</mat-header-cell>
+                        <mat-cell *matCellDef="let choice; let i = index;">
+                            <mat-checkbox [checked]="choice.checked"
+                                          (change)="update_checkbox_choice_selected($event, i)">
+                            </mat-checkbox>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                        <mat-cell *matCellDef="let choice; let i = index;">
+                            <mat-form-field>
+                                <input matInput
+                                       [(ngModel)]="choice.text"
+                                       (ngModelChange)="onFormValueUpdated($event)">
+                            </mat-form-field>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action">
+                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                        <mat-cell *matCellDef="let choice; let i = index;">
+                            <mat-icon *ngIf="active_field_object.choices.length > 1"
+                                      (click)="remove_a_checkbox_choice(active_field_object.choices, i)"
+                                      [style.cursor]="style_cursor">close
+                            </mat-icon>
+                        </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+                <!--<div *ngFor="let choice of active_field_object.choices; let i = index; trackBy: track_by_Index;">-->
+
+                <!--</div>-->
+
+                <!--<div *ngFor="let choice of active_field_object.choices; let i = index; trackBy: track_by_Index;">-->
+                    <!--<mat-checkbox [checked]="choice.checked"-->
+                                  <!--(change)="update_checkbox_choice_selected($event, i)">-->
+                    <!--</mat-checkbox>-->
+                    <!--<mat-form-field>-->
                         <!--<input matInput-->
-                        <!--[ngModel]="get_choices_array(active_field_object.choices)[i]"-->
-                        <!--(input)="update_choice_text($event, i, get_choices_array(active_field_object.choices))">-->
-                        <input matInput
-                               [(ngModel)]="choice.text"
-                               (ngModelChange)="onFormValueUpdated($event)">
-                    </mat-form-field>
-                    <mat-icon *ngIf="active_field_object.choices.length > 1"
-                              (click)="remove_a_checkbox_choice(active_field_object.choices, i)"
-                              [style.cursor]="style_cursor">close
-                    </mat-icon>
-                </div>
+                               <!--[(ngModel)]="choice.text"-->
+                               <!--(ngModelChange)="onFormValueUpdated($event)">-->
+                    <!--</mat-form-field>-->
+                    <!--<mat-icon *ngIf="active_field_object.choices.length > 1"-->
+                              <!--(click)="remove_a_checkbox_choice(active_field_object.choices, i)"-->
+                              <!--[style.cursor]="style_cursor">close-->
+                    <!--</mat-icon>-->
+                <!--</div>-->
                 <mat-form-field>
                     <input matInput placeholder="Add Choice by pressing enter"
                            (keyup.enter)="add_new_checkbox_choice($event, active_field_object.choices)">

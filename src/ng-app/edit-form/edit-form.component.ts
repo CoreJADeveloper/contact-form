@@ -1,33 +1,48 @@
-import {Component, Output, EventEmitter} from '@angular/core';
+import {Component, Output, EventEmitter, OnInit, AfterViewChecked} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {DragulaService} from 'ng2-dragula/ng2-dragula';
 import {ENTER, COMMA} from '@angular/cdk/keycodes';
+
+import {DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/observable/fromEvent';
+
+interface CheckboxChoice {
+    text: string;
+    checked: boolean;
+}
+
 
 @Component({
     selector: 'ng-edit-form',
     templateUrl: './edit-form.component.html'
 })
 
-export class EditFormComponent {
+export class EditFormComponent implements AfterViewChecked {
 
     @Output() onFormInputChange = new EventEmitter<any>();
 
-    private form_fields:any;
-    private default_form_type:any;
-    private open_field_settings_flag:boolean = false;
-    private choices_values:any;
-    private active_field_object:any;
-    private style_cursor:string;
-    private required_text_color:any;
+    private form_fields: any;
+    private default_form_type: any;
+    private open_field_settings_flag: boolean = false;
+    private choices_values: any;
+    private active_field_object: any;
+    private style_cursor: string;
+    private required_text_color: any;
 
-    private visible:boolean = true;
-    private selectable:boolean = true;
-    private removable:boolean = true;
-    private addOnBlur:boolean = true;
+    private visible: boolean = true;
+    private selectable: boolean = true;
+    private removable: boolean = true;
+    private addOnBlur: boolean = true;
 
     private separatorKeysCodes = [ENTER, COMMA];
 
-    private make_field_close_hidden:boolean = true;
+    private make_field_close_hidden: boolean = true;
     private tooltip_help_text: string = 'Click following buttons to add fields to your form. ' +
         'Button name is associated with form field type. When you click a button then associated form field would be ' +
         'added to the below of the form but before of the send button. ' +
@@ -35,8 +50,12 @@ export class EditFormComponent {
 
     private defult_value_is_not_number: boolean = false;
 
-    public constructor(public dragulaService:DragulaService, public sanitizer:DomSanitizer) {
-        const bag:any = this.dragulaService.find('drag-drop-fields');
+    private displayedColumns: any = ['select', 'name', 'action'];
+
+    private checkbox_data_source: CheckboxDataSource;
+
+    public constructor(public dragulaService: DragulaService, public sanitizer: DomSanitizer) {
+        const bag: any = this.dragulaService.find('drag-drop-fields');
         if (bag !== undefined)
             this.dragulaService.destroy('drag-drop-fields');
         dragulaService.setOptions("drag-drop-fields", {
@@ -101,12 +120,18 @@ export class EditFormComponent {
         this.required_text_color = '#FF0000';
     }
 
-    private close_form_field_settings(){
+    ngAfterViewChecked() {
+        if (typeof this.active_field_object != "undefined") {
+            this.checkbox_data_source = new CheckboxDataSource(this.active_field_object.choices);
+        }
+    }
+
+    private close_form_field_settings() {
         this.open_field_settings_flag = false;
 
         let form_fields = document.getElementsByClassName('mat-list-ng-each-field');
-        for(let i =0; i < form_fields.length; i++){
-            if(form_fields[i].classList.contains('active-form-field-identify')){
+        for (let i = 0; i < form_fields.length; i++) {
+            if (form_fields[i].classList.contains('active-form-field-identify')) {
                 form_fields[i].classList.remove('active-form-field-identify');
             }
         }
@@ -207,61 +232,14 @@ export class EditFormComponent {
         this.onFormInputChange.emit(this.form_fields);
     }
 
-    //private is_checkbox_choice_checked(index) {
-    //    let choices_selected_array = this.get_checkbox_choices_selected_array(this.active_field_object);
-    //
-    //    return this.check_if_choice_selected(index, choices_selected_array);
-    //}
-
-    //private check_if_choice_selected(index, choices_selected_array) {
-    //    if (typeof choices_selected_array != undefined || choices_selected_array != null) {
-    //        for (let i = 0; i < choices_selected_array.length; i++) {
-    //            if (choices_selected_array[i] != -1 && choices_selected_array[i] == index) {
-    //                return true;
-    //            }
-    //        }
-    //    }
-    //    return false;
-    //}
-
-    //private get_checkbox_choices_selected_array(active_object) {
-    //    let choice_selected_array;
-    //    if (active_object.choice_selected != -1)
-    //        choice_selected_array = active_object.choice_selected.split(',').map(Number);
-    //    else
-    //        choice_selected_array = new Array();
-    //    //console.log(choice_selected_array);
-    //    choice_selected_array = Array.from(new Set(choice_selected_array));
-    //    return choice_selected_array;
-    //}
-
     private update_checkbox_choice_selected(event, index) {
         let choice_selected = event.checked;
         this.active_field_object.choices[index].checked = choice_selected;
-        //console.log(event);
-        //let choices_selected_array = this.get_checkbox_choices_selected_array(this.active_field_object);
-
-        //if (choice_selected) {
-        //choices_selected_array.push(index);
-        //choices_string = choices_selected_array.join(',');
-        //this.active_field_object.choice_selected = choices_string;
-        //active_choice_object.checked = true;
-        //} else {
-        //choices_selected_array.splice(index, 1);
-        //console.log(choices_selected_array);
-        //if (choices_selected_array.length > 0) {
-        //    choices_string = choices_selected_array.join(',');
-        //    this.active_field_object.choice_selected = choices_string;
-        //} else {
-        //    this.active_field_object.choice_selected = -1;
-        //}
-        //active_choice_object.checked = false;
-        //}
 
         this.onFormInputChange.emit(this.form_fields);
     }
 
-    private track_by_Index(index:any, item:any) {
+    private track_by_Index(index: any, item: any) {
         return index;
     }
 
@@ -308,11 +286,6 @@ export class EditFormComponent {
         this.onFormInputChange.emit(this.form_fields);
     }
 
-    //private get_checkbox_selected_choices_array(checkbox_selected_choices) {
-    //    let choice_array = checkbox_selected_choices.split(',');
-    //    return choice_array;
-    //}
-
     private in_array(needle, haystack) {
         var length = haystack.length;
         //console.log(needle);
@@ -336,11 +309,6 @@ export class EditFormComponent {
         return true;
     }
 
-    //private get_choices_array(choice_string) {
-    //    let choice_array = choice_string.split('<>');
-    //    return choice_array;
-    //}
-
     private open_field_settings(index, field) {
         this.open_field_settings_flag = true;
         this.active_field_object = field;
@@ -362,7 +330,7 @@ export class EditFormComponent {
         }
         this.onFormInputChange.emit(this.form_fields);
 
-        if(document.getElementsByClassName('mat-list-ng-each-field')[object_index].classList.contains('active-form-field-identify')){
+        if (document.getElementsByClassName('mat-list-ng-each-field')[object_index].classList.contains('active-form-field-identify')) {
             this.open_field_settings_flag = false;
         }
     }
@@ -392,14 +360,6 @@ export class EditFormComponent {
             //added_field_index = this.form_fields.length - 1;
         }
         this.onFormInputChange.emit(this.form_fields);
-
-        //let added_form_fields = document.getElementsByClassName('mat-list-ng-each-field');
-
-        //console.log(added_field_index);
-        //console.log(added_form_fields.length);
-        //for(let i =0; i < added_form_fields.length; i++){
-        //    console.log(added_form_fields[i]);
-        //}
     }
 
     private add_text_area_field() {
@@ -650,51 +610,6 @@ export class EditFormComponent {
         this.onFormInputChange.emit(this.form_fields);
     }
 
-    //private generate_form_field_html(form_field_object) {
-    //    let label = '';
-    //    let field = '';
-    //
-    //    let field_array_object = form_field_object;
-    //    let field_type = field_array_object.type;
-    //
-    //    switch (field_type) {
-    //        case 'text':
-    //            label = '<label>'+field_array_object.label + '</label></br>';
-    //            field = '<input disabled type="text" class="' + field_array_object.classes + '" />';
-    //            break;
-    //        case 'textarea':
-    //            label = '<label>'+field_array_object.label + '</label></br>';
-    //            field = '<textarea disabled class="' + field_array_object.classes + '" rows="2"></textarea>';
-    //            break;
-    //        case 'email':
-    //            label = '<label>'+field_array_object.label + '</label></br>';
-    //            field = '<input disabled type="email" class="' + field_array_object.classes + '" />';
-    //            break;
-    //        case 'number':
-    //            label = '<label>'+field_array_object.label + '</label></br>';
-    //            field = '<input disabled type="number" class="' + field_array_object.classes + '" />';
-    //            break;
-    //        case 'submit':
-    //            field = '<input disabled type="submit" class="' + field_array_object.classes + '" />';
-    //            break;
-    //        case 'radio':
-    //            label = '<label>'+field_array_object.label + '</label></br>';
-    //            field = '<input disabled type="radio" class="' + field_array_object.classes + '" value="radio">Radio<br>'
-    //            break;
-    //        case 'checkbox':
-    //            label = '<label>'+field_array_object.label + '</label></br>';
-    //            field = '<input type="checkbox" value="checkbox"> Checkbox<br>';
-    //            break;
-    //        case 'select':
-    //            label = '<label>'+field_array_object.label + '</label></br>';
-    //            field = '<select><option value="option1">Option1</option></select>';
-    //            break;
-    //    }
-    //    let final_html = label.concat(field);
-    //
-    //    return this.sanitizer.bypassSecurityTrustHtml(final_html);
-    //}
-
     private onDrag(args) {
         let [e, el] = args;
         // do something
@@ -713,5 +628,20 @@ export class EditFormComponent {
     private onOut(args) {
         let [e, el, container] = args;
         // do something
+    }
+}
+
+export class CheckboxDataSource extends DataSource<CheckboxChoice> {
+
+    constructor(private choices: CheckboxChoice[]) {
+        super();
+    }
+
+    connect(): Observable<CheckboxChoice[]> {
+        return Observable.of(this.choices);
+    }
+
+    disconnect() {
+
     }
 }

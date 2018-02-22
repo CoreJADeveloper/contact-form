@@ -389,8 +389,8 @@ document.getElementsByClassName('ng-contact-form-submit')[0].addEventListener('s
                   message_element.innerHTML = responseObject.confirmation;
                   let confirmation_element = document.getElementsByClassName('ng-confirmation-message')[0];
                   confirmation_element.innerHTML = '';
-                  confirmation_element.scrollIntoView();
-                  confirmation_element.parentNode.scrollTop = confirmation_element.offsetTop;
+                  //confirmation_element.scrollIntoView();
+                  //confirmation_element.parentNode.scrollTop = confirmation_element.offsetTop;
                   document.getElementsByClassName('ng-confirmation-message')[0].appendChild(message_element); 
                 }
                 reset_form();
