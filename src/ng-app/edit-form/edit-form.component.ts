@@ -1,4 +1,4 @@
-import {Component, Output, EventEmitter, OnInit, AfterViewChecked} from '@angular/core';
+import {Component, Output, EventEmitter, ChangeDetectorRef, AfterViewChecked} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {DragulaService} from 'ng2-dragula/ng2-dragula';
 import {ENTER, COMMA} from '@angular/cdk/keycodes';
@@ -54,7 +54,7 @@ export class EditFormComponent implements AfterViewChecked {
 
     private checkbox_data_source: CheckboxDataSource;
 
-    public constructor(public dragulaService: DragulaService, public sanitizer: DomSanitizer) {
+    public constructor(public dragulaService: DragulaService, public sanitizer: DomSanitizer, public changeDetection: ChangeDetectorRef) {
         const bag: any = this.dragulaService.find('drag-drop-fields');
         if (bag !== undefined)
             this.dragulaService.destroy('drag-drop-fields');
@@ -123,6 +123,7 @@ export class EditFormComponent implements AfterViewChecked {
     ngAfterViewChecked() {
         if (typeof this.active_field_object != "undefined") {
             this.checkbox_data_source = new CheckboxDataSource(this.active_field_object.choices);
+            this.changeDetection.detectChanges();
         }
     }
 

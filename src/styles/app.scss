@@ -142,3 +142,15 @@
   border: 1px solid #2196F3;
   background-color: #F2F2F2;
 }
+
+.edit-form-settings-container .mat-column-select{
+  flex: 0 0 15%;
+}
+
+.edit-form-settings-container .mat-column-name{
+  flex: 0 0 75%;
+}
+
+.edit-form-settings-container .mat-column-action{
+  flex: 0 0 10%;
+}
