@@ -264,6 +264,9 @@ class ngContactForm
         wp_register_script('angcf-inline-script', ANGCF_PLUGIN_URL . 'dist/script.js', array('angcf-script'), false, true);
         wp_enqueue_script('angcf-inline-script');
 
+        wp_register_style( 'angcf-inline-style', false, array( 'angcf-style' )  );
+        wp_enqueue_style( 'angcf-inline-style' );
+
         $form_fields = html_entity_decode(get_post_meta($form_id, 'ng_form_fields', true));
         $form_settings = html_entity_decode(get_post_meta($form_id, 'ng_form_settings', true));
 
@@ -879,13 +882,17 @@ EOF;
         $esc_html = 'esc_html';
         $esc_attr = 'esc_attr';
         $field_html_submit = <<<EOF
-                    <div class='{$field_object->built_classes}'>
+                    <div class='{$field_object->built_classes} ng-submit-button-position'>
                     <input type='submit'
                     class='{$esc_attr($field_object->classes)} ng-contact-form-submit-button'
                     value='{$esc_html($field_object->label)}' />
                     </div>
 EOF;
+        if($field_object->position_checked > 0) {
+            $button_position = '.ng-submit-button-position {float: right;}';
 
+            wp_add_inline_style('angcf-inline-style', $button_position);
+        }
 
         return $field_html_submit;
     }
