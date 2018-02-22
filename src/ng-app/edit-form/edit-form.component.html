@@ -242,8 +242,9 @@
         <div class="edit-form-settings-container">
             <!--<mat-card>-->
             <!--<mat-card-content>-->
-            <section class="ng-keep-field-gutter-between" style="position: absolute; right: 0; margin-right: 10px;">
-                <a mat-raised-button color="warn" (click)="close_form_field_settings()">Close</a>
+
+            <section style="margin-bottom: 25px;">
+                    <a (click)="close_form_field_settings()" style="float: right;color: #f44336; cursor: pointer;">Close</a>
             </section>
             <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.label != undefined">
                 <mat-form-field>
