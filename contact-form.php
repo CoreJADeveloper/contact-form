@@ -1,9 +1,14 @@
 <?php
 
 /**
- * Plugin Name: WordPress Contact Form
+ * Plugin Name: Angular Contact Form Builder
+ * Description: A simple contact form builder developed with Angular and Angular material design. Isn't it damn beauty?
+ * Version: 1.0.0
  * Author: Tauhidul Alam
- * Description: A contact form :(
+ * Author URI: https://profiles.wordpress.org/tauhidul-alam
+ *
+ * Text Domain: ngForms
+ * Domain Path: /languages/
  */
 
 //Check if the file is directly accessed
