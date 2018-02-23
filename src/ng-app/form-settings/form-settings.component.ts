@@ -20,7 +20,6 @@ export class FormSettingsComponent{
 
     private generate_default_settings_data(){
         this.settings_data = JSON.parse(sessionStorage.getItem('ng_settings_data'));
-        console.log(this.settings_data);
     }
 
     private update_anti_spam_honeybot(event){

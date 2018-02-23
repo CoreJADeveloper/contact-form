@@ -214,7 +214,7 @@ class ngContactForm
         $reply_to = str_replace('{admin_email}', strval(get_bloginfo('admin_email')), $reply_to);
 
         $message = $form_settings_object->message;
-        $message = str_replace('{form-fields}', strval($form_fields_info), $message);
+        $message = str_replace('{form_fields}', strval($form_fields_info), $message);
 
         $name = $from_name;
         $email = $from_email;
@@ -325,7 +325,6 @@ EOY;
         }
 
         echo <<<EOY
-        <div class="ng-confirmation-message"></div>
             <input type='hidden' name='action' value='send-ng-contact-email' />
             <input type='hidden' name='form_id' value='{$esc_html($form_id)}' />
             </form>
@@ -888,13 +887,21 @@ EOF;
                     <input type='submit'
                     class='{$esc_attr($field_object->classes)} ng-contact-form-submit-button'
                     value='{$esc_html($field_object->label)}' />
+                    <div class="ng-confirmation-message"></div>
                     </div>
 EOF;
         if($field_object->position_checked > 0) {
-            $button_position = '.ng-submit-button-position {float: right;}';
+            $button_position = '.ng-submit-button-position {width: 100%; padding: 10px 0;}
+            .ng-contact-form-submit-button{float: right;}
+            ';
 
             wp_add_inline_style('angcf-inline-style', $button_position);
         }
+
+        $button_space = '.ng-contact-form-submit-button{margin-bottom: 10px;}
+            ';
+
+        wp_add_inline_style('angcf-inline-style', $button_space);
 
         return $field_html_submit;
     }

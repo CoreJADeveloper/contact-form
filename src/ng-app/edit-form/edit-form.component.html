@@ -22,22 +22,12 @@
                             [style.cursor]="style_cursor">
                         Text Area
                     </button>
-                    <!--<mat-chip-list>-->
-                    <!--<mat-chip (click)="add_text_area_field()" [style.cursor]="style_cursor">Text Area-->
-                    <!--<mat-icon>add</mat-icon>-->
-                    <!--</mat-chip>-->
-                    <!--</mat-chip-list>-->
                 </mat-list-item>
                 <mat-list-item>
                     <button mat-raised-button class="form-field-button-style" color="primary"
                             (click)="add_email_field()" [style.cursor]="style_cursor">
                         Email
                     </button>
-                    <!--<mat-chip-list>-->
-                    <!--<mat-chip (click)="add_email_field()" [style.cursor]="style_cursor">Email Field-->
-                    <!--<mat-icon>add</mat-icon>-->
-                    <!--</mat-chip>-->
-                    <!--</mat-chip-list>-->
                 </mat-list-item>
                 <mat-list-item>
                     <button mat-raised-button class="form-field-button-style" color="primary"
@@ -45,22 +35,12 @@
                             [style.cursor]="style_cursor">
                         Number
                     </button>
-                    <!--<mat-chip-list>-->
-                    <!--<mat-chip (click)="add_number_field()" [style.cursor]="style_cursor">Number Field-->
-                    <!--<mat-icon>add</mat-icon>-->
-                    <!--</mat-chip>-->
-                    <!--</mat-chip-list>-->
                 </mat-list-item>
                 <mat-list-item>
                     <button mat-raised-button class="form-field-button-style" color="primary" (click)="add_checkbox()"
                             [style.cursor]="style_cursor">
                         Checkbox
                     </button>
-                    <!--<mat-chip-list>-->
-                    <!--<mat-chip (click)="add_checkbox()" [style.cursor]="style_cursor">Checkbox-->
-                    <!--<mat-icon>add</mat-icon>-->
-                    <!--</mat-chip>-->
-                    <!--</mat-chip-list>-->
                 </mat-list-item>
                 <mat-list-item>
                     <button mat-raised-button class="form-field-button-style" color="primary"
@@ -68,22 +48,12 @@
                             [style.cursor]="style_cursor">
                         Radiobutton
                     </button>
-                    <!--<mat-chip-list>-->
-                    <!--<mat-chip (click)="add_radio_button()" [style.cursor]="style_cursor">Radiobutton-->
-                    <!--<mat-icon>add</mat-icon>-->
-                    <!--</mat-chip>-->
-                    <!--</mat-chip-list>-->
                 </mat-list-item>
                 <mat-list-item>
                     <button mat-raised-button class="form-field-button-style" color="primary" (click)="add_dropdown()"
                             [style.cursor]="style_cursor">
                         Dropdown
                     </button>
-                    <!--<mat-chip-list>-->
-                    <!--<mat-chip (click)="add_dropdown()" [style.cursor]="style_cursor">Dropdown-->
-                    <!--<mat-icon>add</mat-icon>-->
-                    <!--</mat-chip>-->
-                    <!--</mat-chip-list>-->
                 </mat-list-item>
             </mat-list>
         </div>
@@ -104,8 +74,6 @@
                                   (click)="remove_field($event, object_index)">close
                         </mat-icon>
                     </div>
-                    <!--<div class="form-field-content" *ngIf="field.type == 'text'" [innerHTML]="generate_form_field_html(field)">-->
-                    <!--</div>-->
 
                     <div>
                         <div class="form-field-content" *ngIf="field.type == 'text'">
@@ -240,8 +208,6 @@
     </mat-grid-tile>
     <mat-grid-tile *ngIf="open_field_settings_flag && (active_field_object != null)" colspan="4">
         <div class="edit-form-settings-container">
-            <!--<mat-card>-->
-            <!--<mat-card-content>-->
 
             <section style="margin-bottom: 25px;">
                     <a (click)="close_form_field_settings()" style="float: right;color: #f44336; cursor: pointer;">Close</a>
@@ -291,24 +257,6 @@
                     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                 </mat-table>
-                <!--<div *ngFor="let choice of active_field_object.choices; let i = index; trackBy: track_by_Index;">-->
-
-                <!--</div>-->
-
-                <!--<div *ngFor="let choice of active_field_object.choices; let i = index; trackBy: track_by_Index;">-->
-                    <!--<mat-checkbox [checked]="choice.checked"-->
-                                  <!--(change)="update_checkbox_choice_selected($event, i)">-->
-                    <!--</mat-checkbox>-->
-                    <!--<mat-form-field>-->
-                        <!--<input matInput-->
-                               <!--[(ngModel)]="choice.text"-->
-                               <!--(ngModelChange)="onFormValueUpdated($event)">-->
-                    <!--</mat-form-field>-->
-                    <!--<mat-icon *ngIf="active_field_object.choices.length > 1"-->
-                              <!--(click)="remove_a_checkbox_choice(active_field_object.choices, i)"-->
-                              <!--[style.cursor]="style_cursor">close-->
-                    <!--</mat-icon>-->
-                <!--</div>-->
                 <mat-form-field style="margin-top: 10px;">
                     <input matInput placeholder="Add Choice by pressing enter"
                            (keyup.enter)="add_new_checkbox_choice($event, active_field_object.choices)">
@@ -352,25 +300,6 @@
                     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                 </mat-table>
 
-                <!--<div *ngFor="let choice of active_field_object.choices; let i = index;">-->
-
-
-
-                <!--</div>-->
-
-                <!--<div *ngFor="let choice of active_field_object.choices; let i = index;">-->
-                    <!--<mat-radio-button [checked]="active_field_object.choice_selected == i"-->
-                                      <!--(change)="update_choice_selected($event, i)">-->
-                    <!--</mat-radio-button>-->
-                    <!--<mat-form-field>-->
-                        <!--<input matInput [(ngModel)]="choice.text"-->
-                               <!--(ngModelChange)="onFormValueUpdated($event)">-->
-                    <!--</mat-form-field>-->
-                    <!--<mat-icon *ngIf="active_field_object.choices.length > 1"-->
-                              <!--(click)="remove_a_choice(i)"-->
-                              <!--[style.cursor]="style_cursor">close-->
-                    <!--</mat-icon>-->
-                <!--</div>-->
                 <mat-form-field>
                     <input matInput placeholder="Add Choice by pressing enter"
                            (keyup.enter)="add_new_choice($event)">
@@ -454,12 +383,8 @@
                     <input matInput placeholder="Class Name"
                            [(ngModel)]="fieldClasses"
                            (ngModelChange)="onFormValueUpdated($event)">
-                    <!--<textarea matInput placeholder="Class Name" [(ngModel)]="fieldClasses"-->
-                    <!--(ngModelChange)="onFormValueUpdated($event)"></textarea>-->
                 </mat-form-field>
             </section>
-            <!--</mat-card-content>-->
-            <!--</mat-card>-->
         </div>
     </mat-grid-tile>
 </mat-grid-list>

@@ -27,11 +27,6 @@ export class FormSetupComponent implements OnInit {
 
     get nonce(): string { return this.site_nonce; }
 
-    //set default_form_action(form_action: string) {
-    //    this.form_action_type = form_action;
-    //}
-    //
-    //get default_form_action(): string { return this.form_action_type; }
 
     @Output() onFormTitleChanges = new EventEmitter<string>();
 
@@ -80,100 +75,6 @@ export class FormSetupComponent implements OnInit {
                 color: '#E4C4D8'
             },
         ];
-        //this.form_action_type = sessionStorage.getItem('ng_default_form_action');
-
-        //console.log(this.form_action_type);
-
-
-        //this.basic_fields =
-        //    [
-        //        {
-        //            type: 'text',
-        //            label: 'Name',
-        //            hide_label: false,
-        //            built_classes: 'ng-form-field ng-text',
-        //            classes: '',
-        //            required: false,
-        //            description: '',
-        //            placeholder: '',
-        //            default_value: '',
-        //        },
-        //        {
-        //            type: 'text',
-        //            label: 'Title',
-        //            hide_label: false,
-        //            built_classes: 'ng-form-field ng-text',
-        //            classes: '',
-        //            required: false,
-        //            description: '',
-        //            placeholder: '',
-        //            default_value: '',
-        //        },
-        //        {
-        //            type: 'textarea',
-        //            label: 'Description',
-        //            hide_label: false,
-        //            built_classes: 'ng-form-field ng-textarea',
-        //            classes: '',
-        //            rows: 5,
-        //            required: false,
-        //            description: '',
-        //            placeholder: '',
-        //            default_value: '',
-        //        },
-        //        {
-        //            type: 'submit',
-        //            label: 'Send',
-        //            built_classes: 'ng-form-field ng-submit',
-        //            classes: '',
-        //            position: [
-        //                {
-        //                    text: 'left',
-        //                },
-        //                {
-        //                    text: 'right',
-        //
-        //                }
-        //            ],
-        //            position_checked: 0,
-        //        }
-        //    ];
-        //this.blank_fields = [
-        //    {
-        //        type: 'submit',
-        //        label: 'Send',
-        //        built_classes: 'ng-form-field ng-submit',
-        //        classes: '',
-        //        position: [
-        //            {
-        //                text: 'left',
-        //            },
-        //            {
-        //                text: 'right',
-        //
-        //            }
-        //        ],
-        //        position_checked: 0,
-        //    }
-        //];
-
-        //this.site_endpoint = sessionStorage.getItem('ng_site_endpoint');
-        //this.site_nonce = sessionStorage.getItem('ng_site_nonce');
-
-        //this.settings_data = {
-        //    form_name: '',
-        //    form_css_classes: '',
-        //    submit_button_processing_text: 'Please wait...',
-        //    anti_span_honeybot: false,
-        //    send_to_email: '{admin_email}',
-        //    email_subject: '',
-        //    from_name: '',
-        //    from_email: '{admin_email}',
-        //    reply_to: '',
-        //    message: '{form-fields}',
-        //    send_confirmation_email: true,
-        //    confirmation_email_message: 'Thanks for contacting us! We will be in touch with you shortly.'
-        //};
     }
 
     private check_title_check(event) {
@@ -192,13 +93,13 @@ export class FormSetupComponent implements OnInit {
         this.basic_fields = this.default_basic_fields;
         this.blank_fields = this.default_blank_fields;
         this.settings_data = this.default_form_settings;
-        console.log(this.settings_data);
         this.form_action_type = this.default_form_action;
+
+        console.log(this.settings_data);
 
         if (this.form_action_type == 'edit') {
             this.form_action_mode = 'edit';
             this.edit_form_title = sessionStorage.getItem('ng_form_title');
-            console.log(this.edit_form_title);
             this.edit_form_type = sessionStorage.getItem('ng_form_type');
         } else {
             this.form_action_mode = 'add';
@@ -224,7 +125,6 @@ export class FormSetupComponent implements OnInit {
             this.form_fields = this.basic_fields;
         }
 
-        //wp.types().type('angular-forms');
         wp.forms = wp.registerRoute('angular-forms/v1', 'create-post/', {
             params: ['genre']
         });

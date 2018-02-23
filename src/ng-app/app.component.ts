@@ -53,10 +53,6 @@ export class AppComponent implements AfterViewChecked {
 
         this.selectedTab = 1;
 
-        //sessionStorage.setItem('ng_site_endpoint', this.endpoint);
-        //sessionStorage.setItem('ng_site_nonce', this.nonce);
-        //sessionStorage.setItem('ng_default_form_action', this.component_type);
-
         this.blank_fields = [
             {
                 type: 'submit',
@@ -129,8 +125,6 @@ export class AppComponent implements AfterViewChecked {
                     position_checked: 0,
                 }
             ];
-        //sessionStorage.setItem('ng_basic_fields', JSON.stringify(this.basic_fields));
-        //sessionStorage.setItem('ng_blank_fields', JSON.stringify(this.blank_fields));
 
         this.default_form_settings = {
             form_name: '',
@@ -142,7 +136,7 @@ export class AppComponent implements AfterViewChecked {
             from_name: '{admin_name}',
             from_email: '{admin_email}',
             reply_to: '{admin_email}',
-            message: '{form-fields}',
+            message: '{form_fields}',
             send_confirmation_email: true,
             confirmation_email_message: 'Thanks for contacting us! We will be in touch with you shortly.'
         };
@@ -159,8 +153,6 @@ export class AppComponent implements AfterViewChecked {
         } else{
             this.global_settings = JSON.parse(sessionStorage.getItem("ng_global_settings"));
         }
-
-        //sessionStorage.setItem('ng_default_form_settings', JSON.stringify(this.default_form_settings));
     }
 
     private save_global_settings_updates(){
@@ -181,7 +173,6 @@ export class AppComponent implements AfterViewChecked {
 
     private on_global_settings_changes(global_settings: any){
         this.global_settings = global_settings;
-        console.log(this.global_settings);
     }
 
     private save_form_updates() {
@@ -200,7 +191,6 @@ export class AppComponent implements AfterViewChecked {
             form_fields: JSON.stringify(this.updated_form_fields),
             form_settings: JSON.stringify(this.updated_form_settings)
         }).then(function (response) {
-            console.log(response);
             this.load_update_form_spinner = false;
         }.bind(this))
     }
@@ -211,49 +201,13 @@ export class AppComponent implements AfterViewChecked {
 
     private on_edit_form_updated(form_fields:any) {
         this.updated_form_fields = form_fields;
-        console.log(this.updated_form_fields);
     }
 
     private on_form_settings_updated(settings_data:any) {
         this.updated_form_settings = settings_data;
-        console.log(this.updated_form_settings);
     }
 
     ngAfterViewChecked() {
-        //console.log('checked');
 
-        //if(this.component_type == 'edit') {
-        //    //sessionStorage.setItem('ng_form_id', this.form_id);
-        //
-        //    var wp = new WPAPI({
-        //        endpoint: this.endpoint,
-        //        nonce: this.nonce
-        //    });
-        //
-        //    wp.forms = wp.registerRoute( 'angular-forms/v1', 'get-post/', {
-        //        params: [ 'genre' ]
-        //    });
-        //    wp.forms().create({
-        //        form_id: this.form_id
-        //    }).then(function (response) {
-        //        response = JSON.parse(response);
-        //
-        //        this.form_setup = {
-        //            form_title: response.form_title,
-        //            form_type: response.form_type
-        //        };
-        //        this.form_fields = response.form_fields;
-        //        this.settings_data = response.settings_data;
-        //
-        //        sessionStorage.setItem('ng_form_setup', this.form_setup);
-        //        sessionStorage.setItem('ng_form_fields', this.form_fields);
-        //        sessionStorage.setItem('ng_settings_data', this.settings_data);
-        //
-        //        this.check_data_loaded = true;
-        //
-        //        alert('true');
-        //        console.log(this.check_data_loaded);
-        //    })
-        //}
     }
 }

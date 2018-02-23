@@ -270,17 +270,11 @@ export class EditFormComponent implements AfterViewChecked {
 
     private add_new_checkbox_choice(event, choices) {
         let choice_name = event.target.value;
-        //let choices_array = active_object.choices;
-        //let choices_array = choices_string.split('<>');
         let choice = {
             text: choice_name,
             checked: false
         };
         choices.push(choice);
-        //choices_string = choices_array.join('<>');
-        //active_object.choices = choices_string;
-
-        //this.active_field_object = active_object;
 
         event.target.value = '';
 
@@ -289,8 +283,6 @@ export class EditFormComponent implements AfterViewChecked {
 
     private in_array(needle, haystack) {
         var length = haystack.length;
-        //console.log(needle);
-        //console.log(haystack);
         for (var i = 0; i < length; i++) {
             if (typeof haystack[i] == 'object') {
                 if (this.arrayCompare(haystack[i], needle)) return true;
@@ -338,7 +330,6 @@ export class EditFormComponent implements AfterViewChecked {
 
     private add_text_field() {
         let last_form_field = this.form_fields.length - 1;
-        //let added_field_index = 0;
         let text_field_object = {
             type: 'text',
             label: '-- Text Field --',
@@ -349,16 +340,11 @@ export class EditFormComponent implements AfterViewChecked {
             description: '',
             placeholder: '',
             default_value: ''
-            //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
-            //text_field_object.drop_priority = last_form_field;
             this.form_fields.splice(last_form_field, 0, text_field_object);
-            //added_field_index = last_form_field;
         } else {
-            //text_field_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, text_field_object);
-            //added_field_index = this.form_fields.length - 1;
         }
         this.onFormInputChange.emit(this.form_fields);
     }
@@ -376,13 +362,10 @@ export class EditFormComponent implements AfterViewChecked {
             description: '',
             placeholder: '',
             default_value: ''
-            //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
-            //text_field_object.drop_priority = last_form_field;
             this.form_fields.splice(last_form_field, 0, text_field_object);
         } else {
-            //text_field_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, text_field_object);
         }
         this.onFormInputChange.emit(this.form_fields);
@@ -400,13 +383,10 @@ export class EditFormComponent implements AfterViewChecked {
             description: '',
             placeholder: '',
             default_value: ''
-            //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
-            //email_field_object.drop_priority = last_form_field;
             this.form_fields.splice(last_form_field, 0, email_field_object);
         } else {
-            //email_field_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, email_field_object);
         }
         this.onFormInputChange.emit(this.form_fields);
@@ -424,13 +404,10 @@ export class EditFormComponent implements AfterViewChecked {
             description: '',
             placeholder: '',
             default_value: ''
-            //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
-            //number_field_object.drop_priority = last_form_field;
             this.form_fields.splice(last_form_field, 0, number_field_object);
         } else {
-            //number_field_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, number_field_object);
         }
         this.onFormInputChange.emit(this.form_fields);
@@ -448,13 +425,10 @@ export class EditFormComponent implements AfterViewChecked {
             choices: [{text: 'Choice 1'}, {text: 'Choice 2'}, {text: 'Choice 3'}],
             description: '',
             choice_selected: -1
-            //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
-            //radio_button_object.drop_priority = last_form_field;
             this.form_fields.splice(last_form_field, 0, radio_button_object);
         } else {
-            //radio_button_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, radio_button_object);
         }
         this.onFormInputChange.emit(this.form_fields);
@@ -485,13 +459,10 @@ export class EditFormComponent implements AfterViewChecked {
             ],
             description: '',
             choice_selected: -1
-            //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
-            //checkbox_object.drop_priority = last_form_field;
             this.form_fields.splice(last_form_field, 0, checkbox_object);
         } else {
-            //checkbox_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, checkbox_object);
         }
         this.onFormInputChange.emit(this.form_fields);
@@ -509,13 +480,10 @@ export class EditFormComponent implements AfterViewChecked {
             choices: [{text: 'Choice 1'}, {text: 'Choice 2'}, {text: 'Choice 3'}],
             description: '',
             choice_selected: -1
-            //drop_priority: 1,
         };
         if (this.form_fields[last_form_field].type == 'submit') {
-            //dropdown_object.drop_priority = last_form_field;
             this.form_fields.splice(last_form_field, 0, dropdown_object);
         } else {
-            //dropdown_object.drop_priority = this.form_fields.length;
             this.form_fields.splice(this.form_fields.length, 0, dropdown_object);
         }
         this.onFormInputChange.emit(this.form_fields);
@@ -538,7 +506,6 @@ export class EditFormComponent implements AfterViewChecked {
                     }
                 ],
                 position_checked: 0,
-                //drop_priority: 1,
             }
         ]
 
@@ -560,7 +527,6 @@ export class EditFormComponent implements AfterViewChecked {
                     description: '',
                     placeholder: '',
                     default_value: ''
-                    //drop_priority: 1,
                 },
                 {
                     type: 'text',
@@ -572,7 +538,6 @@ export class EditFormComponent implements AfterViewChecked {
                     description: '',
                     placeholder: '',
                     default_value: ''
-                    //drop_priority: 2,
                 },
                 {
                     type: 'textarea',
@@ -585,7 +550,6 @@ export class EditFormComponent implements AfterViewChecked {
                     description: '',
                     placeholder: '',
                     default_value: ''
-                    //drop_priority: 3,
                 },
                 {
                     type: 'submit',
@@ -602,7 +566,6 @@ export class EditFormComponent implements AfterViewChecked {
                         }
                     ],
                     position_checked: 0,
-                    //drop_priority: 4,
                 }
             ]
 
@@ -613,22 +576,18 @@ export class EditFormComponent implements AfterViewChecked {
 
     private onDrag(args) {
         let [e, el] = args;
-        // do something
     }
 
     private onDrop(args) {
         let [e, el] = args;
-        // do something
     }
 
     private onOver(args) {
         let [e, el, container] = args;
-        // do something
     }
 
     private onOut(args) {
         let [e, el, container] = args;
-        // do something
     }
 }
 
