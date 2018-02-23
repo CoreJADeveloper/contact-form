@@ -6,6 +6,11 @@
  * Date: 05-02-18
  * Time: PM 9.40
  */
+
+//Check if the file is directly accessed
+if (!defined('ABSPATH')) {
+    exit;
+}
 class ngForms_Listing
 {
     public function __construct()
@@ -16,6 +21,11 @@ class ngForms_Listing
         add_filter('set-screen-option', array($this, 'screen_options_set'), 10, 3);
     }
 
+    /**
+     * Admin init to implement WordPress default post listing screen
+     *
+     * @since 1.0.0
+     */
     public function init()
     {
         $page = isset($_GET['page']) ? $_GET['page'] : '';
@@ -33,6 +43,11 @@ class ngForms_Listing
         }
     }
 
+    /**
+     * Manage top level page to list total number of posts
+     *
+     * @since 1.0.0
+     */
     public function screen_options()
     {
         $screen = get_current_screen();
@@ -52,7 +67,7 @@ class ngForms_Listing
     }
 
     /**
-     * Forms table per-page screen option value
+     * Manage total forms number that would be shown at forms listing
      *
      * @since 1.0.0
      * @param mixed $status
@@ -69,7 +84,11 @@ class ngForms_Listing
         return $status;
     }
 
-
+    /**
+     * Display admin post listing page
+     *
+     * @since 1.0.0
+     */
     public function output()
     {
         ?>

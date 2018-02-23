@@ -6,6 +6,12 @@
  * Date: 05-02-18
  * Time: PM 9.43
  */
+
+//Check if the file is directly accessed
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 class ngForms_Listing_Table extends WP_List_Table
 {
 
@@ -27,6 +33,12 @@ class ngForms_Listing_Table extends WP_List_Table
         $this->per_page = apply_filters('ng_forms_overview_per_page', 20);
     }
 
+    /**
+     * Manage form listing screen columns
+     *
+     * @since 1.0.0
+     * @return mixed
+     */
     public function get_columns()
     {
 
@@ -40,12 +52,27 @@ class ngForms_Listing_Table extends WP_List_Table
         return apply_filters('ng_forms_overview_table_columns', $columns);
     }
 
+    /**
+     * Manage posts selection through for bulk action
+     *
+     * @since 1.0.0
+     * @param mixed $form
+     * @return string
+     */
     public function column_cb($form)
     {
 
         return '<input type="checkbox" name="form_id[]" value="' . absint($form->ID) . '" />';
     }
 
+    /**
+     * Implements default columns
+     *
+     * @since 1.0.0
+     * @param mixed $form
+     * @param string $column_name
+     * @return mixed
+     */
     public function column_default($form, $column_name)
     {
 
@@ -82,6 +109,15 @@ class ngForms_Listing_Table extends WP_List_Table
         return apply_filters('ng_forms_overview_table_column_value', $value, $form, $column_name);
     }
 
+    /**
+     * Manage form post edit/preview/delete actions
+     *
+     * @since 1.0.0
+     * @param mixed $status
+     * @param string $option
+     * @param mixed $value
+     * @return mixed
+     */
     public function column_form_name($form)
     {
 
@@ -141,6 +177,13 @@ class ngForms_Listing_Table extends WP_List_Table
         return apply_filters('ng_forms_overview_row_actions', $value, $form);
     }
 
+    /**
+     * Get preview form URL
+     *
+     * @since 1.0.0
+     * @param mixed $form_id
+     * @return mixed
+     */
     public function form_preview_url( $form_id ) {
 
         $id = get_option( 'ngContact_form_preview_page' );
@@ -163,6 +206,12 @@ class ngForms_Listing_Table extends WP_List_Table
         );
     }
 
+    /**
+     * Manage delete bulk action
+     *
+     * @since 1.0.0
+     * @return mixed
+     */
     public function get_bulk_actions()
     {
 
@@ -172,6 +221,11 @@ class ngForms_Listing_Table extends WP_List_Table
         return $actions;
     }
 
+    /**
+     * Process form post deletion action
+     *
+     * @since 1.0.0
+     */
     public function process_bulk_actions()
     {
 
@@ -222,12 +276,22 @@ class ngForms_Listing_Table extends WP_List_Table
         }
     }
 
+    /**
+     * Implements no item screen for post listing
+     *
+     * @since 1.0.0
+     */
     public function no_items()
     {
 
         printf(__('No form created yet, <a href="%s">let\'s create a form</a>?', 'ngForms'), admin_url('admin.php?page=ng-add-form'));
     }
 
+    /**
+     * Manage created form post listing with generating table columns
+     *
+     * @since 1.0.0
+     */
     public function prepare_items()
     {
 
@@ -269,6 +333,14 @@ class ngForms_Listing_Table extends WP_List_Table
         );
     }
 
+    /**
+     * Retrieve specific post data
+     *
+     * @since 1.0.0
+     * @param string $id
+     * @param mixed $args
+     * @return mixed
+     */
     private function get_post_data($id = '', $args = array())
     {
         $args = apply_filters('ng_forms_get_form_args', $args);
@@ -307,6 +379,13 @@ class ngForms_Listing_Table extends WP_List_Table
         return $forms;
     }
 
+    /**
+     * Decode array
+     *
+     * @since 1.0.0
+     * @param mixed $data
+     * @return mixed
+     */
     private function ng_forms_decode( $data ) {
         if ( ! $data || empty( $data ) ) {
             return false;

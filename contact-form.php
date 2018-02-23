@@ -6,14 +6,23 @@
  * Description: A contact form :(
  */
 
+//Check if the file is directly accessed
 if (!defined('ABSPATH')) {
     exit;
 }
 
-class ngContactForm
+final class ngContactForm
 {
+
+    //Implements singleton pattern to duplicate instance creation
     protected static $_instance = null;
 
+    /**
+     * The static function which instantiate constructor function of ngContactForm class
+     *
+     * @since 1.0.0
+     * @return object
+     */
     public static function instance()
     {
         if (is_null(self::$_instance)) {
@@ -33,6 +42,11 @@ class ngContactForm
         $this->_require();
     }
 
+    /**
+     * Requires necessary php files
+     *
+     * @since 1.0.0
+     */
     private function _require()
     {
         if (is_admin()) {
@@ -40,12 +54,22 @@ class ngContactForm
         }
     }
 
+    /**
+     * Define some constant variables to include within whole plugin
+     *
+     * @since 1.0.0
+     */
     private function _define()
     {
         define('ANGCF_PLUGIN_PATH', plugin_dir_path(__FILE__));
         define('ANGCF_PLUGIN_URL', plugins_url('/', __FILE__));
     }
 
+    /**
+     * Implements all necessary action/filter hooks
+     *
+     * @since 1.0.0
+     */
     private function _actions()
     {
         add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
@@ -101,11 +125,26 @@ class ngContactForm
         register_activation_hook(__FILE__, array($this, 'ng_create_preview_page'));
     }
 
+    /**
+     * Enqueue admin script/style files
+     *
+     * @since 1.0.0
+     */
     public function ng_admin_enqueue_script()
     {
         wp_enqueue_style('ng-admin-style', ANGCF_PLUGIN_URL . 'dist/admin-style.css');
     }
 
+    /**
+     * When plugin is activated there is a private page created automatically,
+     * when admin wants to preview the form, the_posts filter is executed
+     * and make the private page to public.
+     *
+     * @since 1.0.0
+     * @param mixed $posts
+     * @param mixed $query
+     * @return mixed
+     */
     public function ng_load_contact_form_preview($posts, $query)
     {
         if (!is_user_logged_in() || !current_user_can('manage_options')) {
@@ -142,6 +181,12 @@ class ngContactForm
         return $posts;
     }
 
+    /**
+     * When register_activation hook is executed the function is called which
+     * create a private page
+     *
+     * @since 1.0.0
+     */
     public function ng_create_preview_page()
     {
         $preview_page = array(
@@ -157,6 +202,13 @@ class ngContactForm
         update_option('ngContact_form_preview_page', $page_id);
     }
 
+    /**
+     * When a contact form is submitted the function is triggered and process email
+     * sending operation to given email address from admin panel
+     *
+     * @since 1.0.0
+     * @return mixed
+     */
     public function ng_process_contact_email()
     {
         if (isset($_POST['action']))
@@ -237,17 +289,34 @@ class ngContactForm
         die(json_encode($response));
     }
 
+    /**
+     * Enqueue front styles/scripts
+     *
+     * @since 1.0.0
+     */
     public function ng_enqueue_script()
     {
         wp_enqueue_script('angcf-script', ANGCF_PLUGIN_URL . 'dist/script.js');
         wp_enqueue_style('angcf-style', ANGCF_PLUGIN_URL . 'dist/front-style.css');
     }
 
+    /**
+     * Create short code ngForms
+     *
+     * @since 1.0.0
+     */
     public function add_short_code()
     {
         add_shortcode('ngForms', array($this, 'generate_short_code_content'));
     }
 
+    /**
+     * Generates short code content
+     *
+     * @since 1.0.0
+     * @param mixed $atts
+     * @return string
+     */
     public function generate_short_code_content($atts)
     {
         $short_code_atts = shortcode_atts(array(
@@ -414,6 +483,14 @@ document.getElementsByClassName('ng-contact-form-submit')[0].addEventListener('s
         return ob_get_clean();
     }
 
+    /**
+     * Generate form input field HTML contents
+     *
+     * @since 1.0.0
+     * @param string $key
+     * @param mixed $field_object
+     * @return string
+     */
     private function generate_text_field($key, $field_object)
     {
         $esc_html = 'esc_html';
@@ -467,6 +544,14 @@ EOF;
         return $field_html_label . $field_html_input;
     }
 
+    /**
+     * Generate form textarea field HTML contents
+     *
+     * @since 1.0.0
+     * @param string $key
+     * @param mixed $field_object
+     * @return string
+     */
     private function generate_textarea_field($key, $field_object)
     {
         $esc_html = 'esc_html';
@@ -520,6 +605,14 @@ EOF;
 
     }
 
+    /**
+     * Generate form email field HTML contents
+     *
+     * @since 1.0.0
+     * @param string $key
+     * @param mixed $field_object
+     * @return string
+     */
     private function generate_email_field($key, $field_object)
     {
         $esc_html = 'esc_html';
@@ -574,6 +667,14 @@ EOF;
         return $field_html_label . $field_html_input;
     }
 
+    /**
+     * Generate form number field HTML contents
+     *
+     * @since 1.0.0
+     * @param string $key
+     * @param mixed $field_object
+     * @return string
+     */
     private function generate_number_field($key, $field_object)
     {
         $esc_html = 'esc_html';
@@ -627,6 +728,14 @@ EOF;
         return $field_html_label . $field_html_input;
     }
 
+    /**
+     * Generate form checkbox field HTML contents
+     *
+     * @since 1.0.0
+     * @param string $key
+     * @param mixed $field_object
+     * @return string
+     */
     private function generate_checkbox_field($array_key, $field_object)
     {
         $esc_html = 'esc_html';
@@ -743,6 +852,14 @@ EOI;
         return $field_html_label . $field_html_input;
     }
 
+    /**
+     * Generate form radiobutton field HTML contents
+     *
+     * @since 1.0.0
+     * @param string $key
+     * @param mixed $field_object
+     * @return string
+     */
     private function generate_radio_field($array_key, $field_object)
     {
         $esc_html = 'esc_html';
@@ -815,6 +932,14 @@ EOI;
         return $field_html_label . $field_html_input;
     }
 
+    /**
+     * Generate form dropdown field HTML contents
+     *
+     * @since 1.0.0
+     * @param string $key
+     * @param mixed $field_object
+     * @return string
+     */
     private function generate_select_field($array_key, $field_object)
     {
         $esc_html = 'esc_html';
@@ -878,6 +1003,14 @@ EOF;
         return $field_html_label . $field_html_input;
     }
 
+    /**
+     * Generate form submit HTML contents
+     *
+     * @since 1.0.0
+     * @param string $key
+     * @param mixed $field_object
+     * @return string
+     */
     private function generate_submit_field($field_object)
     {
         $esc_html = 'esc_html';
@@ -906,6 +1039,13 @@ EOF;
         return $field_html_submit;
     }
 
+    /**
+     * Update global settings
+     *
+     * @since 1.0.0
+     * @param mixed $request
+     * @return string
+     */
     public function update_global_settings(WP_REST_Request $request)
     {
         $parameters = $request->get_params();
@@ -917,6 +1057,13 @@ EOF;
         return 'success';
     }
 
+    /**
+     * Update post data through rest API
+     *
+     * @since 1.0.0
+     * @param mixed $request
+     * @return string
+     */
     public function update_post_data(WP_REST_Request $request)
     {
         $parameters = $request->get_params();
@@ -946,6 +1093,13 @@ EOF;
         return 'success';
     }
 
+    /**
+     * Get a specific post from post ID through rest API
+     *
+     * @since 1.0.0
+     * @param mixed $request
+     * @return mixed
+     */
     public function get_created_post_data(WP_REST_Request $request)
     {
         $parameters = $request->get_params();
@@ -960,6 +1114,13 @@ EOF;
         return wp_json_encode($data);
     }
 
+    /**
+     * Create a custom post through rest API
+     *
+     * @since 1.0.0
+     * @param mixed $request
+     * @return string
+     */
     public function create_custom_post(WP_REST_Request $request)
     {
         $parameters = $request->get_params();
@@ -991,6 +1152,11 @@ EOF;
         return $redirect_url;
     }
 
+    /**
+     * Enqueue admin scripts/styles
+     *
+     * @since 1.0.0
+     */
     public function admin_enqueue_scripts()
     {
         if (isset($_GET['page']) && ($_GET['page'] == 'ng-add-form' || $_GET['page'] == 'ng-edit-form' || $_GET['page'] == 'ng-settings')) {
@@ -1001,6 +1167,11 @@ EOF;
         }
     }
 
+    /**
+     * Register a custom post type
+     *
+     * @since 1.0.0
+     */
     public function register_contact_form_post_type()
     {
         $labels = array(
@@ -1039,6 +1210,11 @@ EOF;
         register_post_type('angular-forms', $args);
     }
 
+    /**
+     * Add menu and submenu pages
+     *
+     * @since 1.0.0
+     */
     public function admin_contact_form_menu()
     {
         add_menu_page(
@@ -1087,6 +1263,11 @@ EOF;
         });
     }
 
+    /**
+     * Implements admin form post edit content through Angular
+     *
+     * @since 1.0.0
+     */
     public function angular_edit_form()
     {
         global $endpoint;
@@ -1115,11 +1296,21 @@ EOF;
         }
     }
 
+    /**
+     * Implements created form listing through WordPress default screen
+     *
+     * @since 1.0.0
+     */
     public function angular_forms()
     {
         do_action('ng_forms_admin_page');
     }
 
+    /**
+     * Implements admin form post creation content through Angular
+     *
+     * @since 1.0.0
+     */
     public function angular_add_form()
     {
         global $endpoint;
@@ -1132,6 +1323,11 @@ EOF;
         <?php
     }
 
+    /**
+     * Implements global settings through Angular
+     *
+     * @since 1.0.0
+     */
     public function angular_settings()
     {
         global $endpoint;
@@ -1152,6 +1348,11 @@ EOF;
     }
 }
 
+/**
+ * Instantiate class static function
+ *
+ * @since 1.0.0
+ */
 function contact_form()
 {
     return ngContactForm::instance();
