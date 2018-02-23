@@ -1110,12 +1110,6 @@ EOF;
 
     public function angular_forms()
     {
-        if (isset($_GET['action']) && isset($_GET['form_id']) && $_GET['action'] == 'delete' && isset($_GET['_wpnonce']) && wp_verify_nonce($_GET['_wpnonce'])) {
-            $form_id = $_GET['form_id'];
-
-            wp_delete_post($form_id);
-        }
-
         do_action('ng_forms_admin_page');
     }
 

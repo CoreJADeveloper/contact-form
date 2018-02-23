@@ -195,7 +195,7 @@ class ngForms_Listing_Table extends WP_List_Table
                 wp_verify_nonce($_GET['_wpnonce'], 'ng_forms_delete_form_nonce')
             ) {
                 foreach ($ids as $id) {
-                    wpforms()->form->delete($id);
+                    wp_delete_post($id);
                 }
                 ?>
                 <div class="notice updated">
