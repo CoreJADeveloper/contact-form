@@ -18,7 +18,7 @@
             </div>
         </div>
         <div *ngIf="!submitted" class="div-form-create">
-            <mat-grid-list cols="6" gutterSize="10px" rowHeight="fit" style="height: 300px;">
+            <mat-grid-list cols="6" class="grid-list-form-set-up" gutterSize="10px" rowHeight="fit" style="height: 300px;">
                 <mat-grid-tile
                         *ngFor="let form_type of form_types"
                         [colspan]="form_type.cols">
@@ -50,7 +50,7 @@
         </div>
     </div>
     <div>
-        <mat-grid-list cols="6" gutterSize="10px" rowHeight="fit" style="height: 300px;">
+        <mat-grid-list cols="6" class="grid-list-form-set-up" gutterSize="10px" rowHeight="fit" style="height: 300px;">
             <mat-grid-tile
                     *ngFor="let form_type of form_types"
                     [colspan]="form_type.cols">

@@ -14,78 +14,77 @@
 //  border-color: grey;
 //}
 
-.close-form-field{
+.close-form-field {
   position: absolute;
   top: 0;
   right: 0;
   cursor: pointer;
 }
 
-.ng-contact-form{
+.ng-contact-form {
   margin: 30px 20px 0 2px;
 }
 
 //Setup form and edit setup form
 
-.div-form-field{
+.div-form-field {
   margin-top: 10px;
 }
 
-.span-form-name-required{
+.span-form-name-required {
   font-style: italic;
   color: #EB0000;
   font-size: 12px;
 }
 
-.div-form-create{
+.div-form-create {
   margin-top: 20px;
 }
 
-.card-create-form{
+.card-create-form {
   background-color: #2196F3;
 }
 
-.card-content-create-form{
+.card-content-create-form {
   margin: 10px 0;
 }
 
-.card-content-text{
+.card-content-text {
   color: #fff;
 }
 
-.card-content-create-form p{
+.card-content-create-form p {
   font-size: 13px;
 }
 
-.contact-form-update-action{
+.contact-form-update-action {
   flex: 1 1 auto;
 }
 
-
 //Edit Form Style
 
-.ng-field-label{
+.ng-field-label {
   margin-bottom: 10px;
 }
 
-.form-field-content{
+.form-field-content {
   //padding: 20px 0;
 }
 
-.ng-field-description-text{
+.ng-field-description-text {
   font-size: 14px;
 }
 
-.ng-field-description{
+.ng-field-description {
   margin-top: 5px;
 }
 
-.grid-list-edit-container{
+.grid-list-edit-container {
   min-height: 1200px;
   max-height: 1500px;
 }
 
-.edit-form-fields-container{
+.edit-form-fields-container {
   position: absolute;
   top: 0;
   right: 0;
@@ -93,13 +92,13 @@
   width: 90%;
 }
 
-.available-fields-container{
+.available-fields-container {
   position: absolute;
   top: 0;
   margin-top: 25px;
 }
 
-.edit-form-settings-container{
+.edit-form-settings-container {
   position: absolute;
   top: 0;
   margin-top: 25px;
@@ -109,11 +108,11 @@
   //border: 1px solid #2196F3;
 }
 
-.on-mouse-over-form-field{
+.on-mouse-over-form-field {
   background-color: #F2F2F2;
 }
 
-.active-form-field-identify{
+.active-form-field-identify {
   background-color: #F2F2F2;
   //border: 1px solid #2196F3;
 }
@@ -125,41 +124,53 @@
 //  height: auto;
 //}
 
-.button-form-submit{
+.button-form-submit {
   width: 100%;
   height: 30px;
 }
 
-.form-field-button-style{
+.form-field-button-style {
   width: 140px;
 }
 
-.ng-keep-field-gutter-between{
+.ng-keep-field-gutter-between {
   margin-bottom: 7px;
 }
 
-.just-added-new-form-field{
+.just-added-new-form-field {
   border: 1px solid #2196F3;
   background-color: #F2F2F2;
 }
 
-.edit-form-settings-container .mat-column-select{
+.edit-form-settings-container .mat-column-select {
   flex: 0 0 15%;
 }
 
-.edit-form-settings-container .mat-column-name{
+.edit-form-settings-container .mat-column-name {
   flex: 0 0 75%;
 }
 
-.edit-form-settings-container .mat-column-action{
+.edit-form-settings-container .mat-column-action {
   flex: 0 0 10%;
 }
 
-.ng-smart-tag-div{
+.ng-smart-tag-div {
   margin-bottom: 15px;
 }
 
-.ng-smart-tag{
+.ng-smart-tag {
   font-size: 11px;
   font-style: italic;
+}
+
+.grid-list-form-set-up .mat-figure {
+  position: unset !important;
+}
+
+.grid-list-edit-container .mat-figure {
+  position: unset !important;
+}
+
+.grid-list-form-settings-container .mat-figure {
+  position: unset !important;
 }

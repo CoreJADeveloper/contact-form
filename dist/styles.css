@@ -110,4 +110,13 @@
   font-size: 11px;
   font-style: italic; }
 
+.grid-list-form-set-up .mat-figure {
+  position: unset !important; }
+
+.grid-list-edit-container .mat-figure {
+  position: unset !important; }
+
+.grid-list-form-settings-container .mat-figure {
+  position: unset !important; }
+
 /*# sourceMappingURL=styles.css.map*/
