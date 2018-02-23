@@ -286,39 +286,41 @@ EOV;
 EOY;
 
 
-        foreach ($form_fields_array as $key => $field) {
-            switch ($field->type) {
-                case 'text':
-                    echo $this->generate_text_field($key, $field);
-                    break;
+        if(!empty($form_fields_array)) {
+            foreach ($form_fields_array as $key => $field) {
+                switch ($field->type) {
+                    case 'text':
+                        echo $this->generate_text_field($key, $field);
+                        break;
 
-                case 'textarea':
-                    echo $this->generate_textarea_field($key, $field);
-                    break;
+                    case 'textarea':
+                        echo $this->generate_textarea_field($key, $field);
+                        break;
 
-                case 'email':
-                    echo $this->generate_email_field($key, $field);
-                    break;
+                    case 'email':
+                        echo $this->generate_email_field($key, $field);
+                        break;
 
-                case 'number':
-                    echo $this->generate_number_field($key, $field);
-                    break;
+                    case 'number':
+                        echo $this->generate_number_field($key, $field);
+                        break;
 
-                case 'checkbox':
-                    echo $this->generate_checkbox_field($key, $field);
-                    break;
+                    case 'checkbox':
+                        echo $this->generate_checkbox_field($key, $field);
+                        break;
 
-                case 'radio':
-                    echo $this->generate_radio_field($key, $field);
-                    break;
+                    case 'radio':
+                        echo $this->generate_radio_field($key, $field);
+                        break;
 
-                case 'select':
-                    echo $this->generate_select_field($key, $field);
-                    break;
+                    case 'select':
+                        echo $this->generate_select_field($key, $field);
+                        break;
 
-                case 'submit':
-                    echo $this->generate_submit_field($field);
-                    break;
+                    case 'submit':
+                        echo $this->generate_submit_field($field);
+                        break;
+                }
             }
         }
 

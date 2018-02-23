@@ -77,6 +77,11 @@
                               [(ngModel)]="emailMessage"
                               (ngModelChange)="onFormSettingsUpdated($event)"></textarea>
                 </mat-form-field>
+                <div class="ng-smart-tag-div">
+                    <span class="ng-smart-tag">
+                        Available tags: {{ '{' }}admin_email{{ '}' }}, {{ '{' }}site_title{{ '}' }}, {{ '{' }}admin_name{{ '}' }}, {{ '{' }}form_fields{{ '}' }}
+                    </span>
+                </div>
             </section>
         </div>
     </mat-grid-tile>
@@ -90,7 +95,7 @@
             <section>
                 <mat-checkbox [checked]="settings_data.send_confirmation_email"
                               (change)="update_send_confirmation_email($event)">
-                    Send Confirmation email
+                    Send confirmation message
                 </mat-checkbox>
             </section>
             <br/>
