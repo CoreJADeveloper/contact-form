@@ -210,7 +210,7 @@
         <div class="edit-form-settings-container">
 
             <section style="margin-bottom: 25px;">
-                    <a (click)="close_form_field_settings()" style="float: right;color: #f44336; cursor: pointer;">Close</a>
+                <a (click)="close_form_field_settings()" style="float: right;color: #f44336; cursor: pointer;">Close</a>
             </section>
             <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.label != undefined">
                 <mat-form-field>
@@ -258,14 +258,17 @@
                     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                 </mat-table>
                 <mat-form-field style="margin-top: 10px;">
-                    <input matInput placeholder="Add Choice by pressing enter"
+                    <input matInput placeholder="Add Choice"
                            (keyup.enter)="add_new_checkbox_choice($event, active_field_object.choices)">
                 </mat-form-field>
+                <div>
+                    <span style="font-size: 12px;">Press enter key to add new choice</span>
+                </div>
             </section>
             <section class="ng-keep-field-gutter-between"
                      *ngIf="active_field_object.choices != undefined && (active_field_object.type == 'radio' || active_field_object.type == 'select')">
 
-                <mat-table #table [dataSource]="checkbox_data_source">
+                <mat-table #table [dataSource]="checkbox_data_source" style="margin-bottom: 10px;">
 
                     <ng-container matColumnDef="select">
                         <mat-header-cell *matHeaderCellDef></mat-header-cell>
@@ -300,10 +303,14 @@
                     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                 </mat-table>
 
+
                 <mat-form-field>
-                    <input matInput placeholder="Add Choice by pressing enter"
+                    <input matInput placeholder="Add Choice"
                            (keyup.enter)="add_new_choice($event)">
                 </mat-form-field>
+                <div>
+                    <span style="font-size: 12px;">Press enter key to add new choice</span>
+                </div>
             </section>
             <section class="ng-keep-field-gutter-between" *ngIf="active_field_object.description != undefined">
                 <mat-form-field>

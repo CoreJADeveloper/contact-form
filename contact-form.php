@@ -2,10 +2,10 @@
 
 /**
  * Plugin Name: Angular Contact Form Builder
- * Description: A simple contact form builder developed with Angular and Angular material design. Isn't it damn beauty?
+ * Description: A simple contact form builder developed with Angular and Angular material design. Isn't it the damn beauty?
  * Version: 1.0.0
  * Author: Tauhidul Alam
- * Author URI: https://profiles.wordpress.org/tauhidul-alam
+ * Author URI: https://github.com/CoreJADeveloper/contact-form
  *
  * Text Domain: ngForms
  * Domain Path: /languages/
@@ -172,6 +172,9 @@ final class ngContactForm
             return $posts;
         }
 
+        if(!isset($_GET['form_id']))
+            return $posts;
+
         $form_id = $_GET['form_id'];
 
         if (!get_post_status($form_id))
@@ -187,8 +190,8 @@ final class ngContactForm
     }
 
     /**
-     * When register_activation hook is executed the function is called which
-     * create a private page
+     * When register_activation_hook is executed the function is called which
+     * create a private page to preview a form
      *
      * @since 1.0.0
      */
@@ -349,6 +352,10 @@ final class ngContactForm
 
         ob_start();
 
+        echo <<<EOL
+            <div class="ng-contact-form-container">
+EOL;
+
         if (isset($form_fields_settings->form_name) && !empty($form_fields_settings->form_name)) {
             echo <<<EOV
             <h3>{$esc_html($form_fields_settings->form_name)}</h3>
@@ -402,7 +409,11 @@ EOY;
             <input type='hidden' name='action' value='send-ng-contact-email' />
             <input type='hidden' name='form_id' value='{$esc_html($form_id)}' />
             </form>
+            </div>
 EOY;
+        $custom_form_style = '.ng-contact-form-container{margin: 10px 0;}';
+
+        wp_add_inline_style('angcf-inline-style', $custom_form_style);
 
         $custom_form_submission = "
 document.getElementsByClassName('ng-contact-form-submit')[0].addEventListener('submit', function (e) {
