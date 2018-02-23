@@ -42,31 +42,31 @@
             </mat-toolbar>
             <section>
                 <mat-form-field>
-                    <input matInput placeholder="Send to email" [(ngModel)]="settings_data.send_to_email"
+                    <input class="form-email-settings-input" matInput placeholder="Send to email" [(ngModel)]="settings_data.send_to_email"
                            (ngModelChange)="onFormSettingsUpdated($event)">
                 </mat-form-field>
             </section>
             <section>
                 <mat-form-field>
-                    <input matInput placeholder="Email subject" [(ngModel)]="settings_data.email_subject"
+                    <input class="form-email-settings-input" matInput placeholder="Email subject" [(ngModel)]="settings_data.email_subject"
                            (ngModelChange)="onFormSettingsUpdated($event)">
                 </mat-form-field>
             </section>
             <section>
                 <mat-form-field>
-                    <input matInput placeholder="From name" [(ngModel)]="settings_data.from_name"
+                    <input class="form-email-settings-input" matInput placeholder="From name" [(ngModel)]="settings_data.from_name"
                            (ngModelChange)="onFormSettingsUpdated($event)">
                 </mat-form-field>
             </section>
             <section>
                 <mat-form-field>
-                    <input matInput placeholder="From email" [(ngModel)]="settings_data.from_email"
+                    <input class="form-email-settings-input" matInput placeholder="From email" [(ngModel)]="settings_data.from_email"
                            (ngModelChange)="onFormSettingsUpdated($event)">
                 </mat-form-field>
             </section>
             <section>
                 <mat-form-field>
-                    <input matInput placeholder="Reply to" [(ngModel)]="settings_data.reply_to"
+                    <input class="form-email-settings-input" matInput placeholder="Reply to" [(ngModel)]="settings_data.reply_to"
                            (ngModelChange)="onFormSettingsUpdated($event)">
                 </mat-form-field>
             </section>
