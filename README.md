@@ -1,7 +1,8 @@
 # Angular Contact Form Builder
-A simple contact form builder WordPress plugin, developed with Angular and Angular material design.
 
-Angular Contact Form Builder is an application based WordPress plugin. I used some cool npm packages to integrate Angular within the WordPress plugin.
+### Contact form builder WordPress plugin, developed with Angular and Angular material design.
+
+Angular Contact Form Builder is an application based WordPress plugin. I used some cool npm packages to integrate Angular packages within the plugin. 
 
 Following are the required packages, I used in my application -
 
@@ -46,12 +47,14 @@ Following are the required packages, I used in my application -
     "zone.js": "^0.8.16"
   },
 ```
-In admin panel, there is a menu page named ngContact Forms. Angular and Angular material design are integrated within the menu page. Angular component `<contact-form ...></contact-form>` handles all operations according to component parameters. 
+In admin panel, there is a menu page named ngContact Forms. Angular and Angular material design are integrated within the menu page as component view. Angular component `<contact-form ...></contact-form>` handles all operations according to component's custom attributes. 
 
-Initially, in set up page user can create a basic/blank form. In edit page, user can build a complete form. Currently, only some basic form fields are integrated but later I have plan to integrate many new custom fields. 
+Initially, in set up page user can create a basic/blank form. In edit page, user can build a complete form even can reorder form fields through drag and drop. Currently, only some basic form fields are integrated but later I have plan to integrate many new custom fields. 
 
-I used `ng2-dragula` to handle drag & drop functionality of form fields. To handle WordPress rest API there is a cool npm package named `wpapi` which performs all rest API request and response within the builder. I created some custom routes for handling WordPress rest API through verifying nonce of a browser.
+I used `ng2-dragula` to handle drag & drop functionality of form fields. To handle WordPress rest API there is a cool npm package named `wpapi` which performs all rest API request and response within the application. I created some custom routes for handling WordPress rest API through verifying created nonce.
 
-Basically, Angular makes the application much more faster through real time data binding of DOM and component data. I used two way data bindings in many places which enables to real time preview of customizations. `@Input` and `@Output` are very strong features of Angular which enables real time data communication between parent and child component. 
+Angular makes the application much more faster through real time data binding of DOM and component data. I used two way data bindings in many places which enables to real time preview of current customizations. `@Input` and `@Output` are very strong features of Angular which enables real time data communications between parent and child component. 
 
 Angular material design makes the application unique by rendering awesome UI that is totally different then as usual WordPress look and feel. Also, I used Angular animation which make the UI much more attractive.
+
+Enjoy!
