@@ -95,8 +95,6 @@ export class FormSetupComponent implements OnInit {
         this.settings_data = this.default_form_settings;
         this.form_action_type = this.default_form_action;
 
-        console.log(this.settings_data);
-
         if (this.form_action_type == 'edit') {
             this.form_action_mode = 'edit';
             this.edit_form_title = sessionStorage.getItem('ng_form_title');

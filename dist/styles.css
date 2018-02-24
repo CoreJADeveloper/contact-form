@@ -95,13 +95,13 @@
 
 .edit-form-settings-container .mat-column-name {
   -webkit-box-flex: 0;
-      -ms-flex: 0 0 75%;
-          flex: 0 0 75%; }
+      -ms-flex: 0 0 65%;
+          flex: 0 0 65%; }
 
 .edit-form-settings-container .mat-column-action {
   -webkit-box-flex: 0;
-      -ms-flex: 0 0 10%;
-          flex: 0 0 10%; }
+      -ms-flex: 0 0 20%;
+          flex: 0 0 20%; }
 
 .ng-smart-tag-div {
   margin-bottom: 15px; }

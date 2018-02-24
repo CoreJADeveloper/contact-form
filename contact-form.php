@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: Angular Contact Form Builder
- * Description: A simple contact form builder developed with Angular and Angular material design. Isn't it the damn beauty?
+ * Description: A simple contact form builder developed with Angular and Angular material design. Check it!
  * Version: 1.0.0
  * Author: Tauhidul Alam
  * Author URI: https://github.com/CoreJADeveloper/contact-form

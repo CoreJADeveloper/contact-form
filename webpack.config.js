@@ -2,6 +2,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var ngTools = require('@ngtools/webpack');
 var path = require('path');
 var webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -33,7 +34,7 @@ module.exports = {
             //     test: /\.json$/,
             //     use: 'json-loader'
             // }
-        ]
+        ],
     }
     ,
     plugins: [
@@ -44,6 +45,7 @@ module.exports = {
         //     //       entryModule: path.join(process.cwd(), 'src', 'app', 'app.module') + '#AppModule'
         //     //     }),
 
+        new UglifyJsPlugin(),
         new webpack.ContextReplacementPlugin(
             /angular(\\|\/)core(\\|\/)@angular/,
             path.resolve(__dirname, '../src')

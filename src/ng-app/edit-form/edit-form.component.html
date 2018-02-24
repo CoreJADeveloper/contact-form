@@ -206,7 +206,7 @@
             </mat-list>
         </div>
     </mat-grid-tile>
-    <mat-grid-tile *ngIf="open_field_settings_flag && (active_field_object != null)" colspan="4">
+    <mat-grid-tile *ngIf="open_field_settings_flag && (active_field_object != null)" colspan="4" style="overflow-y: auto;">
         <div class="edit-form-settings-container">
 
             <section style="margin-bottom: 25px;">
@@ -255,7 +255,7 @@
                     </ng-container>
 
                     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    <mat-row style="padding: 0 10px !important;" *matRowDef="let row; columns: displayedColumns;"></mat-row>
                 </mat-table>
                 <mat-form-field style="margin-top: 10px;">
                     <input matInput placeholder="Add Choice"
@@ -300,7 +300,7 @@
                     </ng-container>
 
                     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    <mat-row style="padding: 0 10px !important;" *matRowDef="let row; columns: displayedColumns;"></mat-row>
                 </mat-table>
 
 
