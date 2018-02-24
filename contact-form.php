@@ -1234,8 +1234,8 @@ EOF;
     public function admin_contact_form_menu()
     {
         add_menu_page(
-            __('ngContact Form', 'ngForms'),
-            __('ngContact Form', 'ngForms'),
+            __('ngContact Forms', 'ngForms'),
+            __('ngContact Forms', 'ngForms'),
             'manage_options',
             'ng-forms',
             array($this, 'angular_forms'),
@@ -1243,27 +1243,27 @@ EOF;
             apply_filters('ngForms_menu_position', '57.7'));
         add_submenu_page(
             'ng-forms',
-            __('ngContact Form', 'ngForms'),
+            __('ngContact Forms', 'ngForms'),
             __('All Forms', 'ngForms'),
             'manage_options',
             'ng-forms',
             array($this, 'angular_forms'));
         add_submenu_page(
             'ng-forms',
-            __('ngContact Form', 'ngForms'),
+            __('ngContact Forms', 'ngForms'),
             __('Add Form', 'ngForms'),
             'manage_options', 'ng-add-form',
             array($this, 'angular_add_form'));
 //        add_submenu_page(
 //            'ng-forms',
-//            __('ngContact Form', 'ngForms'),
+//            __('ngContact Forms', 'ngForms'),
 //            __('Settings', 'ngForms'),
 //            'manage_options',
 //            'ng-settings',
 //            array($this, 'angular_settings'));
         $edit_hook = add_submenu_page(
             null,
-            __('ngContact Form', 'ngForms'),
+            __('ngContact Forms', 'ngForms'),
             __('Edit Form', 'ngForms'),
             'manage_options',
             'ng-edit-form',
