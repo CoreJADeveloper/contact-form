@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: Angular Contact Form Builder
+ * Plugin Name: Advanced Angular Contact Form
  * Description: A simple contact form builder developed with Angular and Angular material design. Check it!
  * Version: 1.0.0
  * Author: Tauhidul Alam
@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) {
 final class ngContactForm
 {
 
-    //Implements singleton pattern to duplicate instance creation
+    //Implements singleton pattern to stop creating duplicate object instance
     protected static $_instance = null;
 
     /**
@@ -60,7 +60,7 @@ final class ngContactForm
     }
 
     /**
-     * Define some constant variables to include within whole plugin
+     * Define some constant variables to use within whole plugin
      *
      * @since 1.0.0
      */
@@ -309,7 +309,7 @@ final class ngContactForm
     }
 
     /**
-     * Create short code ngForms
+     * Create short code - ngForms
      *
      * @since 1.0.0
      */
@@ -745,7 +745,7 @@ EOF;
     }
 
     /**
-     * Generate form checkbox field HTML contents
+     * Generate form checkbox field's HTML contents
      *
      * @since 1.0.0
      * @param string $key
@@ -869,7 +869,7 @@ EOI;
     }
 
     /**
-     * Generate form radiobutton field HTML contents
+     * Generate form radiobutton field's HTML contents
      *
      * @since 1.0.0
      * @param string $key
@@ -949,7 +949,7 @@ EOI;
     }
 
     /**
-     * Generate form dropdown field HTML contents
+     * Generate form dropdown field's HTML contents
      *
      * @since 1.0.0
      * @param string $key
@@ -1020,7 +1020,7 @@ EOF;
     }
 
     /**
-     * Generate form submit HTML contents
+     * Generate form submit button's HTML contents
      *
      * @since 1.0.0
      * @param string $key
@@ -1074,7 +1074,7 @@ EOF;
     }
 
     /**
-     * Update post data through rest API
+     * Update a post data through rest API
      *
      * @since 1.0.0
      * @param mixed $request
@@ -1254,13 +1254,6 @@ EOF;
             __('Add Form', 'ngForms'),
             'manage_options', 'ng-add-form',
             array($this, 'angular_add_form'));
-//        add_submenu_page(
-//            'ng-forms',
-//            __('ngContact Forms', 'ngForms'),
-//            __('Settings', 'ngForms'),
-//            'manage_options',
-//            'ng-settings',
-//            array($this, 'angular_settings'));
         $edit_hook = add_submenu_page(
             null,
             __('ngContact Forms', 'ngForms'),
@@ -1280,7 +1273,7 @@ EOF;
     }
 
     /**
-     * Implements admin form post edit content through Angular
+     * Implements admin form post edit action through Angular
      *
      * @since 1.0.0
      */
@@ -1351,7 +1344,6 @@ EOF;
             ?>
             <script>
                 sessionStorage.setItem('ng_global_settings', '<?php echo html_entity_decode(get_option('ng_global_settings'))?>');
-                console.log(sessionStorage.getItem('ng_global_settings'));
             </script>
         <?php } ?>
         <contact-form type="settings" endpoint="<?php echo $endpoint ?>"
@@ -1365,7 +1357,7 @@ EOF;
 }
 
 /**
- * Instantiate class static function
+ * Instantiate static function of main class
  *
  * @since 1.0.0
  */
