@@ -172,7 +172,7 @@ final class ngContactForm
             return $posts;
         }
 
-        if(!isset($_GET['form_id']))
+        if (!isset($_GET['form_id']))
             return $posts;
 
         $form_id = $_GET['form_id'];
@@ -224,10 +224,10 @@ final class ngContactForm
 
         $form_id = 0;
 
-        if(isset($_POST['form_id'])) {
+        if (isset($_POST['form_id'])) {
             $form_id = sanitize_text_field($_POST['form_id']);
             unset($_POST['form_id']);
-        }else{
+        } else {
             die();
         }
 
@@ -262,6 +262,7 @@ final class ngContactForm
         $email_subject = $form_settings_object->email_subject;
         $email_subject = str_replace('{site_title}', strval(get_bloginfo('name')), $email_subject);
 
+//        For now we are calculating smart tag only for the super admin (1), later we'll add global settings page and deliver appropriate user info who would be selected
         $user_info = get_userdata(1);
 
         $from_name = $form_settings_object->from_name;
@@ -284,7 +285,7 @@ final class ngContactForm
             'Reply-To: ' . $reply_to . "\r\n" .
             'X-Mailer: PHP/' . phpversion();
 
-        mail($to, $subject, $message, $headers, "From: " . $name);
+        wp_mail($to, $subject, $message, $headers, "From: " . $name);
 
         if ($form_settings_object->send_confirmation_email) {
             $confirmation_email_message = $form_settings_object->confirmation_email_message;
@@ -294,7 +295,7 @@ final class ngContactForm
 
         $response['confirmation'] = $confirmation_email_message;
 
-        die(json_encode($response));
+        wp_die(json_encode($response));
     }
 
     /**
@@ -341,8 +342,8 @@ final class ngContactForm
         wp_register_script('angcf-inline-script', ANGCF_PLUGIN_URL . 'dist/script.js', array('angcf-script'), false, true);
         wp_enqueue_script('angcf-inline-script');
 
-        wp_register_style( 'angcf-inline-style', false, array( 'angcf-style' )  );
-        wp_enqueue_style( 'angcf-inline-style' );
+        wp_register_style('angcf-inline-style', false, array('angcf-style'));
+        wp_enqueue_style('angcf-inline-style');
 
         $form_fields = html_entity_decode(get_post_meta($form_id, 'ng_form_fields', true));
         $form_settings = html_entity_decode(get_post_meta($form_id, 'ng_form_settings', true));
@@ -367,7 +368,7 @@ EOV;
 EOY;
 
 
-        if(!empty($form_fields_array)) {
+        if (!empty($form_fields_array)) {
             foreach ($form_fields_array as $key => $field) {
                 switch ($field->type) {
                     case 'text':
@@ -1039,7 +1040,7 @@ EOF;
                     <div class="ng-confirmation-message"></div>
                     </div>
 EOF;
-        if($field_object->position_checked > 0) {
+        if ($field_object->position_checked > 0) {
             $button_position = '.ng-submit-button-position {width: 100%; padding: 10px 0;}
             .ng-contact-form-submit-button{float: right;}
             ';
