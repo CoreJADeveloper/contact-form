@@ -9,4 +9,3 @@
 
     ?>
     <form action='#' method='post' class='{$form_fields_settings->form_css_classes} ng-contact-form-submit'>
-<?php

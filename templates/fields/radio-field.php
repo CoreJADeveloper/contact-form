@@ -58,4 +58,3 @@ $field_html_input = '';
         ?>
         <span><?php echo esc_html($field_object->description) ?></span>
     </div>
-<?php
