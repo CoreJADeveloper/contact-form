@@ -3,10 +3,9 @@
 /**
  * Plugin Name: Advanced Angular Contact Form
  * Description: A simple contact form builder developed with Angular and Angular material design. Check it!
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Tauhidul Alam
  * Author URI: https://github.com/CoreJADeveloper/contact-form
- *
  * Text Domain: ngForms
  * Domain Path: /languages/
  */
@@ -320,9 +319,60 @@ final class ngContactForm
     }
 
     /**
-     * Generates short code content
+     * Include a template
      *
      * @since 1.0.0
+     * @param string $template_name
+     * @param mixed $args
+     * @param string $template_path
+     * @param string $default_path
+     */
+    private function ng_locate_template_part($template_name, $args = array(), $template_path = '', $default_path = '')
+    {
+        if (isset($args) && is_array($args)) :
+            extract($args);
+        endif;
+
+        $template_file = $this->ng_locate_template($template_name, $template_path, $default_path);
+
+        include $template_file;
+    }
+
+    /**
+     * Process file location to include
+     *
+     * @since 1.1.0
+     * @param string $template_name
+     * @param string $template_path
+     * @param string $default_path
+     * @return string
+     */
+    private function ng_locate_template($template_name, $template_path = '', $default_path = '')
+    {
+        if (!$template_path) :
+            $template_path = 'templates/';
+        endif;
+
+        if (!$default_path) :
+            $default_path = ANGCF_PLUGIN_PATH . 'templates/';
+        endif;
+
+        $template = locate_template(array(
+            $template_path . $template_name,
+            $template_name
+        ));
+
+        if (!$template) :
+            $template = $default_path . $template_name;
+        endif;
+
+        return apply_filters('ng_contact_form_locate_template', $template, $template_name, $template_path, $default_path);
+    }
+
+    /**
+     * Generates short code content
+     *
+     * @since 1.1.0
      * @param mixed $atts
      * @return string
      */
@@ -367,40 +417,39 @@ EOV;
             <form action='#' method='post' class='{$form_fields_settings->form_css_classes} ng-contact-form-submit'>
 EOY;
 
-
         if (!empty($form_fields_array)) {
             foreach ($form_fields_array as $key => $field) {
                 switch ($field->type) {
                     case 'text':
-                        echo $this->generate_text_field($key, $field);
+                        $this->generate_text_field($key, $field);
                         break;
 
                     case 'textarea':
-                        echo $this->generate_textarea_field($key, $field);
+                        $this->generate_textarea_field($key, $field);
                         break;
 
                     case 'email':
-                        echo $this->generate_email_field($key, $field);
+                        $this->generate_email_field($key, $field);
                         break;
 
                     case 'number':
-                        echo $this->generate_number_field($key, $field);
+                        $this->generate_number_field($key, $field);
                         break;
 
                     case 'checkbox':
-                        echo $this->generate_checkbox_field($key, $field);
+                        $this->generate_checkbox_field($key, $field);
                         break;
 
                     case 'radio':
-                        echo $this->generate_radio_field($key, $field);
+                        $this->generate_radio_field($key, $field);
                         break;
 
                     case 'select':
-                        echo $this->generate_select_field($key, $field);
+                        $this->generate_select_field($key, $field);
                         break;
 
                     case 'submit':
-                        echo $this->generate_submit_field($field);
+                        $this->generate_submit_field($field);
                         break;
                 }
             }
@@ -510,55 +559,9 @@ document.getElementsByClassName('ng-contact-form-submit')[0].addEventListener('s
      */
     private function generate_text_field($key, $field_object)
     {
-        $esc_html = 'esc_html';
-        $esc_attr = 'esc_attr';
-        if ($field_object->required) {
-            $required = 'required';
-        } else {
-            $required = '';
-        }
-        if (!$field_object->hide_label && $field_object->required) {
-            $field_html_label = <<<EOD
-                    <div>
-                    <label>{$esc_html($field_object->label)} <span class='required-field-class'>*</span></label>
-                    </div>
-EOD;
-        } else if (!$field_object->hide_label && !$field_object->required) {
-            $field_html_label = <<<EOD
-                    <div>
-                    <label>{$esc_html($field_object->label)}</label>
-                    </div>
-EOD;
-        } else {
-            $field_html_label = '';
-        }
-
-        if ($field_object->hide_label && $field_object->required) {
-            $field_html_input = <<<EOF
-                    <div class={$esc_attr($field_object->built_classes)}>
-                    <span class='required-field-class'>*</span>
-                    <input type='text'
-                    placeholder='{$field_object->placeholder}'
-                    class='{$esc_attr($field_object->built_classes)} {$esc_attr($field_object->classes)}'
-                    {$required} name='ng-field[ng-field-{$key}]'
-                    value='{$esc_html($field_object->default_value)}' />
-                    <span>{$esc_html($field_object->description)}</span>
-                    </div>
-EOF;
-        } else {
-            $field_html_input = <<<EOF
-                    <div class={$esc_attr($field_object->built_classes)}>
-                    <input type='text'
-                    placeholder='{$field_object->placeholder}'
-                    class='{$esc_attr($field_object->classes)}'
-                    {$required} name='ng-field[ng-field-{$key}]'
-                    value='{$esc_html($field_object->default_value)}' />
-                    <span>{$esc_html($field_object->description)}</span>
-                    </div>
-EOF;
-        }
-
-        return $field_html_label . $field_html_input;
+        $args['key'] = $key;
+        $args['field_object'] = $field_object;
+        $this->ng_locate_template_part('fields/text-field.php', $args);
     }
 
     /**
@@ -571,55 +574,9 @@ EOF;
      */
     private function generate_textarea_field($key, $field_object)
     {
-        $esc_html = 'esc_html';
-        $esc_attr = 'esc_attr';
-        $esc_textarea = 'esc_textarea';
-        if ($field_object->required) {
-            $required = 'required';
-        } else {
-            $required = '';
-        }
-        if (!$field_object->hide_label && $field_object->required) {
-            $field_html_label = <<<EOD
-                    <div>
-                    <label>{$esc_html($field_object->label)} <span class='required-field-class'>*</span></label>
-                    </div>
-EOD;
-        } else if (!$field_object->hide_label && !$field_object->required) {
-            $field_html_label = <<<EOD
-                    <div>
-                    <label>{$esc_html($field_object->label)}</label>
-                    </div>
-EOD;
-        } else {
-            $field_html_label = '';
-        }
-
-        if ($field_object->hide_label && $field_object->required) {
-            $field_html_input = <<<EOF
-                    <div class={$esc_attr($field_object->built_classes)}>
-                    <span class='required-field-class'>*</span>
-                    <textarea
-                    placeholder='{$field_object->placeholder}'
-                    class='{$field_object->built_classes} {$field_object->classes}'
-                    {$required} name='ng-field[ng-field-{$key}]'>{$esc_textarea($field_object->default_value)}</textarea>
-                    <span>{$esc_html($field_object->description)}</span>
-                    </div>
-EOF;
-        } else {
-            $field_html_input = <<<EOF
-                    <div class={$esc_attr($field_object->built_classes)}>
-                    <textarea
-                    placeholder='{$field_object->placeholder}'
-                    class='{$esc_attr($field_object->classes)}'
-                    {$required} name='ng-field[ng-field-{$key}]'>{$esc_textarea($field_object->default_value)}</textarea>
-                    <span>{$esc_html($field_object->description)}</span>
-                    </div>
-EOF;
-        }
-
-        return $field_html_label . $field_html_input;
-
+        $args['key'] = $key;
+        $args['field_object'] = $field_object;
+        $this->ng_locate_template_part('fields/textarea-field.php', $args);
     }
 
     /**
@@ -632,56 +589,9 @@ EOF;
      */
     private function generate_email_field($key, $field_object)
     {
-        $esc_html = 'esc_html';
-        $esc_attr = 'esc_attr';
-
-        if ($field_object->required) {
-            $required = 'required';
-        } else {
-            $required = '';
-        }
-        if (!$field_object->hide_label && $field_object->required) {
-            $field_html_label = <<<EOD
-                    <div>
-                    <label>{$esc_html($field_object->label)} <span class='required-field-class'>*</span></label>
-                    </div>
-EOD;
-        } else if (!$field_object->hide_label && !$field_object->required) {
-            $field_html_label = <<<EOD
-                    <div>
-                    <label>{$esc_html($field_object->label)}</label>
-                    </div>
-EOD;
-        } else {
-            $field_html_label = '';
-        }
-
-        if ($field_object->hide_label && $field_object->required) {
-            $field_html_input = <<<EOF
-                    <div class={$esc_attr($field_object->built_classes)}>
-                    <span class='required-field-class'>*</span>
-                    <input type='email'
-                    placeholder='{$field_object->placeholder}'
-                    class='{$esc_attr($field_object->built_classes)} {$esc_attr($field_object->classes)}'
-                    {$required} name='ng-field[ng-field-{$key}]'
-                    value='{$esc_html($field_object->default_value)}' />
-                    <span>{$esc_html($field_object->description)}</span>
-                    </div>
-EOF;
-        } else {
-            $field_html_input = <<<EOF
-                    <div class={$esc_attr($field_object->built_classes)}>
-                    <input type='email'
-                    placeholder='{$field_object->placeholder}'
-                    class='{$esc_attr($field_object->classes)}'
-                    {$required} name='ng-field[ng-field-{$key}]'
-                    value='{$esc_html($field_object->default_value)}' />
-                    <span>{$esc_html($field_object->description)}</span>
-                    </div>
-EOF;
-        }
-
-        return $field_html_label . $field_html_input;
+        $args['key'] = $key;
+        $args['field_object'] = $field_object;
+        $this->ng_locate_template_part('fields/email-field.php', $args);
     }
 
     /**
@@ -694,55 +604,9 @@ EOF;
      */
     private function generate_number_field($key, $field_object)
     {
-        $esc_html = 'esc_html';
-        $esc_attr = 'esc_attr';
-        if ($field_object->required) {
-            $required = 'required';
-        } else {
-            $required = '';
-        }
-        if (!$field_object->hide_label && $field_object->required) {
-            $field_html_label = <<<EOD
-                    <div>
-                    <label>{$esc_html($field_object->label)} <span class='required-field-class'>*</span></label>
-                    </div>
-EOD;
-        } else if (!$field_object->hide_label && !$field_object->required) {
-            $field_html_label = <<<EOD
-                    <div>
-                    <label>{$esc_html($field_object->label)}</label>
-                    </div>
-EOD;
-        } else {
-            $field_html_label = '';
-        }
-
-        if ($field_object->hide_label && $field_object->required) {
-            $field_html_input = <<<EOF
-                    <div class={$esc_attr($field_object->built_classes)}>
-                    <span class='required-field-class'>*</span>
-                    <input type='number'
-                    placeholder='{$field_object->placeholder}'
-                    class='{$esc_attr($field_object->built_classes)} {$esc_attr($field_object->classes)}'
-                    {$required} name='ng-field[ng-field-{$key}]'
-                    value='{$esc_html($field_object->default_value)}' />
-                    <span>{$esc_html($field_object->description)}</span>
-                    </div>
-EOF;
-        } else {
-            $field_html_input = <<<EOF
-                    <div class={$esc_attr($field_object->built_classes)}>
-                    <input type='number'
-                    placeholder='{$field_object->placeholder}'
-                    class='{$esc_attr($field_object->classes)}'
-                    {$required} name='ng-field[ng-field-{$key}]'
-                    value='{$esc_html($field_object->default_value)}' />
-                    <span>{$esc_html($field_object->description)}</span>
-                    </div>
-EOF;
-        }
-
-        return $field_html_label . $field_html_input;
+        $args['key'] = $key;
+        $args['field_object'] = $field_object;
+        $this->ng_locate_template_part('fields/number-field.php', $args);
     }
 
     /**
@@ -755,118 +619,9 @@ EOF;
      */
     private function generate_checkbox_field($array_key, $field_object)
     {
-        $esc_html = 'esc_html';
-        $esc_attr = 'esc_attr';
-        if ($field_object->required) {
-            $required = 'required';
-        } else {
-            $required = '';
-        }
-        if (!$field_object->hide_label && $field_object->required) {
-            $field_html_label = <<<EOD
-                    <div>
-                    <label>{$esc_html($field_object->label)} <span class='required-field-class'>*</span></label>
-                    </div>
-EOD;
-        } else if (!$field_object->hide_label && !$field_object->required) {
-            $field_html_label = <<<EOD
-                    <div>
-                    <label>{$esc_html($field_object->label)}</label>
-                    </div>
-EOD;
-        } else {
-            $field_html_label = '';
-        }
-
-        $field_html_input = '';
-
-        $field_html_input .= <<<EOH
-                         <div class={$field_object->built_classes}>
-EOH;
-
-        foreach ($field_object->choices as $key => $choice) {
-            if ($choice->checked) {
-                $checked = 'checked';
-            } else {
-                $checked = '';
-            }
-            if ($field_object->hide_label && $field_object->required) {
-                $field_html_input .= <<<EOF
-                    <div>
-                    <span class='required-field-class'>*</span>
-                    <label>
-                    <input type='checkbox'
-                    class='{$esc_attr($field_object->classes)}'
-                    {$checked}
-                    value='{$esc_html($choice->text)}'
-                    {$required} name='ng-field[ng-field-{$array_key}]' />{$esc_html($choice->text)}</label>
-                    </div>
-EOF;
-            } else {
-                $field_html_input .= <<<EOF
-                    <div>
-                    <label>
-                    <input type='checkbox'
-                    class='{$esc_attr($field_object->classes)}'
-                    {$checked}
-                    value='{$esc_html($choice->text)}'
-                    {$required} name='ng-field[ng-field-{$array_key}]' />{$esc_html($choice->text)}</label>
-                    </div>
-EOF;
-            }
-        }
-
-        $field_html_input .= <<<EOI
-        <span>{$field_object->description}</span>
-                         </div>
-EOI;
-
-        if ($required == 'required') {
-            $checkbox_required = "
-        var checkbox_elements = document.getElementsByName('ng-field[ng-field-" . $array_key . "]');
-
-        for (let el of checkbox_elements) {
-          if (el.checked === true) {
-            remove_required_attribute(checkbox_elements);
-            break;
-          }
-
-          el.addEventListener( 'change', function() {
-            if(this.checked) {
-                remove_required_attribute(checkbox_elements);
-            } else {
-                check_required_attribute_checked(checkbox_elements);
-            }
-          });
-        }
-
-        function check_required_attribute_checked(checkbox_elements){
-          for (let el of checkbox_elements) {
-            if (el.checked === true) {
-                remove_required_attribute(checkbox_elements);
-                break;
-            } else{
-                add_required_attribute(checkbox_elements);
-            }
-          }
-        }
-
-        function remove_required_attribute(checkbox_elements){
-            for (let el of checkbox_elements) {
-              el.required = false;
-            }
-        }
-
-        function add_required_attribute(checkbox_elements){
-            for (let el of checkbox_elements) {
-              el.required = true;
-            }
-        }
-        ";
-            wp_add_inline_script('angcf-inline-script', $checkbox_required);
-        }
-
-        return $field_html_label . $field_html_input;
+        $args['array_key'] = $array_key;
+        $args['field_object'] = $field_object;
+        $this->ng_locate_template_part('fields/checkbox-field.php', $args);
     }
 
     /**
@@ -879,74 +634,9 @@ EOI;
      */
     private function generate_radio_field($array_key, $field_object)
     {
-        $esc_html = 'esc_html';
-        $esc_attr = 'esc_attr';
-        if ($field_object->required) {
-            $required = 'required';
-        } else {
-            $required = '';
-        }
-
-        if (!$field_object->hide_label && $field_object->required) {
-            $field_html_label = <<<EOD
-                    <div>
-                    <label>{$esc_html($field_object->label)} <span class='required-field-class'>*</span></label>
-                    </div>
-EOD;
-        } else if (!$field_object->hide_label && !$field_object->required) {
-            $field_html_label = <<<EOD
-                    <div>
-                    <label>{$esc_html($field_object->label)}</label>
-                    </div>
-EOD;
-        } else {
-            $field_html_label = '';
-        }
-
-        $field_html_input = '';
-
-        $field_html_input .= <<<EOH
-                         <div class={$esc_attr($field_object->built_classes)}>
-EOH;
-
-        foreach ($field_object->choices as $key => $choice) {
-            if ($field_object->choice_selected == $key) {
-                $checked = 'checked';
-            } else {
-                $checked = '';
-            }
-            if ($field_object->hide_label && $field_object->required) {
-                $field_html_input .= <<<EOF
-                    <div>
-                    <span class='required-field-class'>*</span>
-                    <label>
-                    <input type='radio'
-                    class='{$esc_attr($field_object->classes)}'
-                    {$checked}
-                    value='{$esc_html($choice->text)}'
-                    {$required} name='ng-field[ng-field-{$array_key}]' />{$esc_html($choice->text)}</label>
-                    </div>
-EOF;
-            } else {
-                $field_html_input .= <<<EOF
-                    <div>
-                    <label>
-                    <input type='radio'
-                    class='{$esc_attr($field_object->classes)}'
-                    {$checked}
-                    value='{$esc_html($choice->text)}'
-                    {$required} name='ng-field[ng-field-{$array_key}]' />{$esc_html($choice->text)}</label>
-                    </div>
-EOF;
-            }
-        }
-
-        $field_html_input .= <<<EOI
-        <span>{$esc_html($field_object->description)}</span>
-                         </div>
-EOI;
-
-        return $field_html_label . $field_html_input;
+        $args['array_key'] = $array_key;
+        $args['field_object'] = $field_object;
+        $this->ng_locate_template_part('fields/radio-field.php', $args);
     }
 
     /**
@@ -959,65 +649,9 @@ EOI;
      */
     private function generate_select_field($array_key, $field_object)
     {
-        $esc_html = 'esc_html';
-        $esc_attr = 'esc_attr';
-        if ($field_object->required) {
-            $required = 'required';
-        } else {
-            $required = '';
-        }
-        if (!$field_object->hide_label && $field_object->required) {
-            $field_html_label = <<<EOD
-                    <div>
-                    <label>{$esc_html($field_object->label)} <span class='required-field-class'>*</span></label>
-                    </div>
-EOD;
-        } else if (!$field_object->hide_label && !$field_object->required) {
-            $field_html_label = <<<EOD
-                    <div>
-                    <label>{$esc_html($field_object->label)}</label>
-                    </div>
-EOD;
-        } else {
-            $field_html_label = '';
-        }
-
-        $field_html_options = '';
-
-        foreach ($field_object->choices as $key => $choice) {
-            if ($field_object->choice_selected == $key) {
-                $selected = 'selected';
-            } else {
-                $selected = '';
-            }
-
-            $field_html_options .= <<<EOL
-                    <option value='{$choice->text}' {$selected}>{$esc_html($choice->text)}</option>
-EOL;
-        }
-
-        if ($field_object->hide_label && $field_object->required) {
-            $field_html_input = <<<EOF
-                    <div>
-                    <span><span class='required-field-class'>*</span></span>
-                    <select
-                    class='{$field_object->classes}'
-                    {$required} name='ng-field[ng-field-{$array_key}]'>{$field_html_options}</select>
-                    <div><span>{$esc_html($field_object->description)}</span></div>
-                    </div>
-EOF;
-        } else {
-            $field_html_input = <<<EOF
-                    <div class={$esc_html($field_object->built_classes)}>
-                    <select
-                    class='{$esc_attr($field_object->classes)}'
-                    {$required} name='ng-field[ng-field-{$array_key}]'>{$field_html_options}</select>
-                    <div><span>{$esc_html($field_object->description)}</span></div>
-                    </div>
-EOF;
-        }
-
-        return $field_html_label . $field_html_input;
+        $args['array_key'] = $array_key;
+        $args['field_object'] = $field_object;
+        $this->ng_locate_template_part('fields/select-field.php', $args);
     }
 
     /**
@@ -1030,30 +664,8 @@ EOF;
      */
     private function generate_submit_field($field_object)
     {
-        $esc_html = 'esc_html';
-        $esc_attr = 'esc_attr';
-        $field_html_submit = <<<EOF
-                    <div class='{$field_object->built_classes} ng-submit-button-position'>
-                    <input type='submit'
-                    class='{$esc_attr($field_object->classes)} ng-contact-form-submit-button'
-                    value='{$esc_html($field_object->label)}' />
-                    <div class="ng-confirmation-message"></div>
-                    </div>
-EOF;
-        if ($field_object->position_checked > 0) {
-            $button_position = '.ng-submit-button-position {width: 100%; padding: 10px 0;}
-            .ng-contact-form-submit-button{float: right;}
-            ';
-
-            wp_add_inline_style('angcf-inline-style', $button_position);
-        }
-
-        $button_space = '.ng-contact-form-submit-button{margin-bottom: 10px;}
-            ';
-
-        wp_add_inline_style('angcf-inline-style', $button_space);
-
-        return $field_html_submit;
+        $args['field_object'] = $field_object;
+        $this->ng_locate_template_part('fields/submit-field.php', $args);
     }
 
     /**
