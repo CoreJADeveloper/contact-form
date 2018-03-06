@@ -227,7 +227,7 @@ final class ngContactForm
             $form_id = sanitize_text_field($_POST['form_id']);
             unset($_POST['form_id']);
         } else {
-            die();
+            wp_die();
         }
 
         $form_fields = html_entity_decode(get_post_meta($form_id, 'ng_form_fields', true));
@@ -261,7 +261,9 @@ final class ngContactForm
         $email_subject = $form_settings_object->email_subject;
         $email_subject = str_replace('{site_title}', strval(get_bloginfo('name')), $email_subject);
 
-//        For now we are calculating smart tag only for the super admin (1), later we'll add global settings page and deliver appropriate user info who would be selected
+//         For now we are calculating smart tag only for the super admin (1),
+//         later we'll add global settings page and deliver appropriate user
+//         info who would be selected
         $user_info = get_userdata(1);
 
         $from_name = $form_settings_object->from_name;
@@ -321,7 +323,7 @@ final class ngContactForm
     /**
      * Include a template
      *
-     * @since 1.0.0
+     * @since 1.1.0
      * @param string $template_name
      * @param mixed $args
      * @param string $template_path
@@ -387,8 +389,6 @@ final class ngContactForm
         if ($form_id == 0)
             return false;
 
-        $esc_html = 'esc_html';
-
         wp_register_script('angcf-inline-script', ANGCF_PLUGIN_URL . 'dist/script.js', array('angcf-script'), false, true);
         wp_enqueue_script('angcf-inline-script');
 
@@ -403,19 +403,8 @@ final class ngContactForm
 
         ob_start();
 
-        echo <<<EOL
-            <div class="ng-contact-form-container">
-EOL;
-
-        if (isset($form_fields_settings->form_name) && !empty($form_fields_settings->form_name)) {
-            echo <<<EOV
-            <h3>{$esc_html($form_fields_settings->form_name)}</h3>
-EOV;
-        }
-
-        echo <<<EOY
-            <form action='#' method='post' class='{$form_fields_settings->form_css_classes} ng-contact-form-submit'>
-EOY;
+        $before_args['form_fields_settings'] = $form_fields_settings;
+        $this->ng_locate_template_part('fields/before-form-fields.php', $before_args);
 
         if (!empty($form_fields_array)) {
             foreach ($form_fields_array as $key => $field) {
@@ -455,12 +444,9 @@ EOY;
             }
         }
 
-        echo <<<EOY
-            <input type='hidden' name='action' value='send-ng-contact-email' />
-            <input type='hidden' name='form_id' value='{$esc_html($form_id)}' />
-            </form>
-            </div>
-EOY;
+        $before_args['form_id'] = $form_id;
+        $this->ng_locate_template_part('fields/after-form-fields.php', $before_args);
+
         $custom_form_style = '.ng-contact-form-container{margin: 10px 0;}';
 
         wp_add_inline_style('angcf-inline-style', $custom_form_style);

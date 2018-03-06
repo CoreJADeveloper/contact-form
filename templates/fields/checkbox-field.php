@@ -26,40 +26,32 @@ $field_html_input = '';
     <div class='<?php echo $field_object->built_classes ?>'>
         <?php
 
+        if ($field_object->hide_label && $field_object->required) {
+            ?>
+            <div>
+                <span class='required-field-class'>*</span>
+            </div>
+            <?php
+        }
+
         foreach ($field_object->choices as $key => $choice) {
             if ($choice->checked) {
                 $checked = 'checked';
             } else {
                 $checked = '';
             }
-            if ($field_object->hide_label && $field_object->required) {
-                ?>
-                <div>
-                    <span class='required-field-class'>*</span>
-                    <label>
-                        <input type='checkbox'
-                               class='<?php echo esc_attr($field_object->classes) ?>'
-                               <?php echo $checked ?>
-                               value='<?php echo esc_html($choice->text) ?>'
-                               <?php echo $required ?> name='ng-field[ng-field-<?php echo $array_key ?>]'/>
-                        <?php echo esc_html($choice->text) ?>
-                    </label>
-                </div>
-                <?php
-            } else {
-                ?>
-                <div>
-                    <label>
-                        <input type='checkbox'
-                               class='<?php echo esc_attr($field_object->classes) ?>'
-                               <?php echo $checked ?>
-                               value='<?php echo esc_html($choice->text) ?>'
-                               <?php echo $required ?> name='ng-field[ng-field-<?php echo $array_key ?>]'/>
-                        <?php echo esc_html($choice->text) ?>
-                    </label>
-                </div>
-                <?php
-            }
+            ?>
+            <div>
+                <label>
+                    <input type='checkbox'
+                           class='<?php echo esc_attr($field_object->classes) ?>'
+                        <?php echo $checked ?>
+                           value='<?php echo esc_html($choice->text) ?>'
+                        <?php echo $required ?> name='ng-field[ng-field-<?php echo $array_key ?>]'/>
+                    <?php echo esc_html($choice->text) ?>
+                </label>
+            </div>
+            <?php
         }
 
         ?>
